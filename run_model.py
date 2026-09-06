@@ -110,6 +110,7 @@ def score(row, mode, text):
         "source_idx": row["source_idx"],
         "mode": mode,
         "model": None,  # filled by caller
+        "question": row["question"],
         "completion": text,
         "gold_value": row.get("gold_value"),
     }
@@ -120,6 +121,7 @@ def score(row, mode, text):
     else:
         pred = parse_letter(text)
         rec.update(variant=row["variant"], gold_letter=row["gold_letter"],
+                   option_A=row["option_A"], option_B=row["option_B"],
                    pred_letter=pred, parse_ok=pred is not None,
                    correct=(pred == row["gold_letter"]) if (pred and row["gold_letter"]) else False,
                    picked_number=_picked_number(row, pred))
@@ -178,9 +180,11 @@ def main():
     def work(job):
         model, row, mode = job
         want_cot = mode != "direct"
-        text = call(client, model, build_prompt(row, mode), want_cot)
+        prompt = build_prompt(row, mode)
+        text = call(client, model, prompt, want_cot)
         rec = score(row, mode, text)
         rec["model"] = model
+        rec["prompt"] = prompt
         return rec
 
     with out.open("a") as f, ThreadPoolExecutor(max_workers=args.workers) as ex:
