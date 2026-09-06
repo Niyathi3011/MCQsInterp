@@ -141,10 +141,16 @@ def main():
     ap.add_argument("--modes", default="cot", help="stage2 modes, e.g. 'cot,direct'")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--workers", type=int, default=8)
-    ap.add_argument("--model", default=os.environ.get("MODEL", "gpt-4o-mini"))
+    ap.add_argument("--model",
+                    default=os.environ.get("MODEL", "Qwen/Qwen2.5-7B-Instruct"),
+                    help="one id, or a comma-separated list to run several")
+    ap.add_argument("--base-url", default=os.environ.get("OPENAI_BASE_URL"),
+                    help="OpenAI-compatible endpoint serving the model(s)")
+    ap.add_argument("--api-key", default=os.environ.get("OPENAI_API_KEY", "EMPTY"))
     args = ap.parse_args()
 
-    client = OpenAI()
+    client = OpenAI(base_url=args.base_url, api_key=args.api_key)
+    models = [m.strip() for m in args.model.split(",") if m.strip()]
     rows = [json.loads(l) for l in open(args.data)]
     if args.limit:
         keep = {r["source_idx"] for r in rows[: args.limit * 2]}
@@ -157,22 +163,24 @@ def main():
     if out.exists():
         for l in out.open():
             d = json.loads(l)
-            done.add((d["id"], d["mode"]))
+            done.add((d["model"], d["id"], d["mode"]))
 
     jobs = []
-    for row in rows:
-        modes = ["cot"] if row["kind"] == "stage1_open" else stage2_modes
-        for m in modes:
-            if (row["id"], m) not in done:
-                jobs.append((row, m))
-    print(f"{len(rows)} rows; {len(jobs)} calls to make ({len(done)} cached)")
+    for model in models:
+        for row in rows:
+            modes = ["cot"] if row["kind"] == "stage1_open" else stage2_modes
+            for m in modes:
+                if (model, row["id"], m) not in done:
+                    jobs.append((model, row, m))
+    print(f"{len(models)} model(s) x {len(rows)} rows; "
+          f"{len(jobs)} calls to make ({len(done)} cached)")
 
     def work(job):
-        row, mode = job
+        model, row, mode = job
         want_cot = mode != "direct"
-        text = call(client, args.model, build_prompt(row, mode), want_cot)
+        text = call(client, model, build_prompt(row, mode), want_cot)
         rec = score(row, mode, text)
-        rec["model"] = args.model
+        rec["model"] = model
         return rec
 
     with out.open("a") as f, ThreadPoolExecutor(max_workers=args.workers) as ex:

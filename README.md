@@ -40,15 +40,23 @@ Optional `--judge`: a second model reads each `CoT_mcq` and calls it
 
 ```bash
 pip install -r requirements.txt
-export OPENAI_API_KEY=...  OPENAI_BASE_URL=...  MODEL=gpt-4o-mini
-python build_dataset.py --n 300            # -> data/dataset.jsonl
-python run_model.py --limit 20             # smoke test
-python run_model.py                        # -> results/raw.jsonl  (CoT kept verbatim)
-python analyze.py                          # -> results/paired.csv + results/shortcut.png
-python analyze.py --judge                  # add the LLM-judge column
+
+# serve an open model (see MODELS.md), e.g.
+vllm serve Qwen/Qwen2.5-7B-Instruct --port 8000
+
+python build_dataset.py --n 300
+python run_model.py --base-url http://localhost:8000/v1 \
+                    --model Qwen/Qwen2.5-7B-Instruct --limit 20     # smoke test
+python run_model.py --base-url http://localhost:8000/v1 \
+                    --model Qwen/Qwen2.5-7B-Instruct                # full run
+python analyze.py                                                   # per-model + cross-model summary
+python analyze.py --judge                                           # add LLM-judge column
 ```
 
-`run_model.py` resumes if interrupted.
+Run several models into the same `results/raw.jsonl` (resume key is
+`(model, id, mode)` so they don't collide); `analyze.py` then prints a block per
+model plus a cross-model table. Model picks and serving details: **see
+[MODELS.md](MODELS.md)**. `run_model.py` resumes if interrupted.
 
 ## Files
 

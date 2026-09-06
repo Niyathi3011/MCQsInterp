@@ -113,15 +113,13 @@ def maybe_judge(pairs, model_env="JUDGE_MODEL"):
     return pairs
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--raw", default="results/raw.jsonl")
-    ap.add_argument("--out_csv", default="results/paired.csv")
-    ap.add_argument("--plot", default="results/shortcut.png")
-    ap.add_argument("--judge", action="store_true")
-    args = ap.parse_args()
+def analyze_one(df, model, args):
+    import re as _re
+    tag = _re.sub(r"[^A-Za-z0-9._-]+", "_", model)
+    out_csv = args.out_csv.replace(".csv", f".{tag}.csv")
+    plot = args.plot.replace(".png", f".{tag}.png")
+    print("\n" + "=" * 70 + f"\nMODEL: {model}\n" + "=" * 70)
 
-    df = pd.DataFrame([json.loads(l) for l in open(args.raw)])
     s1 = df[df.kind == "stage1_open"].set_index("source_idx")
     s2 = df[(df.kind == "stage2_mcq") & (df["mode"] == "cot")].set_index("source_idx")
 
@@ -158,7 +156,6 @@ def main():
     catch = pairs[pairs.variant == "catch"]
     swap = pairs[(pairs.variant == "swap") & pairs.stage1_correct]
 
-    print(f"\nmodel: {df['model'].iloc[0]}")
     print(f"stage1 open-ended accuracy : {s1['correct'].mean():.3f}  (n={len(s1)})")
     print(f"\n--- ALIGNED  (n={len(aligned)}, solved open-ended) ---")
     print(f"stage2 accuracy            : {aligned.stage2_correct.mean():.3f}")
@@ -184,8 +181,8 @@ def main():
         print(j["judge"].value_counts(normalize=True).round(3).to_string())
         pairs = pairs.merge(j[["source_idx", "judge"]], on="source_idx", how="left")
 
-    pairs.drop(columns=["cot_open", "cot_mcq"]).to_csv(args.out_csv, index=False)
-    print(f"\nper-problem table -> {args.out_csv}")
+    pairs.drop(columns=["cot_open", "cot_mcq"]).to_csv(out_csv, index=False)
+    print(f"\nper-problem table -> {out_csv}")
 
     try:
         import matplotlib
@@ -201,10 +198,38 @@ def main():
         aligned["label"].value_counts().reindex(
             ["solved", "unclear", "shortcut"]).plot.bar(ax=ax[1])
         ax[1].set_title("aligned-variant labels"); ax[1].set_ylabel("problems")
-        plt.tight_layout(); plt.savefig(args.plot, dpi=130)
-        print(f"plot -> {args.plot}")
+        fig.suptitle(model)
+        plt.tight_layout(); plt.savefig(plot, dpi=130)
+        print(f"plot -> {plot}")
     except Exception as e:  # noqa: BLE001
         print(f"(plot skipped: {e})")
+
+    return {
+        "model": model,
+        "stage1_acc": s1["correct"].mean(),
+        "n_aligned": len(aligned),
+        "aligned_stage2_acc": aligned.stage2_correct.mean() if len(aligned) else float("nan"),
+        "shortcut_rate": (aligned.label == "shortcut").mean() if len(aligned) else float("nan"),
+        "catch_pickA_rate": (catch.pred_letter == "A").mean() if len(catch) else float("nan"),
+        "swap_stage2_acc": swap.stage2_correct.mean() if len(swap) else float("nan"),
+        "mean_len_ratio": aligned.len_ratio.mean() if len(aligned) else float("nan"),
+    }
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--raw", default="results/raw.jsonl")
+    ap.add_argument("--out_csv", default="results/paired.csv")
+    ap.add_argument("--plot", default="results/shortcut.png")
+    ap.add_argument("--judge", action="store_true")
+    args = ap.parse_args()
+
+    df = pd.DataFrame([json.loads(l) for l in open(args.raw)])
+    summary = [analyze_one(g, model, args) for model, g in df.groupby("model")]
+
+    if len(summary) > 1:
+        print("\n" + "=" * 70 + "\nCROSS-MODEL SUMMARY\n" + "=" * 70)
+        print(pd.DataFrame(summary).set_index("model").round(3).to_string())
 
 
 if __name__ == "__main__":

@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# experiment outputs
+data/
+results/
+*.jsonl
+*.csv
+*.png
+
+# HF cache if ever placed here
+hf/
