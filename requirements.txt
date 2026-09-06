@@ -1,0 +1,4 @@
+datasets>=2.16
+openai>=1.30
+pandas>=2.0
+matplotlib>=3.7
