@@ -19,7 +19,9 @@ Analysis (analyze.py) compares the stage2 CoT against the stage1 CoT to decide,
 per problem, whether the model re-solved or shortcut by format elimination.
 """
 import argparse
+import glob
 import json
+import os
 import random
 import re
 from pathlib import Path
@@ -27,6 +29,26 @@ from pathlib import Path
 from datasets import load_dataset
 
 from distractor_sentences import SENTENCES
+
+
+def load_gsm8k(split):
+    """Robust to the legacy 'gsm8k' id being rejected and to no HF network."""
+    for repo in ("openai/gsm8k", "gsm8k"):
+        try:
+            return load_dataset(repo, "main", split=split)
+        except Exception as e:  # noqa: BLE001
+            last = e
+    hf = os.path.expanduser(os.environ.get("HF_HOME", "~/.cache/huggingface"))
+    # arrow cache written by a previous successful load
+    for p in glob.glob(f"{hf}/datasets/gsm8k/main/*/*/gsm8k-{split}.arrow"):
+        from datasets import Dataset
+        return Dataset.from_file(p)
+    # parquet in the hub cache
+    pq = glob.glob(f"{hf}/hub/datasets--*gsm8k*/snapshots/*/main/{split}-*.parquet")
+    if pq:
+        return load_dataset("parquet", data_files=pq, split="train")
+    raise RuntimeError(
+        f"could not load GSM8K '{split}' online or from cache under {hf}") from last
 
 
 def extract_gold(answer_field: str) -> str:
@@ -78,7 +100,7 @@ def main():
     args = ap.parse_args()
 
     rng = random.Random(args.seed)
-    ds = load_dataset("gsm8k", "main", split=args.split)
+    ds = load_gsm8k(args.split)
     idxs = list(range(len(ds)))
     rng.shuffle(idxs)
     idxs = idxs[: args.n]
