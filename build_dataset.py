@@ -32,23 +32,56 @@ from distractor_sentences import SENTENCES
 
 
 def load_gsm8k(split):
-    """Robust to the legacy 'gsm8k' id being rejected and to no HF network."""
-    for repo in ("openai/gsm8k", "gsm8k"):
-        try:
-            return load_dataset(repo, "main", split=split)
-        except Exception as e:  # noqa: BLE001
-            last = e
-    hf = os.path.expanduser(os.environ.get("HF_HOME", "~/.cache/huggingface"))
-    # arrow cache written by a previous successful load
-    for p in glob.glob(f"{hf}/datasets/gsm8k/main/*/*/gsm8k-{split}.arrow"):
-        from datasets import Dataset
-        return Dataset.from_file(p)
-    # parquet in the hub cache
-    pq = glob.glob(f"{hf}/hub/datasets--*gsm8k*/snapshots/*/main/{split}-*.parquet")
-    if pq:
-        return load_dataset("parquet", data_files=pq, split="train")
-    raise RuntimeError(
-        f"could not load GSM8K '{split}' online or from cache under {hf}") from last
+    """Return a list of {'question','answer'} dicts.
+
+    Reads a cached parquet/arrow file directly so it does not depend on the
+    'datasets' hub-resolution path (which chokes on the legacy bare 'gsm8k'
+    cache dir) and needs no network. Set GSM8K_FILE to force a specific file.
+    """
+    forced = os.environ.get("GSM8K_FILE")
+    roots = [
+        os.path.expanduser(os.environ.get("HF_HOME") or "~/.cache/huggingface"),
+        "/workspace/hf_cache",
+        os.path.expanduser("~/.cache/huggingface"),
+    ]
+
+    def _rows_from(path):
+        import pandas as pd
+        if path.endswith(".parquet"):
+            df = pd.read_parquet(path)
+        else:  # .arrow
+            import pyarrow as pa
+            with pa.memory_map(path, "r") as src:
+                try:
+                    df = pa.ipc.open_stream(src).read_all().to_pandas()
+                except pa.lib.ArrowInvalid:
+                    df = pa.ipc.open_file(src).read_all().to_pandas()
+        return df[["question", "answer"]].to_dict("records")
+
+    if forced and os.path.exists(forced):
+        return _rows_from(forced)
+
+    cands = []
+    for r in roots:
+        cands += glob.glob(f"{r}/**/*gsm8k*/**/*{split}*.parquet", recursive=True)
+        cands += glob.glob(f"{r}/**/datasets--*gsm8k*/**/*.parquet", recursive=True)
+        cands += glob.glob(f"{r}/**/gsm8k*/**/*{split}*.arrow", recursive=True)
+        cands += glob.glob(f"{r}/**/*gsm8k*{split}*.arrow", recursive=True)
+    for path in cands:
+        if "main" in path or "gsm8k" in os.path.basename(path).lower():
+            if split in os.path.basename(path) or split in path:
+                try:
+                    return _rows_from(path)
+                except Exception:  # noqa: BLE001
+                    continue
+
+    try:
+        return list(load_dataset("openai/gsm8k", "main", split=split))
+    except Exception as e:  # noqa: BLE001
+        raise RuntimeError(
+            "No GSM8K cache found and HF is unreachable. Copy a "
+            f"{split} parquet onto the pod and set GSM8K_FILE=/path/to/it. "
+            f"Searched: {roots}") from e
 
 
 def extract_gold(answer_field: str) -> str:
