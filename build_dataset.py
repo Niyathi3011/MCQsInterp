@@ -1,22 +1,28 @@
 """
 Two-stage dataset builder for the shortcut experiment.
 
-Per source GSM8K problem we emit:
+Per source problem we emit:
 
   1 x stage1_open   - the raw problem, no options. Model must reason and produce
                       a number. This CoT is the reference "did the real work" trace.
 
   1 x stage2_mcq    - the SAME problem as a 2-option MCQ. Variants:
 
-      aligned   (default)   (A) = gold number      (B) = unrelated sentence   gold = A
-      swap      (--swap-frac)   (A) = unrelated sentence  (B) = gold number    gold = B
-      catch     (--catch-frac)  (A) = WRONG number     (B) = unrelated sentence  gold = None
-                                (neither option is correct -> picking (A) here
-                                 is a pure "it's a math problem, answer is a
-                                 number" shortcut)
+      aligned   (default)       (A) = gold number       (B) = unrelated sentence   gold = A
+      swap      (--swap-frac)    (A) = unrelated sentence  (B) = gold number        gold = B
+      catch     (--catch-frac)   (A) = WRONG number      (B) = unrelated sentence   gold = None
+                                 (neither option is correct -> picking (A) is a
+                                  pure "it's a math problem, answer is a number"
+                                  shortcut)
 
-Analysis (analyze.py) compares the stage2 CoT against the stage1 CoT to decide,
-per problem, whether the model re-solved or shortcut by format elimination.
+Datasets (--dataset):
+  gsm8k    openai/gsm8k main/test           (default; grade-school, near-ceiling for 7B)
+  gsm_hard reasoning-machines/gsm_hard      (GSM8K structure, hard numbers; needs download)
+  math500  HuggingFaceH4/MATH-500 test      (competition math, levels 1-5; --min-level)
+
+Only problems whose gold answer is numeric are kept (the "option A = the number"
+design needs that). Row ids are namespaced by dataset, so several datasets can
+share one results file if you also split by --out.
 """
 import argparse
 import glob
@@ -30,73 +36,91 @@ from datasets import load_dataset
 
 from distractor_sentences import SENTENCES
 
+DATASETS = {
+    "gsm8k":    dict(hub="openai/gsm8k",   cfg="main", split="test",
+                     legacy="gsm8k",       qk="question", ak="answer",
+                     glob="*gsm8k*"),
+    "gsm_hard": dict(hub="reasoning-machines/gsm_hard", cfg=None, split="train",
+                     legacy=None,          qk="input",    ak="target",
+                     glob="*gsm[-_]hard*"),
+    "math500":  dict(hub="HuggingFaceH4/MATH-500", cfg=None, split="test",
+                     legacy=None,          qk="problem",  ak="answer",
+                     glob="*MATH-500*"),
+}
 
-def load_gsm8k(split):
-    """Return a list of {'question','answer'} dicts.
+_ROOTS = [
+    os.path.expanduser(os.environ.get("HF_HOME") or "~/.cache/huggingface"),
+    "/workspace/hf_cache",
+    os.path.expanduser("~/.cache/huggingface"),
+]
 
-    Reads a cached parquet/arrow file directly so it does not depend on the
-    'datasets' hub-resolution path (which chokes on the legacy bare 'gsm8k'
-    cache dir) and needs no network. Set GSM8K_FILE to force a specific file.
-    """
-    forced = os.environ.get("GSM8K_FILE")
-    roots = [
-        os.path.expanduser(os.environ.get("HF_HOME") or "~/.cache/huggingface"),
-        "/workspace/hf_cache",
-        os.path.expanduser("~/.cache/huggingface"),
-    ]
 
-    def _rows_from(path):
-        import pandas as pd
-        if path.endswith(".parquet"):
-            df = pd.read_parquet(path)
-        else:  # .arrow
-            import pyarrow as pa
-            with pa.memory_map(path, "r") as src:
-                try:
-                    df = pa.ipc.open_stream(src).read_all().to_pandas()
-                except pa.lib.ArrowInvalid:
-                    df = pa.ipc.open_file(src).read_all().to_pandas()
-        return df[["question", "answer"]].to_dict("records")
+def _read_table(path):
+    import pandas as pd
+    if path.endswith(".parquet"):
+        return pd.read_parquet(path)
+    import pyarrow as pa  # .arrow
+    with pa.memory_map(path, "r") as src:
+        try:
+            return pa.ipc.open_stream(src).read_all().to_pandas()
+        except pa.lib.ArrowInvalid:
+            return pa.ipc.open_file(src).read_all().to_pandas()
 
+
+def load_rows(name, split):
+    """List of raw dataset dicts. Tries the hub, then a cached parquet/arrow file
+    (so it works offline and around the legacy-cache-id bug). Force a file with
+    DATASET_FILE=/abs/path."""
+    spec = DATASETS[name]
+    forced = os.environ.get("DATASET_FILE")
     if forced and os.path.exists(forced):
-        return _rows_from(forced)
+        return _read_table(forced).to_dict("records")
 
-    cands = []
-    for r in roots:
-        cands += glob.glob(f"{r}/**/*gsm8k*/**/*{split}*.parquet", recursive=True)
-        cands += glob.glob(f"{r}/**/datasets--*gsm8k*/**/*.parquet", recursive=True)
-        cands += glob.glob(f"{r}/**/gsm8k*/**/*{split}*.arrow", recursive=True)
-        cands += glob.glob(f"{r}/**/*gsm8k*{split}*.arrow", recursive=True)
-    for path in cands:
-        if "main" in path or "gsm8k" in os.path.basename(path).lower():
-            if split in os.path.basename(path) or split in path:
-                try:
-                    return _rows_from(path)
-                except Exception:  # noqa: BLE001
-                    continue
+    for repo, cfg in [(spec["hub"], spec["cfg"])] + \
+                     ([(spec["legacy"], spec["cfg"])] if spec["legacy"] else []):
+        try:
+            return list(load_dataset(repo, cfg, split=split))
+        except Exception:  # noqa: BLE001
+            pass
 
+    pats = []
+    for r in _ROOTS:
+        pats += glob.glob(f"{r}/**/datasets--*/{spec['glob']}/**/*.parquet", recursive=True)
+        pats += glob.glob(f"{r}/**/{spec['glob']}/**/*{split}*.parquet", recursive=True)
+        pats += glob.glob(f"{r}/**/{spec['glob']}/**/*.parquet", recursive=True)
+        pats += glob.glob(f"{r}/**/{spec['glob']}/**/*{split}*.arrow", recursive=True)
+    for p in pats:
+        try:
+            return _read_table(p).to_dict("records")
+        except Exception:  # noqa: BLE001
+            continue
+    raise RuntimeError(
+        f"Could not load '{name}' ({split}) from the hub or cache. "
+        f"Download it elsewhere and set DATASET_FILE=/abs/path/to/file.parquet. "
+        f"Searched roots: {_ROOTS}")
+
+
+def gold_of(name, row):
+    """Extract the final answer string; '' if not cleanly numeric."""
+    if name == "gsm8k":
+        m = re.search(r"####\s*(.+)", row["answer"])
+        raw = m.group(1) if m else ""
+    elif name == "gsm_hard":
+        raw = str(row["target"])
+    else:  # math500 - answer already isolated
+        raw = str(row["answer"])
+    raw = raw.strip().replace(",", "").replace("$", "").replace("\\!", "").strip()
+    raw = re.sub(r"^\\text\{(.*)\}$", r"\1", raw)
     try:
-        return list(load_dataset("openai/gsm8k", "main", split=split))
-    except Exception as e:  # noqa: BLE001
-        raise RuntimeError(
-            "No GSM8K cache found and HF is unreachable. Copy a "
-            f"{split} parquet onto the pod and set GSM8K_FILE=/path/to/it. "
-            f"Searched: {roots}") from e
-
-
-def extract_gold(answer_field: str) -> str:
-    m = re.search(r"####\s*(.+)", answer_field)
-    if not m:
-        raise ValueError("no #### answer in GSM8K row")
-    return m.group(1).strip().replace(",", "").replace("$", "")
-
-
-def wrong_number(gold: str, rng: random.Random) -> str:
-    """A plausible wrong number, formatted like `gold`, for catch trials."""
-    try:
-        g = float(gold)
+        f = float(raw)
+        return str(int(f)) if f.is_integer() else str(f)
     except ValueError:
-        return gold + "7"
+        return ""
+
+
+def wrong_number(gold, rng):
+    """A plausible wrong number, formatted like `gold`, for catch trials."""
+    g = float(gold)
     is_int = g.is_integer()
     g = int(g) if is_int else g
     cands = set()
@@ -122,59 +146,63 @@ def wrong_number(gold: str, rng: random.Random) -> str:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--split", default="test")
+    ap.add_argument("--dataset", default="gsm8k", choices=list(DATASETS))
+    ap.add_argument("--split", default=None, help="override the dataset's default split")
     ap.add_argument("--n", type=int, default=300, help="number of source problems")
     ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--swap-frac", type=float, default=0.25,
-                    help="fraction of stage2 rows with gold as option B")
-    ap.add_argument("--catch-frac", type=float, default=0.25,
-                    help="fraction of stage2 rows where option A is a wrong number")
+    ap.add_argument("--min-level", type=int, default=0,
+                    help="math500 only: keep problems with level >= this (1-5)")
+    ap.add_argument("--swap-frac", type=float, default=0.25)
+    ap.add_argument("--catch-frac", type=float, default=0.25)
     ap.add_argument("--out", default="data/dataset.jsonl")
     args = ap.parse_args()
 
+    name = args.dataset
+    spec = DATASETS[name]
+    split = args.split or spec["split"]
     rng = random.Random(args.seed)
-    ds = load_gsm8k(args.split)
-    idxs = list(range(len(ds)))
-    rng.shuffle(idxs)
-    idxs = idxs[: args.n]
+
+    raw = load_rows(name, split)
+    items = []
+    for i, row in enumerate(raw):
+        if args.min_level and int(row.get("level", 0) or 0) < args.min_level:
+            continue
+        g = gold_of(name, row)
+        if not g:
+            continue
+        items.append((i, str(row[spec["qk"]]).strip(), g))
+    rng.shuffle(items)
+    items = items[: args.n]
+    print(f"{name}/{split}: {len(raw)} rows -> {len(items)} usable (numeric gold"
+          + (f", level>={args.min_level}" if args.min_level else "") + ")")
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     n1 = n2 = 0
     with out.open("w") as f:
-        for idx in idxs:
-            q = ds[idx]["question"].strip()
-            gold = extract_gold(ds[idx]["answer"])
+        for src_i, q, gold in items:
+            sid = f"{name}_{src_i}"
             sent = rng.choice(SENTENCES)
 
             f.write(json.dumps({
-                "id": f"{idx}__stage1",
-                "kind": "stage1_open",
-                "source_idx": idx,
-                "question": q,
-                "gold_value": gold,
+                "id": f"{sid}__stage1", "kind": "stage1_open", "dataset": name,
+                "source_idx": src_i, "question": q, "gold_value": gold,
             }) + "\n")
             n1 += 1
 
             r = rng.random()
             if r < args.catch_frac:
-                variant, opt_a, opt_b, gold_letter = (
-                    "catch", wrong_number(gold, rng), sent, None)
+                variant, opt_a, opt_b, gl = ("catch", wrong_number(gold, rng), sent, None)
             elif r < args.catch_frac + args.swap_frac:
-                variant, opt_a, opt_b, gold_letter = ("swap", sent, gold, "B")
+                variant, opt_a, opt_b, gl = ("swap", sent, gold, "B")
             else:
-                variant, opt_a, opt_b, gold_letter = ("aligned", gold, sent, "A")
+                variant, opt_a, opt_b, gl = ("aligned", gold, sent, "A")
 
             f.write(json.dumps({
-                "id": f"{idx}__stage2",
-                "kind": "stage2_mcq",
-                "source_idx": idx,
-                "question": q,
-                "option_A": str(opt_a),
-                "option_B": str(opt_b),
-                "gold_letter": gold_letter,
-                "gold_value": gold,
-                "variant": variant,
+                "id": f"{sid}__stage2", "kind": "stage2_mcq", "dataset": name,
+                "source_idx": src_i, "question": q,
+                "option_A": str(opt_a), "option_B": str(opt_b),
+                "gold_letter": gl, "gold_value": gold, "variant": variant,
             }) + "\n")
             n2 += 1
 
