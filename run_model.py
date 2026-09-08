@@ -86,12 +86,12 @@ def build_prompt(row, mode):
     return body + (STAGE2_DIRECT_SUFFIX if mode == "direct" else STAGE2_COT_SUFFIX)
 
 
-def call(client, model, prompt, want_cot, max_retries=4):
+def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024):
     kw = dict(
         model=model,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.0,
-        max_tokens=1024 if want_cot else 24,
+        max_tokens=cot_tokens if want_cot else 24,
     )
     for attempt in range(max_retries):
         try:
@@ -143,6 +143,8 @@ def main():
     ap.add_argument("--modes", default="cot", help="stage2 modes, e.g. 'cot,direct'")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--cot-tokens", type=int, default=1024,
+                    help="max output tokens for CoT (raise for MATH-hard)")
     ap.add_argument("--model",
                     default=os.environ.get("MODEL", "Qwen/Qwen2.5-7B-Instruct"),
                     help="one id, or a comma-separated list to run several")
@@ -182,7 +184,7 @@ def main():
         want_cot = mode != "direct"
         prompt = build_prompt(row, mode)
         try:
-            text = call(client, model, prompt, want_cot)
+            text = call(client, model, prompt, want_cot, cot_tokens=args.cot_tokens)
         except Exception as e:  # noqa: BLE001 - skip this row, retried next run
             return ("ERR", f"{type(e).__name__}: {e}")
         rec = score(row, mode, text)
