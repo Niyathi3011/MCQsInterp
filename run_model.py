@@ -35,17 +35,20 @@ STAGE2_DIRECT_SUFFIX = (
 )
 
 LETTER_PATTERNS = [
-    re.compile(r"answer\s*[:\-]?\s*\(?\s*([AB])\s*\)?", re.I),
+    re.compile(r"\\boxed\{\s*\\?(?:text|mathrm)?\{?\s*\(?\s*([AB])\s*\)?\s*\}?\s*\}", re.I),
+    re.compile(r"answer\s*[:\-]?\s*(?:is\s*)?\(?\s*([AB])\s*\)?", re.I),
     re.compile(r"\bthe answer is\s*\(?\s*([AB])\s*\)?", re.I),
-    re.compile(r"\(\s*([AB])\s*\)\s*$"),
-    re.compile(r"^\s*([AB])\s*$", re.M),
+    re.compile(r"\boption\s*\(?\s*([AB])\s*\)?", re.I),
+    re.compile(r"\(\s*([AB])\s*\)\s*\.?\s*$"),
+    re.compile(r"^\s*\(?([AB])\)?\s*$", re.M),
 ]
-NUM_AFTER_ANSWER = re.compile(r"answer\s*[:\-]?\s*\$?\s*(-?\d[\d,]*\.?\d*)", re.I)
+BOXED_NUM = re.compile(r"\\boxed\{\s*\$?\s*(-?\d[\d,]*\.?\d*)\s*\}")
+NUM_AFTER_ANSWER = re.compile(r"answer\s*[:\-]?\s*(?:is\s*)?\$?\s*(-?\d[\d,]*\.?\d*)", re.I)
 ANY_NUMBER = re.compile(r"-?\d[\d,]*\.?\d*")
 
 
 def parse_letter(text: str):
-    tail = text.strip()[-400:]
+    tail = text.strip()[-600:]
     for rx in LETTER_PATTERNS:
         last = None
         for last in rx.finditer(tail):
@@ -56,20 +59,36 @@ def parse_letter(text: str):
 
 
 def parse_number(text: str):
-    m = NUM_AFTER_ANSWER.search(text)
-    if not m:
-        nums = ANY_NUMBER.findall(text)
-        if not nums:
-            return None
-        m_val = nums[-1]
-    else:
-        m_val = m.group(1)
-    v = m_val.replace(",", "")
+    for rx in (BOXED_NUM, NUM_AFTER_ANSWER):
+        ms = list(rx.finditer(text))
+        if ms:
+            v = ms[-1].group(1).replace(",", "")
+            try:
+                f = float(v)
+                return str(int(f)) if f.is_integer() else str(f)
+            except ValueError:
+                pass
+    nums = ANY_NUMBER.findall(text)
+    if not nums:
+        return None
+    v = nums[-1].replace(",", "")
     try:
         f = float(v)
         return str(int(f)) if f.is_integer() else str(f)
     except ValueError:
         return None
+
+
+def letter_from_number(text, opt_a, opt_b):
+    """stage2 fallback: model boxed a number instead of a letter -> map it back."""
+    v = parse_number(text)
+    if v is None:
+        return None
+    if num_equal(v, opt_a):
+        return "A"
+    if num_equal(v, opt_b):
+        return "B"
+    return None
 
 
 def num_equal(a, b) -> bool:
@@ -120,6 +139,8 @@ def score(row, mode, text):
                    correct=num_equal(pred, row["gold_value"]))
     else:
         pred = parse_letter(text)
+        if pred is None:
+            pred = letter_from_number(text, row["option_A"], row["option_B"])
         rec.update(variant=row["variant"], gold_letter=row["gold_letter"],
                    option_A=row["option_A"], option_B=row["option_B"],
                    pred_letter=pred, parse_ok=pred is not None,
