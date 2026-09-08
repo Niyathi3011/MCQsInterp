@@ -181,20 +181,30 @@ def main():
         model, row, mode = job
         want_cot = mode != "direct"
         prompt = build_prompt(row, mode)
-        text = call(client, model, prompt, want_cot)
+        try:
+            text = call(client, model, prompt, want_cot)
+        except Exception as e:  # noqa: BLE001 - skip this row, retried next run
+            return ("ERR", f"{type(e).__name__}: {e}")
         rec = score(row, mode, text)
         rec["model"] = model
         rec["prompt"] = prompt
         return rec
 
+    errors = 0
     with out.open("a") as f, ThreadPoolExecutor(max_workers=args.workers) as ex:
         futs = [ex.submit(work, j) for j in jobs]
         for i, fut in enumerate(as_completed(futs), 1):
-            f.write(json.dumps(fut.result()) + "\n")
+            rec = fut.result()
+            if isinstance(rec, tuple) and rec[0] == "ERR":
+                errors += 1
+                if errors <= 5 or errors % 50 == 0:
+                    print(f"  [skip {errors}] {rec[1][:160]}")
+                continue
+            f.write(json.dumps(rec) + "\n")
             f.flush()
             if i % 25 == 0:
-                print(f"  {i}/{len(jobs)}")
-    print(f"done -> {out}")
+                print(f"  {i}/{len(jobs)}  (skipped {errors})")
+    print(f"done -> {out}   ({errors} calls failed; rerun to retry them)")
 
 
 if __name__ == "__main__":
