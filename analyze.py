@@ -216,6 +216,16 @@ def analyze_one(df, model, sysname, args):
               f"<- picked wrong digits over the correct answer because it was digit-shaped")
         print(f"    (of those, {decoy[pickA].gold_in_cot.mean():.0%} stated the correct answer in the CoT)")
 
+    others = sorted(set(df[df.kind == "stage2_mcq"]["mode"].dropna()) - {"cot"})
+    for m in others:
+        om = df[(df.kind == "stage2_mcq") & (df["mode"] == m)]
+        print(f"\n--- {m.upper()} mode (no CoT pairing) ---")
+        for v, vs in om.groupby("variant"):
+            pa = (vs["pred_letter"] == "A").mean()
+            acc = vs["correct"].mean()
+            ok = vs["parse_ok"].mean()
+            print(f"  {v:8s} n={len(vs):3d}  pickA={pa:.3f}  acc={acc:.3f}  parse_ok={ok:.3f}")
+
     if args.judge and len(aligned):
         j = maybe_judge(aligned)
         print("\nLLM-judge on aligned CoTs:")
