@@ -113,9 +113,14 @@ def gold_of(name, row):
     raw = re.sub(r"^\\text\{(.*)\}$", r"\1", raw)
     try:
         f = float(raw)
-        return str(int(f)) if f.is_integer() else str(f)
     except ValueError:
         return ""
+    if not (abs(f) < 1e12):                      # too big/inf to spell; also NaN
+        return ""
+    if f.is_integer():
+        return str(int(f))
+    s = f"{f:.6f}".rstrip("0").rstrip(".")        # no scientific notation
+    return s if s not in ("", "-0") else ""
 
 
 _ONES = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
@@ -264,12 +269,18 @@ def main():
             n1 += 1
 
             wn = lambda: wrong_number(gold, rng, args.close_distractor)  # noqa: E731
+            try:
+                gold_words = num_to_words(gold)
+            except (ValueError, KeyError, IndexError):
+                gold_words = None
             all_v = {
                 "aligned": (gold, sent, "A"),
                 "swap":    (sent, gold, "B"),
                 "catch":   (wn(), sent, None),
-                "decoy":   (wn(), num_to_words(gold), "B"),
             }
+            if gold_words:
+                all_v["decoy"] = (wn(), gold_words, "B")
+
             if args.all_variants:
                 chosen = list(all_v)
             else:
@@ -279,6 +290,8 @@ def main():
                           else "swap" if r < c + d + s else "aligned"]
 
             for variant in chosen:
+                if variant not in all_v:        # decoy unavailable for this gold
+                    variant = "catch"
                 opt_a, opt_b, gl = all_v[variant]
                 suffix = f"__stage2_{variant}" if args.all_variants else "__stage2"
                 f.write(json.dumps({
