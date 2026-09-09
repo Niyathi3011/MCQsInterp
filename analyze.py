@@ -132,16 +132,15 @@ def analyze_one(df, model, args):
         print("  (these rows are excluded from the metrics below)")
         df = df[~df["truncated"].fillna(False)]
 
-    s1 = df[df.kind == "stage1_open"].set_index("source_idx")
-    s2 = df[(df.kind == "stage2_mcq") & (df["mode"] == "cot")].set_index("source_idx")
+    s1 = df[df.kind == "stage1_open"].drop_duplicates("source_idx").set_index("source_idx")
+    s2 = df[(df.kind == "stage2_mcq") & (df["mode"] == "cot")]
 
     rows = []
-    for idx, a in s1.iterrows():
-        if idx not in s2.index:
+    for _, b in s2.iterrows():          # one row per (problem, variant)
+        idx = b["source_idx"]
+        if idx not in s1.index:
             continue
-        b = s2.loc[idx]
-        if isinstance(b, pd.DataFrame):
-            b = b.iloc[0]
+        a = s1.loc[idx]
         cot_open, cot_mcq = a["completion"], b["completion"]
         n_open = numbers_in(cot_open)
         reuse = (len(n_open & numbers_in(cot_mcq)) / len(n_open)) if n_open else float("nan")
