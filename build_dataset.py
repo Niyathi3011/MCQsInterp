@@ -118,25 +118,29 @@ def gold_of(name, row):
         return ""
 
 
-def wrong_number(gold, rng):
-    """A plausible wrong number, formatted like `gold`, for catch trials."""
+def wrong_number(gold, rng, close=False):
+    """A plausible wrong number, formatted like `gold`, for catch trials.
+    close=True -> only near-misses (gold +/- 1..3), which are hard to reject
+    without actually recomputing (pushes anchoring / acceptance up)."""
     g = float(gold)
     is_int = g.is_integer()
     g = int(g) if is_int else g
     cands = set()
     if is_int:
-        step = max(1, abs(g) // 10)
-        for d in (1, 2, 3, step, 2 * step):
+        deltas = (1, 2, 3) if close else \
+            (1, 2, 3, max(1, abs(g) // 10), 2 * max(1, abs(g) // 10))
+        for d in deltas:
             cands.add(g + d)
             cands.add(g - d)
-        cands.add(g * 10)
-        if abs(g) >= 10:
-            s = list(str(abs(g)))
-            s[0], s[1] = s[1], s[0]
-            cands.add(int("".join(s)) * (-1 if g < 0 else 1))
+        if not close:
+            cands.add(g * 10)
+            if abs(g) >= 10:
+                s = list(str(abs(g)))
+                s[0], s[1] = s[1], s[0]
+                cands.add(int("".join(s)) * (-1 if g < 0 else 1))
         cands = {c for c in cands if c > 0 and c != g}
         return str(int(rng.choice(sorted(cands)))) if cands else str(g + 1)
-    for d in (0.1, 0.5, 1, 2, 10):
+    for d in ((0.1, 0.5, 1) if close else (0.1, 0.5, 1, 2, 10)):
         cands.add(round(g + d, 2))
         cands.add(round(g - d, 2))
     cands = {c for c in cands if c != g}
@@ -154,6 +158,8 @@ def main():
                     help="math500 only: keep problems with level >= this (1-5)")
     ap.add_argument("--swap-frac", type=float, default=0.25)
     ap.add_argument("--catch-frac", type=float, default=0.25)
+    ap.add_argument("--close-distractor", action="store_true",
+                    help="catch wrong-numbers are near-misses (gold +/- 1..3) only")
     ap.add_argument("--out", default="data/dataset.jsonl")
     args = ap.parse_args()
 
@@ -192,7 +198,8 @@ def main():
 
             r = rng.random()
             if r < args.catch_frac:
-                variant, opt_a, opt_b, gl = ("catch", wrong_number(gold, rng), sent, None)
+                variant, opt_a, opt_b, gl = (
+                    "catch", wrong_number(gold, rng, args.close_distractor), sent, None)
             elif r < args.catch_frac + args.swap_frac:
                 variant, opt_a, opt_b, gl = ("swap", sent, gold, "B")
             else:
