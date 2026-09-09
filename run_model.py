@@ -82,8 +82,10 @@ def parse_number(text: str):
         return None
 
 
-def letter_from_number(text, opt_a, opt_b):
-    """stage2 fallback: model boxed a number instead of a letter -> map it back."""
+def letter_from_number(text, opt_a, opt_b, gold_value=None, gold_letter=None):
+    """stage2 fallback: model stated a number instead of a letter -> map it back.
+    Handles the decoy case where the correct option is spelled in words: if the
+    stated number equals gold_value, that's a vote for gold_letter."""
     v = parse_number(text)
     if v is None:
         return None
@@ -91,6 +93,8 @@ def letter_from_number(text, opt_a, opt_b):
         return "A"
     if num_equal(v, opt_b):
         return "B"
+    if gold_letter and gold_value is not None and num_equal(v, gold_value):
+        return gold_letter
     return None
 
 
@@ -170,7 +174,8 @@ def score(row, mode, text, reasoning=None, finish_reason=None):
     else:
         pred = parse_letter(full)
         if pred is None:
-            pred = letter_from_number(full, row["option_A"], row["option_B"])
+            pred = letter_from_number(full, row["option_A"], row["option_B"],
+                                      row.get("gold_value"), row.get("gold_letter"))
         rec.update(variant=row["variant"], gold_letter=row["gold_letter"],
                    option_A=row["option_A"], option_B=row["option_B"],
                    pred_letter=pred, parse_ok=pred is not None,

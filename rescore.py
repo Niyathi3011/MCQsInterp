@@ -34,9 +34,9 @@ def rescore(d):
         d["parse_ok"] = p is not None
         d["correct"] = num_equal(p, d.get("gold_value"))
     else:
-        p = parse_letter(t) or letter_from_number(
-            t, d.get("option_A"), d.get("option_B"))
         gl = d.get("gold_letter")
+        p = parse_letter(t) or letter_from_number(
+            t, d.get("option_A"), d.get("option_B"), d.get("gold_value"), gl)
         opt = d.get("option_A") if p == "A" else d.get("option_B") if p == "B" else None
         d["pred_letter"] = p
         d["parse_ok"] = p is not None
