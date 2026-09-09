@@ -254,6 +254,9 @@ def main():
     ap.add_argument("--systems", default=None,
                     help="sweep several system conditions in one run, e.g. 'none,exam' "
                          "(each row is run under each); overrides --system/--exam-pressure")
+    ap.add_argument("--keep-truncated", action="store_true",
+                    help="on resume, keep token-capped rows as-is instead of retrying "
+                         "(use when the truncation IS the result, e.g. R1 looping on catch)")
     args = ap.parse_args()
     systems = system_conditions(args)
 
@@ -282,8 +285,8 @@ def main():
         for l in out.open():
             n_total += 1
             d = json.loads(l)
-            if d.get("truncated"):        # drop & retry token-capped rows on rerun
-                continue
+            if d.get("truncated") and not args.keep_truncated:
+                continue                  # drop & retry token-capped rows on rerun
             done.add((d["model"], d["id"], d["mode"], d.get("system_name", "none")))
             kept.append(l)
         if len(kept) != n_total:
