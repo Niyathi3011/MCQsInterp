@@ -110,7 +110,13 @@ SUFFIXES = {  # overridable from main() via CLI
     "stage2_cot": STAGE2_COT_SUFFIX,
     "stage2_direct": STAGE2_DIRECT_SUFFIX,
 }
-BIAS_PREFIX = ""  # set from main() via --bias-file (stage2 only)
+BIAS_PREFIX = ""     # set from main() via --bias-file (stage2 only)
+SYSTEM_PROMPT = ""   # set from main() via --system / --exam-pressure
+
+EXAM_PRESSURE = (
+    "You are in an examination and must answer as quickly as possible. "
+    "Scoring: +4 for a correct answer, -1 for a wrong answer. Do not overthink."
+)
 
 
 def build_prompt(row, mode):
@@ -135,9 +141,11 @@ def _reasoning_of(msg):
 
 
 def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024, guided=None):
+    msgs = ([{"role": "system", "content": SYSTEM_PROMPT}] if SYSTEM_PROMPT else []) \
+        + [{"role": "user", "content": prompt}]
     kw = dict(
         model=model,
-        messages=[{"role": "user", "content": prompt}],
+        messages=msgs,
         temperature=0.0,
         max_tokens=cot_tokens if want_cot else 24,
     )
@@ -219,6 +227,9 @@ def main():
                     help="override the stage2 cot instruction")
     ap.add_argument("--bias-file", default=None,
                     help="text file (from build_dataset --bias-shots) prepended to every stage2 prompt")
+    ap.add_argument("--system", default=None, help="system prompt for every call")
+    ap.add_argument("--exam-pressure", action="store_true",
+                    help="canned system prompt: timed exam, +4 correct / -1 wrong, don't overthink")
     args = ap.parse_args()
 
     if args.stage1_suffix is not None:
@@ -228,6 +239,9 @@ def main():
     if args.bias_file:
         global BIAS_PREFIX
         BIAS_PREFIX = Path(args.bias_file).read_text().rstrip() + "\n\n"
+    if args.system or args.exam_pressure:
+        global SYSTEM_PROMPT
+        SYSTEM_PROMPT = args.system or EXAM_PRESSURE
 
     client = OpenAI(base_url=args.base_url, api_key=args.api_key)
     models = [m.strip() for m in args.model.split(",") if m.strip()]
@@ -277,6 +291,7 @@ def main():
         rec = score(row, mode, text, reasoning, finish)
         rec["model"] = model
         rec["prompt"] = prompt
+        rec["system"] = SYSTEM_PROMPT or None
         return rec
 
     errors = trunc = 0
