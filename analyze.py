@@ -120,10 +120,16 @@ def analyze_one(df, model, args):
     plot = args.plot.replace(".png", f".{tag}.png")
     print("\n" + "=" * 70 + f"\nMODEL: {model}\n" + "=" * 70)
 
-    if "truncated" in df.columns:
+    if "truncated" in df.columns and df["truncated"].fillna(False).any():
+        tr = df[df.kind == "stage2_mcq"].copy()
+        tr["truncated"] = tr["truncated"].fillna(False)
+        by_var = tr.groupby("variant")["truncated"].mean().round(3)
         n_trunc = int(df["truncated"].fillna(False).sum())
-        if n_trunc:
-            print(f"excluding {n_trunc} truncated rows (hit the token cap)")
+        print(f"NON-TERMINATION (hit token cap) — {n_trunc} rows total")
+        print("  stage2 truncation rate by variant:")
+        for v, r in by_var.items():
+            print(f"    {v:8s} {r:.3f}")
+        print("  (these rows are excluded from the metrics below)")
         df = df[~df["truncated"].fillna(False)]
 
     s1 = df[df.kind == "stage1_open"].set_index("source_idx")
