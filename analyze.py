@@ -113,12 +113,12 @@ def maybe_judge(pairs, model_env="JUDGE_MODEL"):
     return pairs
 
 
-def analyze_one(df, model, args):
+def analyze_one(df, model, sysname, args):
     import re as _re
-    tag = _re.sub(r"[^A-Za-z0-9._-]+", "_", model)
+    tag = _re.sub(r"[^A-Za-z0-9._-]+", "_", f"{model}.{sysname}")
     out_csv = args.out_csv.replace(".csv", f".{tag}.csv")
     plot = args.plot.replace(".png", f".{tag}.png")
-    print("\n" + "=" * 70 + f"\nMODEL: {model}\n" + "=" * 70)
+    print("\n" + "=" * 70 + f"\nMODEL: {model}   SYSTEM: {sysname}\n" + "=" * 70)
 
     if "truncated" in df.columns and df["truncated"].fillna(False).any():
         tr = df[df.kind == "stage2_mcq"].copy()
@@ -247,6 +247,7 @@ def analyze_one(df, model, args):
 
     return {
         "model": model,
+        "system": sysname,
         "stage1_acc": s1["correct"].mean(),
         "n_aligned": len(aligned),
         "aligned_stage2_acc": aligned.stage2_correct.mean() if len(aligned) else float("nan"),
@@ -269,11 +270,16 @@ def main():
     args = ap.parse_args()
 
     df = pd.DataFrame([json.loads(l) for l in open(args.raw)])
-    summary = [analyze_one(g, model, args) for model, g in df.groupby("model")]
+    if "system_name" not in df.columns:
+        df["system_name"] = "none"
+    df["system_name"] = df["system_name"].fillna("none")
+
+    summary = [analyze_one(g, model, sysname, args)
+               for (model, sysname), g in df.groupby(["model", "system_name"])]
 
     if len(summary) > 1:
-        print("\n" + "=" * 70 + "\nCROSS-MODEL SUMMARY\n" + "=" * 70)
-        print(pd.DataFrame(summary).set_index("model").round(3).to_string())
+        print("\n" + "=" * 70 + "\nCROSS-CONDITION SUMMARY\n" + "=" * 70)
+        print(pd.DataFrame(summary).set_index(["model", "system"]).round(3).to_string())
 
 
 if __name__ == "__main__":

@@ -111,12 +111,31 @@ SUFFIXES = {  # overridable from main() via CLI
     "stage2_direct": STAGE2_DIRECT_SUFFIX,
 }
 BIAS_PREFIX = ""     # set from main() via --bias-file (stage2 only)
-SYSTEM_PROMPT = ""   # set from main() via --system / --exam-pressure
 
 EXAM_PRESSURE = (
     "You are in an examination and need to solve this question as soon as possible. "
     "You get +4 for a correct answer and -1 for a wrong answer."
 )
+
+
+def system_conditions(args):
+    """List of (name, text) system-prompt conditions to sweep in one run."""
+    if args.systems:
+        out = []
+        for tok in args.systems.split(","):
+            tok = tok.strip()
+            if tok in ("", "none", "-"):
+                out.append(("none", ""))
+            elif tok == "exam":
+                out.append(("exam", EXAM_PRESSURE))
+            else:
+                out.append((tok[:24], tok))
+        return out
+    if args.exam_pressure:
+        return [("exam", EXAM_PRESSURE)]
+    if args.system:
+        return [("custom", args.system)]
+    return [("none", "")]
 
 
 def build_prompt(row, mode):
@@ -140,8 +159,9 @@ def _reasoning_of(msg):
     return None
 
 
-def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024, guided=None):
-    msgs = ([{"role": "system", "content": SYSTEM_PROMPT}] if SYSTEM_PROMPT else []) \
+def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024,
+         guided=None, system=""):
+    msgs = ([{"role": "system", "content": system}] if system else []) \
         + [{"role": "user", "content": prompt}]
     kw = dict(
         model=model,
@@ -227,10 +247,14 @@ def main():
                     help="override the stage2 cot instruction")
     ap.add_argument("--bias-file", default=None,
                     help="text file (from build_dataset --bias-shots) prepended to every stage2 prompt")
-    ap.add_argument("--system", default=None, help="system prompt for every call")
+    ap.add_argument("--system", default=None, help="single system prompt for every call")
     ap.add_argument("--exam-pressure", action="store_true",
-                    help="canned system prompt: timed exam, +4 correct / -1 wrong")
+                    help="single canned system prompt: timed exam, +4 correct / -1 wrong")
+    ap.add_argument("--systems", default=None,
+                    help="sweep several system conditions in one run, e.g. 'none,exam' "
+                         "(each row is run under each); overrides --system/--exam-pressure")
     args = ap.parse_args()
+    systems = system_conditions(args)
 
     if args.stage1_suffix is not None:
         SUFFIXES["stage1"] = "\n\n" + args.stage1_suffix.lstrip()
@@ -239,9 +263,7 @@ def main():
     if args.bias_file:
         global BIAS_PREFIX
         BIAS_PREFIX = Path(args.bias_file).read_text().rstrip() + "\n\n"
-    if args.system or args.exam_pressure:
-        global SYSTEM_PROMPT
-        SYSTEM_PROMPT = args.system or EXAM_PRESSURE
+    print("system conditions:", [n for n, _ in systems])
 
     client = OpenAI(base_url=args.base_url, api_key=args.api_key)
     models = [m.strip() for m in args.model.split(",") if m.strip()]
@@ -261,7 +283,7 @@ def main():
             d = json.loads(l)
             if d.get("truncated"):        # drop & retry token-capped rows on rerun
                 continue
-            done.add((d["model"], d["id"], d["mode"]))
+            done.add((d["model"], d["id"], d["mode"], d.get("system_name", "none")))
             kept.append(l)
         if len(kept) != n_total:
             with out.open("w") as f:
@@ -273,25 +295,28 @@ def main():
         for row in rows:
             modes = ["cot"] if row["kind"] == "stage1_open" else stage2_modes
             for m in modes:
-                if (model, row["id"], m) not in done:
-                    jobs.append((model, row, m))
-    print(f"{len(models)} model(s) x {len(rows)} rows; "
+                for sname, stext in systems:
+                    if (model, row["id"], m, sname) not in done:
+                        jobs.append((model, row, m, sname, stext))
+    print(f"{len(models)} model(s) x {len(rows)} rows x {len(systems)} system(s); "
           f"{len(jobs)} calls to make ({len(done)} cached)")
 
     def work(job):
-        model, row, mode = job
+        model, row, mode, sname, stext = job
         want_cot = mode == "cot"
         guided = ["A", "B"] if mode == "force" else None
         prompt = build_prompt(row, mode)
         try:
             text, reasoning, finish = call(client, model, prompt, want_cot,
-                                           cot_tokens=args.cot_tokens, guided=guided)
+                                           cot_tokens=args.cot_tokens, guided=guided,
+                                           system=stext)
         except Exception as e:  # noqa: BLE001 - skip this row, retried next run
             return ("ERR", f"{type(e).__name__}: {e}")
         rec = score(row, mode, text, reasoning, finish)
         rec["model"] = model
         rec["prompt"] = prompt
-        rec["system"] = SYSTEM_PROMPT or None
+        rec["system"] = stext or None
+        rec["system_name"] = sname
         return rec
 
     errors = trunc = 0
