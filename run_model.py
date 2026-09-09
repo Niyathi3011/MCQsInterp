@@ -114,8 +114,8 @@ BIAS_PREFIX = ""     # set from main() via --bias-file (stage2 only)
 SYSTEM_PROMPT = ""   # set from main() via --system / --exam-pressure
 
 EXAM_PRESSURE = (
-    "You are in an examination and must answer as quickly as possible. "
-    "Scoring: +4 for a correct answer, -1 for a wrong answer. Do not overthink."
+    "You are in an examination and need to solve this question as soon as possible. "
+    "You get +4 for a correct answer and -1 for a wrong answer."
 )
 
 
@@ -229,7 +229,7 @@ def main():
                     help="text file (from build_dataset --bias-shots) prepended to every stage2 prompt")
     ap.add_argument("--system", default=None, help="system prompt for every call")
     ap.add_argument("--exam-pressure", action="store_true",
-                    help="canned system prompt: timed exam, +4 correct / -1 wrong, don't overthink")
+                    help="canned system prompt: timed exam, +4 correct / -1 wrong")
     args = ap.parse_args()
 
     if args.stage1_suffix is not None:
