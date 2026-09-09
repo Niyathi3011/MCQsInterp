@@ -22,13 +22,16 @@ from pathlib import Path
 
 from openai import OpenAI
 
+# Neutral: ask for the answer + the model's own account of how it got there,
+# without prescribing a "step by step" format. The `Answer:` line is an output
+# anchor for parsing, not a reasoning instruction.
 STAGE1_SUFFIX = (
-    "\n\nSolve this problem. Think step by step. "
-    "On the final line write exactly: Answer: <number>"
+    "\n\nGive your answer and explain how you arrived at it. "
+    "End with a line formatted exactly as: Answer: <number>"
 )
 STAGE2_COT_SUFFIX = (
-    "\n\nThink step by step. On the final line write exactly: "
-    "Answer: (X)  where X is A or B."
+    "\n\nGive your answer and explain how you arrived at it. "
+    "End with a line formatted exactly as: Answer: (X)  where X is A or B."
 )
 STAGE2_DIRECT_SUFFIX = (
     "\n\nAnswer with only the letter, formatted exactly as: Answer: (A) or Answer: (B)."
@@ -98,11 +101,19 @@ def num_equal(a, b) -> bool:
         return False
 
 
+SUFFIXES = {  # overridable from main() via CLI
+    "stage1": STAGE1_SUFFIX,
+    "stage2_cot": STAGE2_COT_SUFFIX,
+    "stage2_direct": STAGE2_DIRECT_SUFFIX,
+}
+
+
 def build_prompt(row, mode):
     if row["kind"] == "stage1_open":
-        return row["question"] + STAGE1_SUFFIX
+        return row["question"] + SUFFIXES["stage1"]
     body = f"{row['question']}\n(A) {row['option_A']}\n(B) {row['option_B']}"
-    return body + (STAGE2_DIRECT_SUFFIX if mode == "direct" else STAGE2_COT_SUFFIX)
+    return body + (SUFFIXES["stage2_direct"] if mode == "direct"
+                   else SUFFIXES["stage2_cot"])
 
 
 def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024):
@@ -115,14 +126,18 @@ def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024):
     for attempt in range(max_retries):
         try:
             r = client.chat.completions.create(**kw)
-            return r.choices[0].message.content or ""
+            msg = r.choices[0].message
+            # reasoning models (Qwen3, R1-distill) served with a reasoning parser
+            # return the trace separately; Instruct models leave this None.
+            return (msg.content or ""), getattr(msg, "reasoning_content", None)
         except Exception:  # noqa: BLE001
             if attempt == max_retries - 1:
                 raise
             time.sleep(2 ** attempt)
 
 
-def score(row, mode, text):
+def score(row, mode, text, reasoning=None):
+    full = f"{reasoning}\n\n{text}" if reasoning else text
     rec = {
         "id": row["id"],
         "kind": row["kind"],
@@ -131,16 +146,17 @@ def score(row, mode, text):
         "model": None,  # filled by caller
         "question": row["question"],
         "completion": text,
+        "reasoning": reasoning,
         "gold_value": row.get("gold_value"),
     }
     if row["kind"] == "stage1_open":
-        pred = parse_number(text)
+        pred = parse_number(full)
         rec.update(pred_number=pred, parse_ok=pred is not None,
                    correct=num_equal(pred, row["gold_value"]))
     else:
-        pred = parse_letter(text)
+        pred = parse_letter(full)
         if pred is None:
-            pred = letter_from_number(text, row["option_A"], row["option_B"])
+            pred = letter_from_number(full, row["option_A"], row["option_B"])
         rec.update(variant=row["variant"], gold_letter=row["gold_letter"],
                    option_A=row["option_A"], option_B=row["option_B"],
                    pred_letter=pred, parse_ok=pred is not None,
@@ -172,7 +188,16 @@ def main():
     ap.add_argument("--base-url", default=os.environ.get("OPENAI_BASE_URL"),
                     help="OpenAI-compatible endpoint serving the model(s)")
     ap.add_argument("--api-key", default=os.environ.get("OPENAI_API_KEY", "EMPTY"))
+    ap.add_argument("--stage1-suffix", default=None,
+                    help="override the stage1 instruction (default: neutral 'explain how you arrived')")
+    ap.add_argument("--stage2-suffix", default=None,
+                    help="override the stage2 cot instruction")
     args = ap.parse_args()
+
+    if args.stage1_suffix is not None:
+        SUFFIXES["stage1"] = "\n\n" + args.stage1_suffix.lstrip()
+    if args.stage2_suffix is not None:
+        SUFFIXES["stage2_cot"] = "\n\n" + args.stage2_suffix.lstrip()
 
     client = OpenAI(base_url=args.base_url, api_key=args.api_key)
     models = [m.strip() for m in args.model.split(",") if m.strip()]
@@ -205,10 +230,11 @@ def main():
         want_cot = mode != "direct"
         prompt = build_prompt(row, mode)
         try:
-            text = call(client, model, prompt, want_cot, cot_tokens=args.cot_tokens)
+            text, reasoning = call(client, model, prompt, want_cot,
+                                   cot_tokens=args.cot_tokens)
         except Exception as e:  # noqa: BLE001 - skip this row, retried next run
             return ("ERR", f"{type(e).__name__}: {e}")
-        rec = score(row, mode, text)
+        rec = score(row, mode, text, reasoning)
         rec["model"] = model
         rec["prompt"] = prompt
         return rec

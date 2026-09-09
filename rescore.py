@@ -25,6 +25,9 @@ def picked_number(opt):
 
 def rescore(d):
     t = d.get("completion", "") or ""
+    reasoning = d.get("reasoning")
+    if reasoning:
+        t = f"{reasoning}\n\n{t}"
     if d["kind"] == "stage1_open":
         p = parse_number(t)
         d["pred_number"] = p

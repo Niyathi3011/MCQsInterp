@@ -147,10 +147,16 @@ def main():
     ap.add_argument("--split", default=None)
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--cot-tokens", type=int, default=2048)
+    ap.add_argument("--stage1-suffix", default=None,
+                    help="override the instruction appended to each problem")
     ap.add_argument("--model", default="Qwen/Qwen2.5-7B-Instruct")
     ap.add_argument("--base-url", default=None)
     ap.add_argument("--api-key", default="EMPTY")
     args = ap.parse_args()
+
+    global STAGE1_SUFFIX
+    if args.stage1_suffix is not None:
+        STAGE1_SUFFIX = "\n\n" + args.stage1_suffix.lstrip()
 
     client = OpenAI(base_url=args.base_url, api_key=args.api_key)
     summary = []

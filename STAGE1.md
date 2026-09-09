@@ -16,17 +16,28 @@ datasets are worth running.
 
 ## The prompt
 
-Single user turn, no system prompt, no few-shot. Problem text + fixed suffix
+Single user turn, no system prompt, no few-shot. Problem text + suffix
 (`run_model.py: STAGE1_SUFFIX`):
 
 ```
 {question}
 
-Solve this problem. Think step by step. On the final line write exactly: Answer: <number>
+Give your answer and explain how you arrived at it. End with a line formatted exactly as: Answer: <number>
 ```
 
+Deliberately **not** "think step by step" — that prescribes a reasoning format.
+This asks for the model's own account of how it reached the answer. The
+`Answer:` line is an output anchor for parsing, not a reasoning instruction.
+Override per run with `--stage1-suffix "..."` (also on `bench_accuracy.py`).
+
+**Reasoning models.** If the model is served with a reasoning parser (Qwen3,
+DeepSeek-R1-distill), the trace comes back in `message.reasoning_content`,
+stored separately as `reasoning`; parsing/analysis use `reasoning + completion`.
+Instruct models (Qwen2.5) leave `reasoning` null and put everything in
+`completion`.
+
 Sampling: `temperature = 0.0`, `max_tokens = 1024` (raise with `--cot-tokens`;
-2048 for MATH-level reasoning).
+2048+ for MATH-level reasoning).
 
 ## Answer extraction & scoring
 
