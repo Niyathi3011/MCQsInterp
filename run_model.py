@@ -126,18 +126,21 @@ def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024):
     for attempt in range(max_retries):
         try:
             r = client.chat.completions.create(**kw)
-            msg = r.choices[0].message
+            ch = r.choices[0]
+            msg = ch.message
             # reasoning models (Qwen3, R1-distill) served with a reasoning parser
             # return the trace separately; Instruct models leave this None.
-            return (msg.content or ""), getattr(msg, "reasoning_content", None)
+            return (msg.content or ""), getattr(msg, "reasoning_content", None), \
+                ch.finish_reason
         except Exception:  # noqa: BLE001
             if attempt == max_retries - 1:
                 raise
             time.sleep(2 ** attempt)
 
 
-def score(row, mode, text, reasoning=None):
+def score(row, mode, text, reasoning=None, finish_reason=None):
     full = f"{reasoning}\n\n{text}" if reasoning else text
+    truncated = finish_reason == "length"
     rec = {
         "id": row["id"],
         "kind": row["kind"],
@@ -147,6 +150,8 @@ def score(row, mode, text, reasoning=None):
         "question": row["question"],
         "completion": text,
         "reasoning": reasoning,
+        "finish_reason": finish_reason,
+        "truncated": truncated,
         "gold_value": row.get("gold_value"),
     }
     if row["kind"] == "stage1_open":
@@ -211,9 +216,18 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     done = set()
     if out.exists():
+        kept, n_total = [], 0
         for l in out.open():
+            n_total += 1
             d = json.loads(l)
+            if d.get("truncated"):        # drop & retry token-capped rows on rerun
+                continue
             done.add((d["model"], d["id"], d["mode"]))
+            kept.append(l)
+        if len(kept) != n_total:
+            with out.open("w") as f:
+                f.writelines(kept)
+            print(f"dropped {n_total - len(kept)} truncated rows for retry")
 
     jobs = []
     for model in models:
@@ -230,16 +244,16 @@ def main():
         want_cot = mode != "direct"
         prompt = build_prompt(row, mode)
         try:
-            text, reasoning = call(client, model, prompt, want_cot,
-                                   cot_tokens=args.cot_tokens)
+            text, reasoning, finish = call(client, model, prompt, want_cot,
+                                           cot_tokens=args.cot_tokens)
         except Exception as e:  # noqa: BLE001 - skip this row, retried next run
             return ("ERR", f"{type(e).__name__}: {e}")
-        rec = score(row, mode, text, reasoning)
+        rec = score(row, mode, text, reasoning, finish)
         rec["model"] = model
         rec["prompt"] = prompt
         return rec
 
-    errors = 0
+    errors = trunc = 0
     with out.open("a") as f, ThreadPoolExecutor(max_workers=args.workers) as ex:
         futs = [ex.submit(work, j) for j in jobs]
         for i, fut in enumerate(as_completed(futs), 1):
@@ -249,11 +263,13 @@ def main():
                 if errors <= 5 or errors % 50 == 0:
                     print(f"  [skip {errors}] {rec[1][:160]}")
                 continue
+            trunc += bool(rec.get("truncated"))
             f.write(json.dumps(rec) + "\n")
             f.flush()
             if i % 25 == 0:
-                print(f"  {i}/{len(jobs)}  (skipped {errors})")
-    print(f"done -> {out}   ({errors} calls failed; rerun to retry them)")
+                print(f"  {i}/{len(jobs)}  (skipped {errors}, truncated {trunc})")
+    print(f"done -> {out}   ({errors} calls failed; {trunc} hit the token cap "
+          f"-> raise --cot-tokens and rerun)")
 
 
 if __name__ == "__main__":

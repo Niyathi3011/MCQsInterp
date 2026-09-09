@@ -120,6 +120,12 @@ def analyze_one(df, model, args):
     plot = args.plot.replace(".png", f".{tag}.png")
     print("\n" + "=" * 70 + f"\nMODEL: {model}\n" + "=" * 70)
 
+    if "truncated" in df.columns:
+        n_trunc = int(df["truncated"].fillna(False).sum())
+        if n_trunc:
+            print(f"excluding {n_trunc} truncated rows (hit the token cap)")
+        df = df[~df["truncated"].fillna(False)]
+
     s1 = df[df.kind == "stage1_open"].set_index("source_idx")
     s2 = df[(df.kind == "stage2_mcq") & (df["mode"] == "cot")].set_index("source_idx")
 
