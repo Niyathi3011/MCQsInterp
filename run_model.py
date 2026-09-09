@@ -116,6 +116,17 @@ def build_prompt(row, mode):
                    else SUFFIXES["stage2_cot"])
 
 
+def _reasoning_of(msg):
+    """The separate reasoning trace, under whichever name this server/client uses
+    ('reasoning_content' or 'reasoning'), as attribute or in model_extra."""
+    extra = getattr(msg, "model_extra", None) or {}
+    for name in ("reasoning_content", "reasoning"):
+        v = getattr(msg, name, None) or extra.get(name)
+        if v:
+            return v
+    return None
+
+
 def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024):
     kw = dict(
         model=model,
@@ -128,14 +139,7 @@ def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024):
             r = client.chat.completions.create(**kw)
             ch = r.choices[0]
             msg = ch.message
-            # reasoning models (Qwen3, R1-distill) served with a reasoning parser
-            # return the trace separately; the openai client may stash this
-            # non-standard field on the attribute OR in model_extra.
-            reasoning = getattr(msg, "reasoning_content", None)
-            if reasoning is None:
-                extra = getattr(msg, "model_extra", None) or {}
-                reasoning = extra.get("reasoning_content")
-            return (msg.content or ""), reasoning, ch.finish_reason
+            return (msg.content or ""), _reasoning_of(msg), ch.finish_reason
         except Exception:  # noqa: BLE001
             if attempt == max_retries - 1:
                 raise
