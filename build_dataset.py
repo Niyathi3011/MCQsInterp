@@ -202,6 +202,9 @@ def main():
                     help="fraction of stage2 rows where (A)=wrong number, "
                          "(B)=the CORRECT answer spelled in words (gold=B). "
                          "'pick the digits' is now a detectable error.")
+    ap.add_argument("--all-variants", action="store_true",
+                    help="emit ALL four MCQ variants per problem (within-problem "
+                         "paired design); ignores --*-frac")
     ap.add_argument("--close-distractor", action="store_true",
                     help="catch/decoy wrong-numbers are near-misses (gold +/- 1..3) only")
     ap.add_argument("--bias-shots", type=int, default=0,
@@ -260,27 +263,31 @@ def main():
             }) + "\n")
             n1 += 1
 
-            r = rng.random()
-            c, s, d = args.catch_frac, args.swap_frac, args.decoy_frac
-            if r < c:
-                variant, opt_a, opt_b, gl = (
-                    "catch", wrong_number(gold, rng, args.close_distractor), sent, None)
-            elif r < c + d:
-                variant, opt_a, opt_b, gl = (
-                    "decoy", wrong_number(gold, rng, args.close_distractor),
-                    num_to_words(gold), "B")
-            elif r < c + d + s:
-                variant, opt_a, opt_b, gl = ("swap", sent, gold, "B")
+            wn = lambda: wrong_number(gold, rng, args.close_distractor)  # noqa: E731
+            all_v = {
+                "aligned": (gold, sent, "A"),
+                "swap":    (sent, gold, "B"),
+                "catch":   (wn(), sent, None),
+                "decoy":   (wn(), num_to_words(gold), "B"),
+            }
+            if args.all_variants:
+                chosen = list(all_v)
             else:
-                variant, opt_a, opt_b, gl = ("aligned", gold, sent, "A")
+                r = rng.random()
+                c, s, d = args.catch_frac, args.swap_frac, args.decoy_frac
+                chosen = ["catch" if r < c else "decoy" if r < c + d
+                          else "swap" if r < c + d + s else "aligned"]
 
-            f.write(json.dumps({
-                "id": f"{sid}__stage2", "kind": "stage2_mcq", "dataset": name,
-                "source_idx": src_i, "question": q,
-                "option_A": str(opt_a), "option_B": str(opt_b),
-                "gold_letter": gl, "gold_value": gold, "variant": variant,
-            }) + "\n")
-            n2 += 1
+            for variant in chosen:
+                opt_a, opt_b, gl = all_v[variant]
+                suffix = f"__stage2_{variant}" if args.all_variants else "__stage2"
+                f.write(json.dumps({
+                    "id": f"{sid}{suffix}", "kind": "stage2_mcq", "dataset": name,
+                    "source_idx": src_i, "question": q,
+                    "option_A": str(opt_a), "option_B": str(opt_b),
+                    "gold_letter": gl, "gold_value": gold, "variant": variant,
+                }) + "\n")
+                n2 += 1
 
     print(f"wrote {n1} stage1 + {n2} stage2 rows -> {out}")
 
