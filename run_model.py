@@ -169,9 +169,10 @@ def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024,
         temperature=0.0,
         max_tokens=cot_tokens if want_cot else 24,
     )
-    if guided:                       # vLLM guided decoding: output must be one of these
-        kw["max_tokens"] = 4
+    if guided:                       # vLLM guided decoding: final answer must be one of these
         kw["extra_body"] = {"guided_choice": list(guided)}
+        # no max_tokens override: a reasoning model still needs room to finish
+        # <think>; a non-reasoning model emits the letter and stops immediately.
     for attempt in range(max_retries):
         try:
             r = client.chat.completions.create(**kw)
@@ -303,7 +304,7 @@ def main():
 
     def work(job):
         model, row, mode, sname, stext = job
-        want_cot = mode == "cot"
+        want_cot = mode != "direct"          # cot + force both get the full token budget
         guided = ["A", "B"] if mode == "force" else None
         prompt = build_prompt(row, mode)
         try:
