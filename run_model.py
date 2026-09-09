@@ -129,9 +129,13 @@ def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024):
             ch = r.choices[0]
             msg = ch.message
             # reasoning models (Qwen3, R1-distill) served with a reasoning parser
-            # return the trace separately; Instruct models leave this None.
-            return (msg.content or ""), getattr(msg, "reasoning_content", None), \
-                ch.finish_reason
+            # return the trace separately; the openai client may stash this
+            # non-standard field on the attribute OR in model_extra.
+            reasoning = getattr(msg, "reasoning_content", None)
+            if reasoning is None:
+                extra = getattr(msg, "model_extra", None) or {}
+                reasoning = extra.get("reasoning_content")
+            return (msg.content or ""), reasoning, ch.finish_reason
         except Exception:  # noqa: BLE001
             if attempt == max_retries - 1:
                 raise
