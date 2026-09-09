@@ -207,6 +207,10 @@ def main():
                     help="fraction of stage2 rows where (A)=wrong number, "
                          "(B)=the CORRECT answer spelled in words (gold=B). "
                          "'pick the digits' is now a detectable error.")
+    ap.add_argument("--broken-frac", type=float, default=0.0,
+                    help="fraction where the question is truncated (unsolvable); "
+                         "(A)=a number, (B)=sentence. Any pick of (A) can ONLY be "
+                         "the format shortcut. With --all-variants, >0 adds it as a cell.")
     ap.add_argument("--all-variants", action="store_true",
                     help="emit ALL four MCQ variants per problem (within-problem "
                          "paired design); ignores --*-frac")
@@ -273,30 +277,36 @@ def main():
                 gold_words = num_to_words(gold)
             except (ValueError, KeyError, IndexError):
                 gold_words = None
+            # "broken": question truncated so the actual ask / key data is gone.
+            words_q = q.split()
+            q_broken = " ".join(words_q[: max(3, int(len(words_q) * 0.55))]) + " ..."
             all_v = {
-                "aligned": (gold, sent, "A"),
-                "swap":    (sent, gold, "B"),
-                "catch":   (wn(), sent, None),
+                "aligned": (q, gold, sent, "A"),
+                "swap":    (q, sent, gold, "B"),
+                "catch":   (q, wn(), sent, None),
+                "broken":  (q_broken, wn(), sent, None),
             }
             if gold_words:
-                all_v["decoy"] = (wn(), gold_words, "B")
+                all_v["decoy"] = (q, wn(), gold_words, "B")
 
             if args.all_variants:
-                chosen = list(all_v)
+                chosen = [v for v in all_v if v != "broken" or args.broken_frac > 0]
             else:
                 r = rng.random()
-                c, s, d = args.catch_frac, args.swap_frac, args.decoy_frac
-                chosen = ["catch" if r < c else "decoy" if r < c + d
-                          else "swap" if r < c + d + s else "aligned"]
+                c, s = args.catch_frac, args.swap_frac
+                d, bk = args.decoy_frac, args.broken_frac
+                chosen = ["broken" if r < bk else "catch" if r < bk + c
+                          else "decoy" if r < bk + c + d
+                          else "swap" if r < bk + c + d + s else "aligned"]
 
             for variant in chosen:
                 if variant not in all_v:        # decoy unavailable for this gold
                     variant = "catch"
-                opt_a, opt_b, gl = all_v[variant]
+                vq, opt_a, opt_b, gl = all_v[variant]
                 suffix = f"__stage2_{variant}" if args.all_variants else "__stage2"
                 f.write(json.dumps({
                     "id": f"{sid}{suffix}", "kind": "stage2_mcq", "dataset": name,
-                    "source_idx": src_i, "question": q,
+                    "source_idx": src_i, "question": vq,
                     "option_A": str(opt_a), "option_B": str(opt_b),
                     "gold_letter": gl, "gold_value": gold, "variant": variant,
                 }) + "\n")

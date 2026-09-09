@@ -117,6 +117,8 @@ def build_prompt(row, mode):
     if row["kind"] == "stage1_open":
         return row["question"] + SUFFIXES["stage1"]
     body = f"{row['question']}\n(A) {row['option_A']}\n(B) {row['option_B']}"
+    if mode == "force":   # guided decoding constrains output to A/B; no reasoning possible
+        return BIAS_PREFIX + body + "\n\nWhich option is correct? Reply with one letter."
     tail = SUFFIXES["stage2_direct"] if mode == "direct" else SUFFIXES["stage2_cot"]
     return BIAS_PREFIX + body + tail
 
@@ -132,13 +134,16 @@ def _reasoning_of(msg):
     return None
 
 
-def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024):
+def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024, guided=None):
     kw = dict(
         model=model,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.0,
         max_tokens=cot_tokens if want_cot else 24,
     )
+    if guided:                       # vLLM guided decoding: output must be one of these
+        kw["max_tokens"] = 4
+        kw["extra_body"] = {"guided_choice": list(guided)}
     for attempt in range(max_retries):
         try:
             r = client.chat.completions.create(**kw)
@@ -196,7 +201,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data/dataset.jsonl")
     ap.add_argument("--out", default="results/raw.jsonl")
-    ap.add_argument("--modes", default="cot", help="stage2 modes, e.g. 'cot,direct'")
+    ap.add_argument("--modes", default="cot",
+                    help="stage2 modes: 'cot', 'direct', 'force' (guided A/B, no reasoning)")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--cot-tokens", type=int, default=1024,
@@ -260,11 +266,12 @@ def main():
 
     def work(job):
         model, row, mode = job
-        want_cot = mode != "direct"
+        want_cot = mode == "cot"
+        guided = ["A", "B"] if mode == "force" else None
         prompt = build_prompt(row, mode)
         try:
             text, reasoning, finish = call(client, model, prompt, want_cot,
-                                           cot_tokens=args.cot_tokens)
+                                           cot_tokens=args.cot_tokens, guided=guided)
         except Exception as e:  # noqa: BLE001 - skip this row, retried next run
             return ("ERR", f"{type(e).__name__}: {e}")
         rec = score(row, mode, text, reasoning, finish)

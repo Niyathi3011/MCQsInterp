@@ -198,6 +198,14 @@ def analyze_one(df, model, args):
         print(f"(aligned acc {aligned.stage2_correct.mean():.3f} vs swap acc "
               f"{swap.stage2_correct.mean():.3f}: gap => 'pick option A' habit)")
 
+    broken = pairs[pairs.variant == "broken"]
+    if len(broken):
+        pa = (broken.pred_letter == "A").mean()
+        print(f"\n--- BROKEN  (n={len(broken)}, question truncated -> unsolvable) ---")
+        print(f">>> FORCED-SHORTCUT rate (pick the number): {pa:.3f}   "
+              f"<- nothing to derive; any (A) is pure format heuristic")
+        print(f"    picks: {dict(broken.pred_letter.value_counts())}")
+
     decoy = pairs[(pairs.variant == "decoy") & pairs.stage1_correct]
     if len(decoy):
         pickA = decoy.pred_letter == "A"   # picked the wrong DIGITS over the correct words
