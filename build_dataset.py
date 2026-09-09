@@ -118,6 +118,46 @@ def gold_of(name, row):
         return ""
 
 
+_ONES = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+         "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+         "sixteen", "seventeen", "eighteen", "nineteen"]
+_TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy",
+         "eighty", "ninety"]
+_SCALE = ["", " thousand", " million", " billion", " trillion"]
+
+
+def _under_1000(n):
+    if n < 20:
+        return _ONES[n]
+    if n < 100:
+        return _TENS[n // 10] + ("" if n % 10 == 0 else "-" + _ONES[n % 10])
+    return _ONES[n // 100] + " hundred" + (
+        "" if n % 100 == 0 else " " + _under_1000(n % 100))
+
+
+def num_to_words(s):
+    """'333' -> 'three hundred thirty-three', '-2' -> 'negative two',
+    '3.5' -> 'three point five'."""
+    s = str(s).strip()
+    neg = s.startswith("-")
+    s = s.lstrip("-")
+    if "." in s:
+        intp, frac = s.split(".", 1)
+        w = num_to_words(("-" if neg else "") + (intp or "0"))
+        return w + " point " + " ".join(_ONES[int(d)] for d in frac)
+    n = int(s or "0")
+    if n == 0:
+        return "zero"
+    parts, grp = [], 0
+    while n > 0:
+        n, r = divmod(n, 1000)
+        if r:
+            parts.append(_under_1000(r) + _SCALE[grp])
+        grp += 1
+    w = " ".join(reversed(parts))
+    return ("negative " + w) if neg else w
+
+
 def wrong_number(gold, rng, close=False):
     """A plausible wrong number, formatted like `gold`, for catch trials.
     close=True -> only near-misses (gold +/- 1..3), which are hard to reject
@@ -158,8 +198,15 @@ def main():
                     help="math500 only: keep problems with level >= this (1-5)")
     ap.add_argument("--swap-frac", type=float, default=0.25)
     ap.add_argument("--catch-frac", type=float, default=0.25)
+    ap.add_argument("--decoy-frac", type=float, default=0.0,
+                    help="fraction of stage2 rows where (A)=wrong number, "
+                         "(B)=the CORRECT answer spelled in words (gold=B). "
+                         "'pick the digits' is now a detectable error.")
     ap.add_argument("--close-distractor", action="store_true",
-                    help="catch wrong-numbers are near-misses (gold +/- 1..3) only")
+                    help="catch/decoy wrong-numbers are near-misses (gold +/- 1..3) only")
+    ap.add_argument("--bias-shots", type=int, default=0,
+                    help="write <out>.bias.txt: K solved examples where the numeric "
+                         "option is always the answer (few-shot format biasing)")
     ap.add_argument("--out", default="data/dataset.jsonl")
     args = ap.parse_args()
 
@@ -178,12 +225,27 @@ def main():
             continue
         items.append((i, str(row[spec["qk"]]).strip(), g))
     rng.shuffle(items)
+    held = items[args.n: args.n + args.bias_shots]  # disjoint from the eval set
     items = items[: args.n]
     print(f"{name}/{split}: {len(raw)} rows -> {len(items)} usable (numeric gold"
           + (f", level>={args.min_level}" if args.min_level else "") + ")")
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
+
+    if args.bias_shots and held:
+        lines = ["Here are some solved examples.\n"]
+        for j, (_, hq, hg) in enumerate(held, 1):
+            hs = rng.choice(SENTENCES)
+            num_in_a = rng.random() < 0.5
+            a, b = (hg, hs) if num_in_a else (hs, hg)
+            letter = "A" if num_in_a else "B"
+            lines.append(f"Example {j}:\n{hq}\n(A) {a}\n(B) {b}\n"
+                         f"Working through it, the result is {hg}. Answer: ({letter})\n")
+        lines.append("Now answer the next question the same way.\n")
+        bias_path = out.with_suffix(".bias.txt")
+        bias_path.write_text("\n".join(lines))
+        print(f"wrote {len(held)}-shot bias prefix -> {bias_path}")
     n1 = n2 = 0
     with out.open("w") as f:
         for src_i, q, gold in items:
@@ -197,10 +259,15 @@ def main():
             n1 += 1
 
             r = rng.random()
-            if r < args.catch_frac:
+            c, s, d = args.catch_frac, args.swap_frac, args.decoy_frac
+            if r < c:
                 variant, opt_a, opt_b, gl = (
                     "catch", wrong_number(gold, rng, args.close_distractor), sent, None)
-            elif r < args.catch_frac + args.swap_frac:
+            elif r < c + d:
+                variant, opt_a, opt_b, gl = (
+                    "decoy", wrong_number(gold, rng, args.close_distractor),
+                    num_to_words(gold), "B")
+            elif r < c + d + s:
                 variant, opt_a, opt_b, gl = ("swap", sent, gold, "B")
             else:
                 variant, opt_a, opt_b, gl = ("aligned", gold, sent, "A")

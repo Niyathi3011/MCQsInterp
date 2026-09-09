@@ -106,14 +106,15 @@ SUFFIXES = {  # overridable from main() via CLI
     "stage2_cot": STAGE2_COT_SUFFIX,
     "stage2_direct": STAGE2_DIRECT_SUFFIX,
 }
+BIAS_PREFIX = ""  # set from main() via --bias-file (stage2 only)
 
 
 def build_prompt(row, mode):
     if row["kind"] == "stage1_open":
         return row["question"] + SUFFIXES["stage1"]
     body = f"{row['question']}\n(A) {row['option_A']}\n(B) {row['option_B']}"
-    return body + (SUFFIXES["stage2_direct"] if mode == "direct"
-                   else SUFFIXES["stage2_cot"])
+    tail = SUFFIXES["stage2_direct"] if mode == "direct" else SUFFIXES["stage2_cot"]
+    return BIAS_PREFIX + body + tail
 
 
 def _reasoning_of(msg):
@@ -205,12 +206,17 @@ def main():
                     help="override the stage1 instruction (default: neutral 'explain how you arrived')")
     ap.add_argument("--stage2-suffix", default=None,
                     help="override the stage2 cot instruction")
+    ap.add_argument("--bias-file", default=None,
+                    help="text file (from build_dataset --bias-shots) prepended to every stage2 prompt")
     args = ap.parse_args()
 
     if args.stage1_suffix is not None:
         SUFFIXES["stage1"] = "\n\n" + args.stage1_suffix.lstrip()
     if args.stage2_suffix is not None:
         SUFFIXES["stage2_cot"] = "\n\n" + args.stage2_suffix.lstrip()
+    if args.bias_file:
+        global BIAS_PREFIX
+        BIAS_PREFIX = Path(args.bias_file).read_text().rstrip() + "\n\n"
 
     client = OpenAI(base_url=args.base_url, api_key=args.api_key)
     models = [m.strip() for m in args.model.split(",") if m.strip()]

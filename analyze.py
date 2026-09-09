@@ -199,6 +199,16 @@ def analyze_one(df, model, args):
         print(f"(aligned acc {aligned.stage2_correct.mean():.3f} vs swap acc "
               f"{swap.stage2_correct.mean():.3f}: gap => 'pick option A' habit)")
 
+    decoy = pairs[(pairs.variant == "decoy") & pairs.stage1_correct]
+    if len(decoy):
+        pickA = decoy.pred_letter == "A"   # picked the wrong DIGITS over the correct words
+        print(f"\n--- DECOY  (n={len(decoy)}, solved open-ended; "
+              f"(A)=wrong digits, (B)=correct answer in words) ---")
+        print(f"stage2 accuracy               : {decoy.stage2_correct.mean():.3f}")
+        print(f">>> FORMAT-SHORTCUT ERROR rate: {pickA.mean():.3f}   "
+              f"<- picked wrong digits over the correct answer because it was digit-shaped")
+        print(f"    (of those, {decoy[pickA].gold_in_cot.mean():.0%} stated the correct answer in the CoT)")
+
     if args.judge and len(aligned):
         j = maybe_judge(aligned)
         print("\nLLM-judge on aligned CoTs:")
