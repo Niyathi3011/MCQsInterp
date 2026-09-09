@@ -225,10 +225,12 @@ def main():
             continue
         items.append((i, str(row[spec["qk"]]).strip(), g))
     rng.shuffle(items)
-    held = items[args.n: args.n + args.bias_shots]  # disjoint from the eval set
-    items = items[: args.n]
-    print(f"{name}/{split}: {len(raw)} rows -> {len(items)} usable (numeric gold"
-          + (f", level>={args.min_level}" if args.min_level else "") + ")")
+    total = len(items)
+    held = items[: args.bias_shots]                       # reserved for the bias prefix
+    items = items[args.bias_shots: args.bias_shots + args.n]  # disjoint eval set
+    print(f"{name}/{split}: {len(raw)} rows -> {total} usable (numeric gold"
+          + (f", level>={args.min_level}" if args.min_level else "")
+          + f"); eval={len(items)}, bias-held={len(held)}")
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
