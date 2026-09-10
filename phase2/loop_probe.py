@@ -184,7 +184,7 @@ def run_e2a(model, recs, args):
 def think_dir(model):
     ids = model.to_tokens("</think>", prepend_bos=False)[0]
     tid = int(ids[-1])
-    return tid, model.W_U[:, tid].float()
+    return tid, model.W_U[:, tid].detach().float()
 
 
 def accum_proj(model, toks, pos, u):
@@ -195,7 +195,7 @@ def accum_proj(model, toks, pos, u):
                                      or nm.endswith("hook_resid_post")
                                      or nm == "ln_final.hook_scale"))
     acc = cache.accumulated_resid(layer=-1, incl_mid=False, pos_slice=pos, apply_ln=True)
-    out = (acc.float() @ u).cpu().numpy()             # (n_layers + 1,)
+    out = (acc.float() @ u).detach().cpu().numpy()    # (n_layers + 1,)
     del cache
     return out
 
@@ -244,7 +244,7 @@ def dla(model, toks, pos, u):
             names_filter=lambda nm: (nm.endswith("hook_z") or nm.endswith("hook_mlp_out")
                                      or nm == "ln_final.hook_scale"))
     z = cache.stack_head_results(layer=-1, pos_slice=pos, apply_ln=True)      # (L*H, d_model)
-    head = (z.float() @ u).reshape(model.cfg.n_layers, model.cfg.n_heads).cpu().numpy()
+    head = (z.float() @ u).reshape(model.cfg.n_layers, model.cfg.n_heads).detach().cpu().numpy()
     scale = cache["ln_final.hook_scale"][0, pos].float()
     mlp = np.array([float((cache["mlp_out", L][0, pos].float() / scale) @ u)
                     for L in range(model.cfg.n_layers)])
@@ -313,6 +313,7 @@ def main():
     print(f"{len(recs)} pairs; loading {args.model} on {args.device} ...")
     model = get_model(args.model, args.device, args.dtype)
     model.eval()
+    model.requires_grad_(False)          # no autograd anywhere in this script
 
     todo = ["e2a", "e2b", "e2c"] if args.experiment == "all" else [args.experiment]
     for ex in todo:
