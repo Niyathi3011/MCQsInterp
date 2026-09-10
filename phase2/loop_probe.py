@@ -104,6 +104,7 @@ def resid_at(model, toks, positions):
             [cache["resid_post", L][0, p] for L in range(model.cfg.n_layers)]
         ).float().cpu().numpy()                       # (n_layers, d_model)
     del cache
+    torch.cuda.empty_cache()
     return out
 
 
@@ -155,20 +156,27 @@ def run_e2a(model, recs, args):
             cells.append(f"  {m:5.3f}  ")
         print(f"L{L:2d}    " + "".join(cells))
 
-    if table.get((0, "opt_end")) or table.get((8, "opt_end")):
-        oe = max(v for (L, n), v in table.items() if n == "opt_end")
-        print(f"\n[confound check] opt_end peaks at {oe:.3f} -- expected > chance "
-              f"(catch/aligned option-A text differs in the prompt); EXCLUDED from d_noopt.")
+    # a real *computed* direction is near-chance in the raw embeddings.  Any position
+    # already separable at layers 0-2 is reading local token identity, not d_noopt
+    # (opt_end -> option-A text; pre_end -> "token before </think>" vs "before a
+    # backtrack phrase" == the label).  Auto-exclude those.
+    early = collections.defaultdict(list)
+    for (L, n), v in table.items():
+        if L <= 2:
+            early[n].append(v)
+    surface = {n for n, vs in early.items() if np.mean(vs) >= 0.70}
+    print(f"\n[surface-confounded positions] (bal-acc >= 0.70 at layers 0-2, "
+          f"EXCLUDED from d_noopt): {sorted(surface) or 'none'}")
 
-    cand = {k: v for k, v in table.items() if k[1] not in ("opt_end", "mid")}
+    cand = {k: v for k, v in table.items() if k[1] not in surface and k[1] != "mid"}
     if not cand:
-        print("no usable position produced a probe result."); return
+        print("no non-confounded position produced a probe result."); return
     (bl, bn), bm = max(cand.items(), key=lambda kv: kv[1])
-    print(f"\nbest (concl / pre_end only): layer {bl}, position '{bn}'  bal-acc {bm:.3f}")
-    if bm < 0.70:
-        print("  -> below 0.70: 'no correct option' is NOT cleanly linear at these positions\n"
-              "     with this probe. NOT saving d_noopt. Try: full 83 pairs, span-pooled\n"
-              "     residuals, a non-linear probe, or skip to whole-activation patching (RQ3).")
+    print(f"best non-confounded: layer {bl}, position '{bn}'  bal-acc {bm:.3f}")
+    if bm < 0.75:
+        print("  -> below 0.75: 'no correct option' is NOT a clean linear direction at\n"
+              "     these positions. NOT saving d_noopt. Try the full 83 pairs, span-pooled\n"
+              "     residuals, a non-linear probe, or whole-activation patching (RQ3).")
         return
     items = feats[(bl, bn)]
     X = np.stack([v for v, _, _ in items]); yv = np.array([y for _, y, _ in items])
@@ -197,6 +205,7 @@ def accum_proj(model, toks, pos, u):
     acc = cache.accumulated_resid(layer=-1, incl_mid=False, pos_slice=pos, apply_ln=True)
     out = (acc.float() @ u).detach().cpu().numpy()    # (n_layers + 1,)
     del cache
+    torch.cuda.empty_cache()
     return out
 
 
@@ -231,24 +240,32 @@ def run_e2b(model, recs, args):
     try:
         w = wilcoxon(A[:, -1], C1[:, -1])
         print(f"\nfinal-layer </think> projection  aligned vs catch@ka:  "
-              f"W={w.statistic:.1f}  p={w.pvalue:.2e}  (n={len(A)})")
+              f"W={float(w.statistic):.1f}  p={float(w.pvalue):.2e}  (n={len(A)})")
     except Exception as e:  # noqa: BLE001
         print(f"(wilcoxon skipped: {e})")
 
 
 # ----------------------------------------------------------------------------- E2c
 def dla(model, toks, pos, u):
+    """per-head / per-MLP contribution to the </think> logit at ONE position.
+    Computed manually at a single position -- avoids stack_head_results, which
+    materialises (n_layers, seq, n_heads, d_model) in fp32 (~22 GiB)."""
     with torch.no_grad():
         _, cache = model.run_with_cache(
             toks.unsqueeze(0),
             names_filter=lambda nm: (nm.endswith("hook_z") or nm.endswith("hook_mlp_out")
                                      or nm == "ln_final.hook_scale"))
-    z = cache.stack_head_results(layer=-1, pos_slice=pos, apply_ln=True)      # (L*H, d_model)
-    head = (z.float() @ u).reshape(model.cfg.n_layers, model.cfg.n_heads).detach().cpu().numpy()
-    scale = cache["ln_final.hook_scale"][0, pos].float()
+    nL, nH = model.cfg.n_layers, model.cfg.n_heads
+    scale = cache["ln_final.hook_scale"][0, pos].float()          # (1,)
+    head = np.zeros((nL, nH), dtype=np.float32)
+    for L in range(nL):
+        z = cache["z", L][0, pos].float()                         # (n_heads, d_head)
+        contrib = torch.einsum("hd,hdm->hm", z, model.W_O[L].float())   # (n_heads, d_model)
+        head[L] = ((contrib / scale) @ u).detach().cpu().numpy()
     mlp = np.array([float((cache["mlp_out", L][0, pos].float() / scale) @ u)
-                    for L in range(model.cfg.n_layers)])
+                    for L in range(nL)], dtype=np.float32)
     del cache
+    torch.cuda.empty_cache()
     return head, mlp
 
 
@@ -319,6 +336,7 @@ def main():
     for ex in todo:
         print("\n" + "=" * 74 + f"\n{ex.upper()}\n" + "=" * 74)
         {"e2a": run_e2a, "e2b": run_e2b, "e2c": run_e2c}[ex](model, recs, args)
+        torch.cuda.empty_cache()
 
 
 if __name__ == "__main__":
