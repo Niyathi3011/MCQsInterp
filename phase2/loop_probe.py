@@ -69,14 +69,28 @@ def catch_cap(model, full, reason_char_start, loop_onset_off, window):
 
 
 # ----------------------------------------------------------------------------- E2a
-def positions_e2a(model, full, ucl, rcs, ans_off, n_tok):
+def positions_e2a(model, full, ucl, rcs, piece, close_char, n_tok):
+    """Read-out positions (token indices into `full`):
+      opt_end  - end of prompt (CONFOUND: catch/aligned option-A text differs here)
+      mid      - reason start + 300 tokens (fixed-offset control, expect ~chance)
+      concl    - last mention of the gold value inside the solving span
+      pre_end  - the token right before the model loops (catch) / stops (aligned)
+    """
     t_r0 = c2t(model, full, rcs)
-    pos = {"opt_end": c2t(model, full, ucl) - 1,
-           "r0+100": t_r0 + 100, "r0+300": t_r0 + 300}
-    if ans_off is not None:
-        t_ans = c2t(model, full, rcs + ans_off)
-        pos["ans"] = t_ans
-        pos["ans+8"] = t_ans + 8
+    pos = {"opt_end": c2t(model, full, ucl) - 1, "mid": t_r0 + 300}
+    reasoning = piece["reasoning"]
+    if piece["truncated"] and piece.get("loop_onset_off") is not None:
+        span_end = rcs + piece["loop_onset_off"]
+    elif close_char is not None:
+        span_end = close_char
+    else:
+        span_end = rcs + int(len(reasoning) * 0.8)
+    pos["pre_end"] = c2t(model, full, span_end) - 1
+    gv = str(piece.get("gold_value") or "")
+    if gv:
+        j = full[rcs:span_end].rfind(gv)
+        if j >= 0:
+            pos["concl"] = c2t(model, full, rcs + j)
     return {k: v for k, v in pos.items() if 0 <= v < n_tok}
 
 
@@ -102,13 +116,13 @@ def run_e2a(model, recs, args):
     for i, rec in enumerate(recs):
         for var, y in (("aligned", 0), ("swap", 0), ("catch", 1)):
             p = rec[var]
-            full, ucl, rcs, _ = build_full(model, p)
+            full, ucl, rcs, close = build_full(model, p)
             toks = toks_of(model, full)
             if p["truncated"]:
                 cap = catch_cap(model, full, rcs, p["loop_onset_off"], rec["catch_window"])
                 if cap:
                     toks = toks[:cap]
-            pos = positions_e2a(model, full, ucl, rcs, p["ans_off"], len(toks))
+            pos = positions_e2a(model, full, ucl, rcs, p, close, len(toks))
             if not pos:
                 continue
             for name, arr in resid_at(model, toks, pos).items():
@@ -141,19 +155,29 @@ def run_e2a(model, recs, args):
             cells.append(f"  {m:5.3f}  ")
         print(f"L{L:2d}    " + "".join(cells))
 
-    if table:
-        (bl, bn), bm = max(table.items(), key=lambda kv: kv[1])
-        print(f"\nbest: layer {bl}, position '{bn}'  bal-acc {bm:.3f}")
-        items = feats[(bl, bn)]
-        X = np.stack([v for v, _, _ in items])
-        yv = np.array([y for _, y, _ in items])
-        clf = LogisticRegression(class_weight="balanced", C=args.C, max_iter=2000).fit(X, yv)
-        d = clf.coef_[0].astype(np.float32)
-        d /= np.linalg.norm(d)
-        np.save(args.dir + "/d_noopt.npy", d)
-        json.dump({"layer": bl, "position": bn, "bal_acc": bm, "C": args.C},
-                  open(args.dir + "/d_noopt.meta.json", "w"), indent=2)
-        print(f"saved d_noopt (layer {bl}) -> {args.dir}/d_noopt.npy")
+    if table.get((0, "opt_end")) or table.get((8, "opt_end")):
+        oe = max(v for (L, n), v in table.items() if n == "opt_end")
+        print(f"\n[confound check] opt_end peaks at {oe:.3f} -- expected > chance "
+              f"(catch/aligned option-A text differs in the prompt); EXCLUDED from d_noopt.")
+
+    cand = {k: v for k, v in table.items() if k[1] not in ("opt_end", "mid")}
+    if not cand:
+        print("no usable position produced a probe result."); return
+    (bl, bn), bm = max(cand.items(), key=lambda kv: kv[1])
+    print(f"\nbest (concl / pre_end only): layer {bl}, position '{bn}'  bal-acc {bm:.3f}")
+    if bm < 0.70:
+        print("  -> below 0.70: 'no correct option' is NOT cleanly linear at these positions\n"
+              "     with this probe. NOT saving d_noopt. Try: full 83 pairs, span-pooled\n"
+              "     residuals, a non-linear probe, or skip to whole-activation patching (RQ3).")
+        return
+    items = feats[(bl, bn)]
+    X = np.stack([v for v, _, _ in items]); yv = np.array([y for _, y, _ in items])
+    clf = LogisticRegression(class_weight="balanced", C=args.C, max_iter=2000).fit(X, yv)
+    d = clf.coef_[0].astype(np.float32); d /= np.linalg.norm(d)
+    np.save(args.dir + "/d_noopt.npy", d)
+    json.dump({"layer": bl, "position": bn, "bal_acc": bm, "C": args.C},
+              open(args.dir + "/d_noopt.meta.json", "w"), indent=2)
+    print(f"saved d_noopt (layer {bl}, {bn}) -> {args.dir}/d_noopt.npy")
 
 
 # ----------------------------------------------------------------------------- E2b
@@ -167,7 +191,9 @@ def accum_proj(model, toks, pos, u):
     with torch.no_grad():
         _, cache = model.run_with_cache(
             toks.unsqueeze(0),
-            names_filter=lambda nm: "resid_post" in nm or nm == "ln_final.hook_scale")
+            names_filter=lambda nm: (nm.endswith("hook_resid_pre")
+                                     or nm.endswith("hook_resid_post")
+                                     or nm == "ln_final.hook_scale"))
     acc = cache.accumulated_resid(layer=-1, incl_mid=False, pos_slice=pos, apply_ln=True)
     out = (acc.float() @ u).cpu().numpy()             # (n_layers + 1,)
     del cache
