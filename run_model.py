@@ -179,14 +179,19 @@ def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024,
             r = client.chat.completions.create(**kw)
             ch = r.choices[0]
             msg = ch.message
-            content, reasoning = (msg.content or ""), _reasoning_of(msg)
+            full = msg.content or ""
+            reasoning = _reasoning_of(msg)
             if reasoning is None:            # server has no --reasoning-parser:
-                body = content.split("<think>", 1)[-1]   # raw <think>..</think> inline
+                body = full.split("<think>", 1)[-1]      # raw <think>..</think> inline
                 if "</think>" in body:
                     reasoning, _, content = body.partition("</think>")
                 else:                        # never closed <think> (looping / token cap)
                     reasoning, content = body, ""
-            return content, reasoning, ch.finish_reason
+                raw = full                   # msg.content IS the whole generation
+            else:                            # parser split it; stitch back for the record
+                content = full
+                raw = f"{reasoning}</think>{content}"
+            return content, reasoning, ch.finish_reason, raw
         except Exception:  # noqa: BLE001
             if attempt == max_retries - 1:
                 raise
@@ -322,15 +327,16 @@ def main():
         guided = ["A", "B"] if mode == "force" else None
         prompt = build_prompt(row, mode)
         try:
-            text, reasoning, finish = call(client, model, prompt, want_cot,
-                                           cot_tokens=args.cot_tokens, guided=guided,
-                                           system=stext, temperature=args.temperature,
-                                           top_p=args.top_p)
+            text, reasoning, finish, raw = call(client, model, prompt, want_cot,
+                                               cot_tokens=args.cot_tokens, guided=guided,
+                                               system=stext, temperature=args.temperature,
+                                               top_p=args.top_p)
         except Exception as e:  # noqa: BLE001 - skip this row, retried next run
             return ("ERR", f"{type(e).__name__}: {e}")
         rec = score(row, mode, text, reasoning, finish)
         rec["model"] = model
         rec["prompt"] = prompt
+        rec["output_raw"] = raw          # exact model output, verbatim (before any split)
         rec["system"] = stext or None
         rec["system_name"] = sname
         return rec
