@@ -42,10 +42,11 @@ def user_prefix(model, piece):
         [{"role": "user", "content": content}], tokenize=False, add_generation_prompt=True)
     user_char_len = len(s)                            # end of the prompt proper
     if RAW_THINK:
-        # end exactly at "<think>"; the reasoning string carries the newline the
-        # model actually generated right after it.
-        if not s.endswith("<think>"):
-            s = s.rstrip() if s.rstrip().endswith("<think>") else s + "<think>"
+        # keep the chat template's generation prompt verbatim (it ends "<think>\n"
+        # for R1-distill); `reasoning` is exactly msg.content, i.e. what the model
+        # produced after it.  Only synthesise "<think>" if the template omits it.
+        if not s.rstrip().endswith("<think>"):
+            s = s + "<think>"
         return s, user_char_len
     if s.rstrip().endswith("<think>"):
         s = s if s.endswith("\n") else s + "\n"
