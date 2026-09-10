@@ -9,6 +9,9 @@ results/
 *.jsonl
 *.csv
 *.png
+*.log
+*.json
+*.npy
 
 # HF cache if ever placed here
 hf/
