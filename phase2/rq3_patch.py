@@ -31,6 +31,7 @@ import re
 import numpy as np
 import torch
 
+import loop_probe
 from loop_probe import build_full, c2t, get_model, think_dir, toks_of
 
 
@@ -306,7 +307,10 @@ def main():
     ap.add_argument("--control-layers", default="15",
                     help="comma list of late MLP layers NOT in the E2c set (control)")
     ap.add_argument("--gen-tokens", type=int, default=200, help="E3b: max tokens to decode")
+    ap.add_argument("--raw-think", action="store_true",
+                    help="loop_pairs came from a run that kept literal <think> tags")
     args = ap.parse_args()
+    loop_probe.RAW_THINK = args.raw_think
 
     recs = [json.loads(l) for l in open(args.pairs)]
     if args.n:

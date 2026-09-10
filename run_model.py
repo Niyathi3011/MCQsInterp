@@ -178,7 +178,14 @@ def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024,
             r = client.chat.completions.create(**kw)
             ch = r.choices[0]
             msg = ch.message
-            return (msg.content or ""), _reasoning_of(msg), ch.finish_reason
+            content, reasoning = (msg.content or ""), _reasoning_of(msg)
+            if reasoning is None:            # server has no --reasoning-parser:
+                body = content.split("<think>", 1)[-1]   # raw <think>..</think> inline
+                if "</think>" in body:
+                    reasoning, _, content = body.partition("</think>")
+                else:                        # never closed <think> (looping / token cap)
+                    reasoning, content = body, ""
+            return content, reasoning, ch.finish_reason
         except Exception:  # noqa: BLE001
             if attempt == max_retries - 1:
                 raise

@@ -18,6 +18,12 @@ import json
 import numpy as np
 import torch
 
+# Set True (via --raw-think) when loop_pairs.jsonl was built from a run that kept
+# the literal <think>...</think> tags (run_model.py against a server with NO
+# --reasoning-parser).  Then `reasoning` / `completion` already carry the exact
+# whitespace around </think>, so build_full must NOT synthesise "\n</think>\n\n".
+RAW_THINK = False
+
 
 # ----------------------------------------------------------------------------- model
 def get_model(name, device, dtype):
@@ -35,6 +41,12 @@ def user_prefix(model, piece):
     s = model.tokenizer.apply_chat_template(
         [{"role": "user", "content": content}], tokenize=False, add_generation_prompt=True)
     user_char_len = len(s)                            # end of the prompt proper
+    if RAW_THINK:
+        # end exactly at "<think>"; the reasoning string carries the newline the
+        # model actually generated right after it.
+        if not s.endswith("<think>"):
+            s = s.rstrip() if s.rstrip().endswith("<think>") else s + "<think>"
+        return s, user_char_len
     if s.rstrip().endswith("<think>"):
         s = s if s.endswith("\n") else s + "\n"
     else:
@@ -48,8 +60,9 @@ def build_full(model, piece):
     reason_char_start = len(pre)
     if piece["truncated"]:
         return pre + piece["reasoning"], user_char_len, reason_char_start, None
-    full = pre + piece["reasoning"] + "\n</think>\n\n" + piece["completion"]
-    close_char = reason_char_start + len(piece["reasoning"]) + 1     # start of "</think>"
+    sep = "</think>" if RAW_THINK else "\n</think>\n\n"
+    full = pre + piece["reasoning"] + sep + piece["completion"]
+    close_char = reason_char_start + len(piece["reasoning"]) + (0 if RAW_THINK else 1)
     return full, user_char_len, reason_char_start, close_char
 
 
@@ -322,7 +335,13 @@ def main():
     ap.add_argument("--n", type=int, default=0, help="limit pairs (0 = all)")
     ap.add_argument("--C", type=float, default=0.03, help="probe L2 (smaller = stronger)")
     ap.add_argument("--dir", default="phase2")
+    ap.add_argument("--raw-think", action="store_true",
+                    help="loop_pairs came from a run that kept literal <think> tags "
+                         "(no --reasoning-parser); use the real </think> boundary")
     args = ap.parse_args()
+
+    global RAW_THINK
+    RAW_THINK = args.raw_think
 
     recs = [json.loads(l) for l in open(args.pairs)]
     if args.n:
