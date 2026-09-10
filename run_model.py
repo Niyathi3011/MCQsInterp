@@ -160,13 +160,14 @@ def _reasoning_of(msg):
 
 
 def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024,
-         guided=None, system=""):
+         guided=None, system="", temperature=0.0, top_p=1.0):
     msgs = ([{"role": "system", "content": system}] if system else []) \
         + [{"role": "user", "content": prompt}]
     kw = dict(
         model=model,
         messages=msgs,
-        temperature=0.0,
+        temperature=temperature,
+        top_p=top_p,
         max_tokens=cot_tokens if want_cot else 24,
     )
     if guided:                       # vLLM guided decoding: final answer must be one of these
@@ -241,6 +242,9 @@ def main():
                     help="stage2 modes: 'cot', 'direct', 'force' (guided A/B, no reasoning)")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--temperature", type=float, default=0.0,
+                    help="sampling temperature (0 = greedy; R1-distill spec suggests ~0.6)")
+    ap.add_argument("--top-p", type=float, default=1.0, help="nucleus sampling top-p")
     ap.add_argument("--cot-tokens", type=int, default=1024,
                     help="max output tokens for CoT (raise for MATH-hard)")
     ap.add_argument("--model",
@@ -320,7 +324,8 @@ def main():
         try:
             text, reasoning, finish = call(client, model, prompt, want_cot,
                                            cot_tokens=args.cot_tokens, guided=guided,
-                                           system=stext)
+                                           system=stext, temperature=args.temperature,
+                                           top_p=args.top_p)
         except Exception as e:  # noqa: BLE001 - skip this row, retried next run
             return ("ERR", f"{type(e).__name__}: {e}")
         rec = score(row, mode, text, reasoning, finish)
