@@ -17,6 +17,18 @@ RQ3 forces / removes that write and sees if the outcome moves:
        measure whether </think> is emitted / the text loops
   CONTROL: same patch on a late MLP NOT in the E2c set (--control-layers).
 
+  E3b credibility checks (all optional flags on the same command):
+    --save-transcripts FILE   dump every generated continuation, to confirm
+                               RESCUE produces a coherent conclusion, not garbage
+    --surgical                edit ONLY the </think>-direction component of the
+                               patched MLPs' output (proj_set/proj_zero), not the
+                               whole vector -- is it that specific write, or any
+                               edit to these layers?
+    --donor-mode catch        RESCUE donor = catch's own (already-quiet) value --
+                               sanity check that the donor's CONTENT matters
+    --donor-mode random       RESCUE donor = a magnitude-matched random direction
+                               -- isolates direction from perturbation size
+
   python phase2/rq3_patch.py --pairs phase2/loop_pairs.jsonl \
       --model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B --n 12
   python phase2/rq3_patch.py ... --components 27,26,25,24,22,20
@@ -94,7 +106,11 @@ def patch_pos(pos, mode, donor=None, uhat=None):
 
 
 def clamp_last(mode, donor=None, uhat=None):
-    """fwd hook for generation: same edit but always at the final position."""
+    """fwd hook for generation: same edit but always at the final position.
+    proj_set / proj_zero touch ONLY the </think>-direction component of the
+    output, leaving the rest of the vector untouched -- the surgical variants
+    used by --surgical to test whether the *specific* stop-direction write
+    (not a side effect of overwriting the whole MLP output) drives the flip."""
     def hook(act, hook):
         L = layer_of(hook.name)
         v = act[0, -1].float()
@@ -102,6 +118,9 @@ def clamp_last(mode, donor=None, uhat=None):
             new = donor[L]
         elif mode == "zero":
             new = torch.zeros_like(v)
+        elif mode == "proj_set":
+            d = donor[L]
+            new = v + ((d @ uhat) - (v @ uhat)) * uhat
         elif mode == "proj_zero":
             new = v - (v @ uhat) * uhat
         else:
@@ -207,18 +226,40 @@ def run_e3a(model, recs, args):
 
 
 # --------------------------------------------------------------------- E3b
-def donor_mean(model, recs, layers):
+def donor_mean(model, recs, layers, which="aligned"):
+    """Mean mlp_out@ka over problems.  which="aligned" (default) -> the normal
+    rescue donor (terminated-trace value).  which="catch" -> catch's OWN value
+    at the same index -- clamping catch to this should be a near no-op, the
+    sanity control for --donor-mode catch/random (does the donor's CONTENT
+    matter, or does any clamp do something)."""
     tot, k = {L: None for L in layers}, 0
     for rec in recs:
         got = ka_of(model, rec)
         if got is None:
             continue
-        A, _, ka = got
-        d = cache_mlp_at(model, A, ka, layers)
+        A, C, ka = got
+        src = A if which == "aligned" else C
+        d = cache_mlp_at(model, src, ka, layers)
         for L in layers:
             tot[L] = d[L] if tot[L] is None else tot[L] + d[L]
         k += 1
     return {L: tot[L] / k for L in layers}, k
+
+
+def random_donor(dm_aligned, dm_catch, layers, seed=0):
+    """catch-mean + a RANDOM-direction vector matched in magnitude to the real
+    (aligned - catch) delta per layer.  Isolates direction: same-size nudge,
+    wrong direction.  If this ALSO flips the outcome, the effect is "any
+    sufficiently large perturbation", not this specific signal."""
+    g = torch.Generator().manual_seed(seed)
+    out = {}
+    for L in layers:
+        delta = dm_aligned[L] - dm_catch[L]
+        norm = delta.norm()
+        direction = torch.randn(delta.shape, generator=g).to(delta)
+        direction = direction / direction.norm()
+        out[L] = dm_catch[L] + norm * direction
+    return out
 
 
 def max_run(text):
@@ -253,7 +294,7 @@ def generate(model, prefix, tid, max_new, fwd_hooks=()):
                 torch.cuda.empty_cache()
     torch.cuda.empty_cache()
     txt = model.tokenizer.decode(out[len(prefix):])
-    return stop, max_run(txt)
+    return stop, max_run(txt), txt
 
 
 def summarise(tag, rows):
@@ -270,41 +311,76 @@ def summarise(tag, rows):
 
 
 def run_e3b(model, recs, args):
-    tid, _ = think_dir(model)
+    tid, u = think_dir(model)
+    uhat = (u / u.norm()).float()
     comp, ctrl = parse_layers(args.components), parse_layers(args.control_layers)
+    allL = sorted(set(comp) | set(ctrl))
+    rescue_mode, lesion_mode = ("proj_set", "proj_zero") if args.surgical else ("replace", "zero")
+
     print(f"E3b  clamped generation from ka   (gen_tokens={args.gen_tokens})")
     print(f"     rescue/lesion components = MLP {comp}"
-          f"{'   control = MLP ' + str(ctrl) if ctrl else ''}\n")
+          f"{'   control = MLP ' + str(ctrl) if ctrl else ''}")
+    print(f"     donor-mode={args.donor_mode}   surgical={args.surgical}"
+          f"  (rescue={rescue_mode}, lesion={lesion_mode})\n")
 
-    dm, k = donor_mean(model, recs, sorted(set(comp) | set(ctrl)))
-    print(f"  donor = mean aligned mlp_out@ka over {k} problems\n")
+    # CONTROL always uses the standard aligned donor, regardless of --donor-mode,
+    # so it stays a stable baseline across donor-mode experiments.
+    dm_al, k = donor_mean(model, recs, allL, which="aligned")
+    print(f"  aligned donor = mean aligned mlp_out@ka over {k} problems")
+    dm = dm_al
+    if args.donor_mode != "aligned":
+        dm_ca, _ = donor_mean(model, recs, allL, which="catch")
+        if args.donor_mode == "catch":
+            dm = dm_ca
+            print("  RESCUE donor = catch's OWN mean mlp_out@ka (sanity control: "
+                  "clamping to the already-quiet value should be close to a no-op)")
+        elif args.donor_mode == "random":
+            dm = random_donor(dm_al, dm_ca, allL, seed=args.seed)
+            print("  RESCUE donor = catch-mean + a RANDOM-direction vector, magnitude-matched "
+                  "to the real (aligned-catch) delta (isolates direction from magnitude)")
+    print()
 
-    base_c, resc, ctlc, base_a, lesa = [], [], [], [], []
+    rows = {"base_c": [], "resc": [], "ctlc": [], "base_a": [], "lesa": []}
+    transcripts = []
     for i, rec in enumerate(recs):
         got = ka_of(model, rec)
         if got is None:
             continue
         A, C, ka = got
-        base_c.append(generate(model, C, tid, args.gen_tokens))
-        resc.append(generate(model, C, tid, args.gen_tokens,
-            [(n, clamp_last("replace", dm)) for n in hook_names(comp)]))
+        conds = [
+            ("base_c", "catch_unpatched", C, ()),
+            ("resc", "catch_rescue", C, [(n, clamp_last(rescue_mode, dm, uhat)) for n in hook_names(comp)]),
+        ]
         if ctrl:
-            ctlc.append(generate(model, C, tid, args.gen_tokens,
-                [(n, clamp_last("replace", dm)) for n in hook_names(ctrl)]))
-        base_a.append(generate(model, A, tid, args.gen_tokens))
-        lesa.append(generate(model, A, tid, args.gen_tokens,
-            [(n, clamp_last("zero")) for n in hook_names(comp)]))
+            conds.append(("ctlc", "catch_control", C,
+                          [(n, clamp_last("replace", dm_al)) for n in hook_names(ctrl)]))
+        conds += [
+            ("base_a", "aligned_unpatched", A, ()),
+            ("lesa", "aligned_lesion", A, [(n, clamp_last(lesion_mode, uhat=uhat)) for n in hook_names(comp)]),
+        ]
+        for key, name, prefix, hooks in conds:
+            stop, reps, txt = generate(model, prefix, tid, args.gen_tokens, hooks)
+            rows[key].append((stop, reps, txt))
+            if args.save_transcripts:
+                transcripts.append(dict(source_idx=rec["source_idx"], condition=name,
+                                        stop=stop, max_repeat=reps, text=txt))
         torch.cuda.empty_cache()          # 5 growing-sequence generations/problem
         print(f"  e3b {i + 1}/{len(recs)}   (no KV cache -- each problem is 5 "
               f"full generations, can take minutes)")
 
+    if args.save_transcripts:
+        with open(args.save_transcripts, "w") as f:
+            for t in transcripts:
+                f.write(json.dumps(t) + "\n")
+        print(f"\n  wrote {len(transcripts)} transcripts -> {args.save_transcripts}")
+
     print()
-    summarise("catch  unpatched", base_c)
-    summarise(f"catch  RESCUE clamp MLP {comp}", resc)
-    if ctlc:
-        summarise(f"catch  CONTROL clamp MLP {ctrl}", ctlc)
-    summarise("aligned unpatched", base_a)
-    summarise(f"aligned LESION zero MLP {comp}", lesa)
+    summarise("catch  unpatched", rows["base_c"])
+    summarise(f"catch  RESCUE clamp MLP {comp}", rows["resc"])
+    if rows["ctlc"]:
+        summarise(f"catch  CONTROL clamp MLP {ctrl}", rows["ctlc"])
+    summarise("aligned unpatched", rows["base_a"])
+    summarise(f"aligned LESION zero MLP {comp}", rows["lesa"])
 
 
 # --------------------------------------------------------------------- main
@@ -323,6 +399,18 @@ def main():
     ap.add_argument("--gen-tokens", type=int, default=200, help="E3b: max tokens to decode")
     ap.add_argument("--raw-think", action="store_true",
                     help="loop_pairs came from a run that kept literal <think> tags")
+    ap.add_argument("--surgical", action="store_true",
+                    help="E3b: rescue/lesion edit ONLY the </think>-direction component of the "
+                         "patched MLPs' output, not the whole vector (proj_set / proj_zero)")
+    ap.add_argument("--donor-mode", default="aligned", choices=["aligned", "catch", "random"],
+                    help="E3b RESCUE donor: aligned (default, the real fix) | catch (sanity "
+                         "control -- clamp to catch's own value, should be ~a no-op) | random "
+                         "(magnitude-matched random direction -- isolates direction from size). "
+                         "CONTROL always uses the aligned donor regardless of this flag.")
+    ap.add_argument("--seed", type=int, default=0, help="--donor-mode random: RNG seed")
+    ap.add_argument("--save-transcripts", default=None,
+                    help="E3b: write every generated continuation to this JSONL path, for "
+                         "reading whether RESCUE produces coherent text or just breaks generation")
     args = ap.parse_args()
     loop_probe.RAW_THINK = args.raw_think
 
