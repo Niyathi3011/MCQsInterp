@@ -307,12 +307,15 @@ def generate(model, prefix, tid, max_new, fwd_hooks=(), post_think_tokens=0):
     # stop token.  If the budget ran out with no </think>, there's nothing to
     # continue past.
     if stop is not None and post_think_tokens:
+        eos_id = model.tokenizer.eos_token_id
         for j in range(post_think_tokens):
             with torch.no_grad():
                 logits = model(out.unsqueeze(0))
             nxt = int(logits[0, -1].argmax())
             out = torch.cat([out, out.new_tensor([nxt])])
             del logits
+            if eos_id is not None and nxt == eos_id:
+                break              # real end of turn -- do NOT run past it into a new one
             if (j + 1) % 10 == 0:
                 torch.cuda.empty_cache()
     torch.cuda.empty_cache()
