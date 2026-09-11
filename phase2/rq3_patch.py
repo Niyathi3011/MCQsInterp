@@ -276,8 +276,9 @@ def max_run(text):
     return best
 
 
-def generate(model, prefix, tid, max_new, fwd_hooks=(), post_think_tokens=0):
-    """Greedy decode, no KV cache -- full forward pass each step on a growing
+def generate(model, prefix, tid, max_new, fwd_hooks=(), post_think_tokens=0,
+             temperature=0.0, rng=None):
+    """Decode, no KV cache -- full forward pass each step on a growing
     sequence.  Every step is a different (batch, seq_len, vocab=~152k) logits
     tensor, so the CUDA allocator can't reuse the previous step's block; left
     unchecked this fragments badly over many steps x conditions x problems.
@@ -287,14 +288,27 @@ def generate(model, prefix, tid, max_new, fwd_hooks=(), post_think_tokens=0):
     (`stop` marks that offset). Emitting </think> is not the same as producing
     an answer -- with post_think_tokens > 0, once </think> fires the fwd_hooks
     are dropped and generation continues *unclamped* for a few more tokens, so
-    you can read whether a real answer follows, not just that the stop token did."""
+    you can read whether a real answer follows, not just that the stop token did.
+
+    temperature=0 (default): greedy argmax, deterministic -- same result every
+    run, as used throughout this experiment so far. temperature>0: sample
+    instead of taking the argmax at every step (both the clamped phase and the
+    post-think tail) -- results become stochastic, so pass `rng` (a
+    torch.Generator seeded once by the caller) to make a given run
+    reproducible; it does NOT make one run representative of the distribution."""
+    def pick(row):
+        if temperature and temperature > 0:
+            probs = torch.softmax(row.float() / temperature, dim=-1)
+            return int(torch.multinomial(probs, 1, generator=rng))
+        return int(row.argmax())
+
     out = prefix.clone()
     stop = None
     with model.hooks(fwd_hooks=list(fwd_hooks)):
         for i in range(max_new):
             with torch.no_grad():
                 logits = model(out.unsqueeze(0))
-            nxt = int(logits[0, -1].argmax())
+            nxt = pick(logits[0, -1])
             out = torch.cat([out, out.new_tensor([nxt])])
             del logits
             if nxt == tid:
@@ -311,7 +325,7 @@ def generate(model, prefix, tid, max_new, fwd_hooks=(), post_think_tokens=0):
         for j in range(post_think_tokens):
             with torch.no_grad():
                 logits = model(out.unsqueeze(0))
-            nxt = int(logits[0, -1].argmax())
+            nxt = pick(logits[0, -1])
             out = torch.cat([out, out.new_tensor([nxt])])
             del logits
             if eos_id is not None and nxt == eos_id:
@@ -348,7 +362,14 @@ def run_e3b(model, recs, args):
     print(f"     rescue/lesion components = MLP {comp}"
           f"{'   control = MLP ' + str(ctrl) if ctrl else ''}")
     print(f"     donor-mode={args.donor_mode}   surgical={args.surgical}"
-          f"  (rescue={rescue_mode}, lesion={lesion_mode})\n")
+          f"  (rescue={rescue_mode}, lesion={lesion_mode})")
+    rng = None
+    if args.gen_temperature > 0:
+        rng = torch.Generator(device=args.device).manual_seed(args.seed)
+        print(f"     gen_temperature={args.gen_temperature}  seed={args.seed}  "
+              f"(STOCHASTIC -- this run is one sample, not a rate; reproducible "
+              f"only because of the fixed seed)")
+    print()
 
     # CONTROL always uses the standard aligned donor, regardless of --donor-mode,
     # so it stays a stable baseline across donor-mode experiments.
@@ -387,7 +408,8 @@ def run_e3b(model, recs, args):
         ]
         for key, name, prefix, hooks in conds:
             stop, reps, txt = generate(model, prefix, tid, args.gen_tokens, hooks,
-                                       post_think_tokens=args.post_think_tokens)
+                                       post_think_tokens=args.post_think_tokens,
+                                       temperature=args.gen_temperature, rng=rng)
             rows[key].append((stop, reps, txt))
             if args.save_transcripts:
                 transcripts.append(dict(source_idx=rec["source_idx"], condition=name,
@@ -439,6 +461,12 @@ def main():
     ap.add_argument("--save-transcripts", default=None,
                     help="E3b: write every generated continuation to this JSONL path, for "
                          "reading whether RESCUE produces coherent text or just breaks generation")
+    ap.add_argument("--gen-temperature", type=float, default=0.0,
+                    help="E3b: >0 samples instead of greedy argmax at every decode step "
+                         "(both the clamped phase and the post-think tail). 0 (default) = "
+                         "greedy, deterministic, same behaviour as every run so far. Makes "
+                         "results stochastic -- use --seed for a reproducible single sample, "
+                         "it does not make one run a reliable rate.")
     ap.add_argument("--post-think-tokens", type=int, default=0,
                     help="E3b: once </think> fires, drop the clamp and generate this many more "
                          "tokens UNCLAMPED, so the saved transcript includes a real answer "
