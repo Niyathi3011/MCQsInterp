@@ -295,8 +295,8 @@ def run_e3b(model, recs, args):
         lesa.append(generate(model, A, tid, args.gen_tokens,
             [(n, clamp_last("zero")) for n in hook_names(comp)]))
         torch.cuda.empty_cache()          # 5 growing-sequence generations/problem
-        if (i + 1) % 5 == 0:
-            print(f"  e3b {i + 1}/{len(recs)}")
+        print(f"  e3b {i + 1}/{len(recs)}   (no KV cache -- each problem is 5 "
+              f"full generations, can take minutes)")
 
     print()
     summarise("catch  unpatched", base_c)
