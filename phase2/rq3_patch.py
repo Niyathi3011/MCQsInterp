@@ -52,7 +52,9 @@ def think_logit(model, toks, pos, tid, fwd_hooks=()):
     with torch.no_grad():
         logits = model.run_with_hooks(
             toks.unsqueeze(0), fwd_hooks=list(fwd_hooks), return_type="logits")
-    return float(logits[0, pos, tid])
+    v = float(logits[0, pos, tid])
+    del logits
+    return v
 
 
 def cache_mlp_at(model, toks, pos, layers):
@@ -60,8 +62,10 @@ def cache_mlp_at(model, toks, pos, layers):
     with torch.no_grad():
         _, cache = model.run_with_cache(
             toks.unsqueeze(0), names_filter=lambda n: n in want)
-    return {L: cache[f"blocks.{L}.hook_mlp_out"][0, pos].detach().float().clone()
-            for L in layers}
+    out = {L: cache[f"blocks.{L}.hook_mlp_out"][0, pos].detach().float().clone()
+           for L in layers}
+    del cache
+    return out
 
 
 # --------------------------------------------------------------------- patches
@@ -228,6 +232,11 @@ def max_run(text):
 
 
 def generate(model, prefix, tid, max_new, fwd_hooks=()):
+    """Greedy decode, no KV cache -- full forward pass each step on a growing
+    sequence.  Every step is a different (batch, seq_len, vocab=~152k) logits
+    tensor, so the CUDA allocator can't reuse the previous step's block; left
+    unchecked this fragments badly over many steps x conditions x problems.
+    Free explicitly and periodically empty_cache to keep that bounded."""
     out = prefix.clone()
     stop = None
     with model.hooks(fwd_hooks=list(fwd_hooks)):
@@ -236,9 +245,13 @@ def generate(model, prefix, tid, max_new, fwd_hooks=()):
                 logits = model(out.unsqueeze(0))
             nxt = int(logits[0, -1].argmax())
             out = torch.cat([out, out.new_tensor([nxt])])
+            del logits
             if nxt == tid:
                 stop = i
                 break
+            if (i + 1) % 10 == 0:
+                torch.cuda.empty_cache()
+    torch.cuda.empty_cache()
     txt = model.tokenizer.decode(out[len(prefix):])
     return stop, max_run(txt)
 
@@ -281,6 +294,7 @@ def run_e3b(model, recs, args):
         base_a.append(generate(model, A, tid, args.gen_tokens))
         lesa.append(generate(model, A, tid, args.gen_tokens,
             [(n, clamp_last("zero")) for n in hook_names(comp)]))
+        torch.cuda.empty_cache()          # 5 growing-sequence generations/problem
         if (i + 1) % 5 == 0:
             print(f"  e3b {i + 1}/{len(recs)}")
 
