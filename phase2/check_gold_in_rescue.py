@@ -41,7 +41,10 @@ def main():
     ap.add_argument("--transcripts", default="phase2/raw/e3b_transcripts_with_answer.jsonl")
     ap.add_argument("--pairs", default="phase2/loop_pairs_raw.jsonl")
     ap.add_argument("--condition", default="catch_rescue")
-    ap.add_argument("--examples", type=int, default=4, help="# of each bucket to print")
+    ap.add_argument("--examples", type=int, default=0,
+                    help="# of each bucket to print (0 = all, the default)")
+    ap.add_argument("--full", action="store_true",
+                    help="print the complete tail text, not truncated to 300 chars")
     args = ap.parse_args()
 
     gold = {}
@@ -74,16 +77,18 @@ def main():
           f"({100*len(never_stopped)/n:.0f}%)")
 
     def show(tag, items):
-        print(f"\n{'=' * 78}\n{tag}\n{'=' * 78}")
-        for r, tail in items[: args.examples]:
+        limit = len(items) if args.examples == 0 else args.examples
+        print(f"\n{'=' * 78}\n{tag}  ({min(limit, len(items))}/{len(items)} shown)\n{'=' * 78}")
+        for r, tail in items[:limit]:
             print(f"\n--- source_idx {r['source_idx']}  gold={gold.get(r['source_idx'])!r}  "
                   f"stop@{r['stop']} ---")
-            print(tail.strip()[:300] or "(empty)")
+            body = tail.strip()
+            print((body if args.full else body[:300]) or "(empty)")
 
     if stated_gold:
-        show(f"STOPPED, GOLDEN ANSWER STATED (up to {args.examples})", stated_gold)
+        show("STOPPED, GOLDEN ANSWER STATED", stated_gold)
     if other:
-        show(f"STOPPED, GOLDEN ANSWER NOT FOUND (up to {args.examples})", other)
+        show("STOPPED, GOLDEN ANSWER NOT FOUND", other)
 
 
 if __name__ == "__main__":
