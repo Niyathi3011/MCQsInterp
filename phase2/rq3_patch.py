@@ -28,6 +28,10 @@ RQ3 forces / removes that write and sees if the outcome moves:
                                sanity check that the donor's CONTENT matters
     --donor-mode random       RESCUE donor = a magnitude-matched random direction
                                -- isolates direction from perturbation size
+    --post-think-tokens N     after </think> fires, drop the clamp and generate N
+                               more tokens UNCLAMPED -- without this, "100% emitted
+                               </think>" only proves the stop TOKEN appeared, not
+                               that a real answer follows it
 
   python phase2/rq3_patch.py --pairs phase2/loop_pairs.jsonl \
       --model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B --n 12
@@ -272,12 +276,18 @@ def max_run(text):
     return best
 
 
-def generate(model, prefix, tid, max_new, fwd_hooks=()):
+def generate(model, prefix, tid, max_new, fwd_hooks=(), post_think_tokens=0):
     """Greedy decode, no KV cache -- full forward pass each step on a growing
     sequence.  Every step is a different (batch, seq_len, vocab=~152k) logits
     tensor, so the CUDA allocator can't reuse the previous step's block; left
     unchecked this fragments badly over many steps x conditions x problems.
-    Free explicitly and periodically empty_cache to keep that bounded."""
+    Free explicitly and periodically empty_cache to keep that bounded.
+
+    IMPORTANT: the clamp only ever ran up to and including the </think> token
+    (`stop` marks that offset). Emitting </think> is not the same as producing
+    an answer -- with post_think_tokens > 0, once </think> fires the fwd_hooks
+    are dropped and generation continues *unclamped* for a few more tokens, so
+    you can read whether a real answer follows, not just that the stop token did."""
     out = prefix.clone()
     stop = None
     with model.hooks(fwd_hooks=list(fwd_hooks)):
@@ -291,6 +301,19 @@ def generate(model, prefix, tid, max_new, fwd_hooks=()):
                 stop = i
                 break
             if (i + 1) % 10 == 0:
+                torch.cuda.empty_cache()
+    # only if </think> actually fired (stop is not None) -- generate the natural,
+    # UNCLAMPED continuation so it can be read as an actual answer, not just a
+    # stop token.  If the budget ran out with no </think>, there's nothing to
+    # continue past.
+    if stop is not None and post_think_tokens:
+        for j in range(post_think_tokens):
+            with torch.no_grad():
+                logits = model(out.unsqueeze(0))
+            nxt = int(logits[0, -1].argmax())
+            out = torch.cat([out, out.new_tensor([nxt])])
+            del logits
+            if (j + 1) % 10 == 0:
                 torch.cuda.empty_cache()
     torch.cuda.empty_cache()
     txt = model.tokenizer.decode(out[len(prefix):])
@@ -317,7 +340,8 @@ def run_e3b(model, recs, args):
     allL = sorted(set(comp) | set(ctrl))
     rescue_mode, lesion_mode = ("proj_set", "proj_zero") if args.surgical else ("replace", "zero")
 
-    print(f"E3b  clamped generation from ka   (gen_tokens={args.gen_tokens})")
+    print(f"E3b  clamped generation from ka   (gen_tokens={args.gen_tokens}, "
+          f"post_think_tokens={args.post_think_tokens})")
     print(f"     rescue/lesion components = MLP {comp}"
           f"{'   control = MLP ' + str(ctrl) if ctrl else ''}")
     print(f"     donor-mode={args.donor_mode}   surgical={args.surgical}"
@@ -359,7 +383,8 @@ def run_e3b(model, recs, args):
             ("lesa", "aligned_lesion", A, [(n, clamp_last(lesion_mode, uhat=uhat)) for n in hook_names(comp)]),
         ]
         for key, name, prefix, hooks in conds:
-            stop, reps, txt = generate(model, prefix, tid, args.gen_tokens, hooks)
+            stop, reps, txt = generate(model, prefix, tid, args.gen_tokens, hooks,
+                                       post_think_tokens=args.post_think_tokens)
             rows[key].append((stop, reps, txt))
             if args.save_transcripts:
                 transcripts.append(dict(source_idx=rec["source_idx"], condition=name,
@@ -411,6 +436,11 @@ def main():
     ap.add_argument("--save-transcripts", default=None,
                     help="E3b: write every generated continuation to this JSONL path, for "
                          "reading whether RESCUE produces coherent text or just breaks generation")
+    ap.add_argument("--post-think-tokens", type=int, default=0,
+                    help="E3b: once </think> fires, drop the clamp and generate this many more "
+                         "tokens UNCLAMPED, so the saved transcript includes a real answer "
+                         "attempt, not just the stop token. 0 (default) = old behaviour, stop "
+                         "exactly at </think>. ~30-50 is enough to see an 'Answer: (X)' line.")
     args = ap.parse_args()
     loop_probe.RAW_THINK = args.raw_think
 
