@@ -15,6 +15,7 @@ No model, no GPU -- pure text processing.
 """
 import argparse
 import json
+import re
 
 
 def post_think_text(text):
@@ -22,6 +23,17 @@ def post_think_text(text):
     if "</think>" in text:
         return text.split("</think>", 1)[1]
     return None
+
+
+def states_value(gold, tail):
+    """Does `gold` appear as its own number in `tail` -- not glued to other
+    digits?  Plain substring search false-positives on e.g. gold="-5" matching
+    inside "-55", or "27" matching inside "127"/"270"; this requires no digit
+    immediately before or after the match."""
+    if not gold:
+        return False
+    pat = re.escape(gold)
+    return re.search(rf"(?<!\d){pat}(?!\d)", tail) is not None
 
 
 def main():
@@ -47,7 +59,7 @@ def main():
             never_stopped.append(r)
             continue
         g = gold.get(r["source_idx"])
-        if g and g in tail:
+        if states_value(g, tail):
             stated_gold.append((r, tail))
         else:
             other.append((r, tail))
