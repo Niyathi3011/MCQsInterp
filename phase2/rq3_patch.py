@@ -328,8 +328,12 @@ def generate(model, prefix, tid, max_new, fwd_hooks=(), post_think_tokens=0,
             nxt = pick(logits[0, -1])
             out = torch.cat([out, out.new_tensor([nxt])])
             del logits
-            if eos_id is not None and nxt == eos_id:
-                break              # real end of turn -- do NOT run past it into a new one
+            if (eos_id is not None and nxt == eos_id) or nxt == tid:
+                break              # real end of turn, OR a SECOND </think> -- either way
+                                    # the model has moved on to a bogus restart; do not
+                                    # run past it into unrelated new content (observed
+                                    # directly: a clean "Answer: (A)" followed by a second
+                                    # </think> and a completely different problem)
             if (j + 1) % 10 == 0:
                 torch.cuda.empty_cache()
     torch.cuda.empty_cache()
