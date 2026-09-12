@@ -43,6 +43,8 @@ Reuses helpers from loop_probe.py (same dir).  GPU; stop any vLLM server first.
 import argparse
 import json
 import re
+import sys
+import time
 
 import numpy as np
 import torch
@@ -411,6 +413,7 @@ def run_e3b(model, recs, args):
             ("lesa", "aligned_lesion", A, [(n, clamp_last(lesion_mode, uhat=uhat)) for n in hook_names(comp)]),
         ]
         for key, name, prefix, hooks in conds:
+            t0 = time.time()
             stop, reps, txt = generate(model, prefix, tid, args.gen_tokens, hooks,
                                        post_think_tokens=args.post_think_tokens,
                                        temperature=args.gen_temperature, rng=rng)
@@ -418,8 +421,10 @@ def run_e3b(model, recs, args):
             if args.save_transcripts:
                 transcripts.append(dict(source_idx=rec["source_idx"], condition=name,
                                         stop=stop, max_repeat=reps, text=txt))
+            print(f"    [{i + 1}/{len(recs)}] {name:<17s} stop@{str(stop):<5s} "
+                  f"{time.time() - t0:5.1f}s")
         torch.cuda.empty_cache()          # 5 growing-sequence generations/problem
-        print(f"  e3b {i + 1}/{len(recs)}   (no KV cache -- each problem is 5 "
+        print(f"  e3b {i + 1}/{len(recs)} done   (no KV cache -- each problem is 5 "
               f"full generations, can take minutes)")
 
     if args.save_transcripts:
@@ -439,6 +444,12 @@ def run_e3b(model, recs, args):
 
 # --------------------------------------------------------------------- main
 def main():
+    # stdout is fully block-buffered (not line-buffered) once it's piped into
+    # `tee` / a file instead of a terminal -- without this, a long run's
+    # prints sit invisible in a buffer for minutes before a big flush, which
+    # looks exactly like a hang.
+    sys.stdout.reconfigure(line_buffering=True)
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--pairs", default="phase2/loop_pairs.jsonl")
     ap.add_argument("--experiment", default="e3a", choices=["e3a", "e3b"])
