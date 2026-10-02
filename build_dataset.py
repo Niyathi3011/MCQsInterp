@@ -14,6 +14,10 @@ Per source problem we emit:
                                  (neither option is correct -> picking (A) is a
                                   pure "it's a math problem, answer is a number"
                                   shortcut)
+      numpair   (--numpair)      one row per problem: the gold number vs a plausible
+                                 WRONG number, gold in (A) or (B) with p=0.5 -- an
+                                 ordinary MCQ with a valid answer (natural-looping
+                                 baseline; no unrelated sentence)
 
 Datasets (--dataset):
   gsm8k    openai/gsm8k main/test           (default; grade-school, near-ceiling for 7B)
@@ -219,6 +223,13 @@ def main():
     ap.add_argument("--bias-shots", type=int, default=0,
                     help="write <out>.bias.txt: K solved examples where the numeric "
                          "option is always the answer (few-shot format biasing)")
+    ap.add_argument("--numpair", action="store_true",
+                    help="stage2 = ONLY the numpair variant: gold number vs a wrong "
+                         "number (--close-distractor applies), gold slot random; "
+                         "ignores --*-frac / --all-variants")
+    ap.add_argument("--same-problems", default=None,
+                    help="restrict to the source problems in this existing dataset "
+                         "jsonl (e.g. data/force_r1.jsonl), ignoring --n")
     ap.add_argument("--out", default="data/dataset.jsonl")
     args = ap.parse_args()
 
@@ -238,6 +249,13 @@ def main():
         items.append((i, str(row[spec["qk"]]).strip(), g))
     rng.shuffle(items)
     total = len(items)
+    if args.same_problems:
+        keep = {json.loads(l)["source_idx"] for l in open(args.same_problems)}
+        items = [it for it in items if it[0] in keep]
+        args.n = len(items)
+        missing = keep - {it[0] for it in items}
+        if missing:
+            print(f"WARNING: {len(missing)} problems from {args.same_problems} not usable here")
     held = items[: args.bias_shots]                       # reserved for the bias prefix
     items = items[args.bias_shots: args.bias_shots + args.n]  # disjoint eval set
     print(f"{name}/{split}: {len(raw)} rows -> {total} usable (numeric gold"
@@ -289,7 +307,12 @@ def main():
             if gold_words:
                 all_v["decoy"] = (q, wn(), gold_words, "B")
 
-            if args.all_variants:
+            if args.numpair:
+                w = wn()
+                all_v["numpair"] = ((q, gold, w, "A") if rng.random() < 0.5
+                                    else (q, w, gold, "B"))
+                chosen = ["numpair"]
+            elif args.all_variants:
                 chosen = [v for v in all_v if v != "broken" or args.broken_frac > 0]
             else:
                 r = rng.random()
@@ -303,7 +326,8 @@ def main():
                 if variant not in all_v:        # decoy unavailable for this gold
                     variant = "catch"
                 vq, opt_a, opt_b, gl = all_v[variant]
-                suffix = f"__stage2_{variant}" if args.all_variants else "__stage2"
+                suffix = (f"__stage2_{variant}" if args.all_variants or args.numpair
+                          else "__stage2")
                 f.write(json.dumps({
                     "id": f"{sid}{suffix}", "kind": "stage2_mcq", "dataset": name,
                     "source_idx": src_i, "question": vq,

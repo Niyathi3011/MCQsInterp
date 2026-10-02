@@ -26,18 +26,101 @@ RAW_THINK = False
 
 
 # ----------------------------------------------------------------------------- model
-def get_model(name, device, dtype):
+def get_model(name, device, dtype, process=True):
+    """Equivalent of HookedTransformer.from_pretrained (default processing) for
+    RMSNorm models, without its RAM peak.  TransformerLens 3.8 upcasts the whole
+    state dict to fp32 and deep-copies it at every processing step: ~60 GB for a
+    7B model, OOM-killed in a 62 GB container.  Instead: load unprocessed (its
+    no-op fp32 round-trip skipped), then apply the same processing TL applies to
+    RMSNorm models in place on the GPU, one tensor at a time in fp32
+    (see _process_rms_inplace)."""
     from transformer_lens import HookedTransformer
     import transformer_lens.loading_from_pretrained as L
+    from transformer_lens.weight_processing import ProcessWeights
     if name not in L.OFFICIAL_MODEL_NAMES:
         L.OFFICIAL_MODEL_NAMES.append(name)          # R1-distill isn't registered
-    return HookedTransformer.from_pretrained(name, dtype=dtype, device=device)
+    orig = ProcessWeights.__dict__["process_weights"]
+    ProcessWeights.process_weights = staticmethod(lambda sd, *a, **kw: sd)
+    try:
+        model = HookedTransformer.from_pretrained_no_processing(name, dtype=dtype,
+                                                                device=device)
+    finally:
+        ProcessWeights.process_weights = orig
+    assert model.cfg.normalization_type == "RMS", model.cfg.normalization_type
+    if process:
+        _process_rms_inplace(model)
+    _mlp_weights_linear_layout(model)
+    return model
+
+
+@torch.no_grad()
+def _mlp_weights_linear_layout(model):
+    """GatedMLP.forward calls F.linear(x, W.T.contiguous()) on W_in/W_gate/W_out
+    every forward (to match HF's nn.Linear numerics) -- three weight-sized copies
+    per layer, ~85% of a KV-cached decode step.  Store each W as the transpose of
+    a contiguous (out, in) buffer, so W.T.contiguous() is a no-op.  Same values,
+    same shape, same F.linear call -> identical numerics, no extra memory."""
+    for blk in model.blocks:
+        for name in ("W_in", "W_gate", "W_out"):
+            p = getattr(blk.mlp, name, None)
+            if p is not None:
+                p.data = p.data.T.contiguous().T
+
+
+@torch.no_grad()
+def _process_rms_inplace(model):
+    """What ProcessWeights.process_weights(fold_ln, center_writing_weights,
+    center_unembed, fold_value_biases) does for an RMSNorm model:
+      fold_ln         ln1.w into W_Q/W_K/W_V, ln2.w into W_in/W_gate,
+                      ln_final.w into W_U; then those norm weights = 1
+      center_writing  skipped by TL for RMSNorm
+      center_unembed  W_U -= mean over vocab, b_U -= mean
+      fold_v_biases   b_O += sum_h b_V[h] @ W_O[h]; b_V = 0  (GQA: b_V repeated)
+    The norm modules stay RMSNorm with weight 1 (TL swaps in RMSNormPre, which
+    computes the same thing)."""
+    def scale(p, w):
+        p.copy_((p.float() * w).to(p.dtype))
+
+    def attr(mod, *names):                   # GQA models store _W_K/_W_V/_b_V
+        return next(getattr(mod, n) for n in names if getattr(mod, n, None) is not None)
+
+    cfg = model.cfg
+    rep = cfg.n_heads // (cfg.n_key_value_heads or cfg.n_heads)
+    for blk in model.blocks:
+        a = blk.attn
+        w1 = blk.ln1.w.float()
+        for W in (a.W_Q, attr(a, "_W_K", "W_K"), attr(a, "_W_V", "W_V")):
+            scale(W, w1[None, :, None])
+        blk.ln1.w.fill_(1)
+        w2 = blk.ln2.w.float()
+        for W in (blk.mlp.W_in, getattr(blk.mlp, "W_gate", None)):
+            if W is not None:
+                scale(W, w2[:, None])
+        blk.ln2.w.fill_(1)
+        b_V = attr(a, "_b_V", "b_V")
+        bv = torch.repeat_interleave(b_V.float(), rep, dim=0) if b_V.shape[0] != cfg.n_heads \
+            else b_V.float()
+        a.b_O.copy_((a.b_O.float() + (bv[:, :, None] * a.W_O.float()).sum([0, 1]))
+                    .to(a.b_O.dtype))
+        b_V.zero_()
+    W_U = model.unembed.W_U
+    folded = W_U.float() * model.ln_final.w.float()[:, None]
+    W_U.copy_((folded - folded.mean(-1, keepdim=True)).to(W_U.dtype))
+    del folded
+    model.ln_final.w.fill_(1)
+    b_U = model.unembed.b_U
+    b_U.copy_((b_U.float() - b_U.float().mean()).to(b_U.dtype))
+    torch.cuda.empty_cache()
 
 
 def user_prefix(model, piece):
     """chat-templated user turn, ending in '<think>\\n'."""
-    content = (f"{piece['question']}\n(A) {piece['option_A']}\n(B) {piece['option_B']}"
-               "\n\nEnd with a line formatted exactly as: Answer: (X)  where X is A or B.")
+    if piece.get("option_A") is None:                  # open-ended (stage1) trace
+        content = (f"{piece['question']}"
+                   "\n\nEnd with a line formatted exactly as: Answer: <number>")
+    else:
+        content = (f"{piece['question']}\n(A) {piece['option_A']}\n(B) {piece['option_B']}"
+                   "\n\nEnd with a line formatted exactly as: Answer: (X)  where X is A or B.")
     s = model.tokenizer.apply_chat_template(
         [{"role": "user", "content": content}], tokenize=False, add_generation_prompt=True)
     user_char_len = len(s)                            # end of the prompt proper

@@ -15,3 +15,6 @@ results/
 
 # HF cache if ever placed here
 hf/
+
+# cloned ACL style repo (acl.sty and acl_natbib.bst are copied next to main.tex)
+paper/naacl_short/acl-style-files/

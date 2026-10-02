@@ -160,7 +160,7 @@ def _reasoning_of(msg):
 
 
 def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024,
-         guided=None, system="", temperature=0.0, top_p=1.0):
+         guided=None, system="", temperature=0.0, top_p=1.0, seed=None):
     msgs = ([{"role": "system", "content": system}] if system else []) \
         + [{"role": "user", "content": prompt}]
     kw = dict(
@@ -170,6 +170,8 @@ def call(client, model, prompt, want_cot, max_retries=4, cot_tokens=1024,
         top_p=top_p,
         max_tokens=cot_tokens if want_cot else 24,
     )
+    if seed is not None:             # vLLM honours a per-request sampling seed
+        kw["seed"] = seed
     if guided:                       # vLLM guided decoding: final answer must be one of these
         kw["extra_body"] = {"guided_choice": list(guided)}
         # no max_tokens override: a reasoning model still needs room to finish
@@ -250,6 +252,9 @@ def main():
     ap.add_argument("--temperature", type=float, default=0.0,
                     help="sampling temperature (0 = greedy; R1-distill spec suggests ~0.6)")
     ap.add_argument("--top-p", type=float, default=1.0, help="nucleus sampling top-p")
+    ap.add_argument("--seed", type=int, default=None,
+                    help="per-request sampling seed (reproducible sampled runs; one "
+                         "output file per seed, since the resume key ignores it)")
     ap.add_argument("--cot-tokens", type=int, default=1024,
                     help="max output tokens for CoT (raise for MATH-hard)")
     ap.add_argument("--model",
@@ -330,11 +335,12 @@ def main():
             text, reasoning, finish, raw = call(client, model, prompt, want_cot,
                                                cot_tokens=args.cot_tokens, guided=guided,
                                                system=stext, temperature=args.temperature,
-                                               top_p=args.top_p)
+                                               top_p=args.top_p, seed=args.seed)
         except Exception as e:  # noqa: BLE001 - skip this row, retried next run
             return ("ERR", f"{type(e).__name__}: {e}")
         rec = score(row, mode, text, reasoning, finish)
         rec["model"] = model
+        rec.update(temperature=args.temperature, top_p=args.top_p, seed=args.seed)
         rec["prompt"] = prompt
         rec["output_raw"] = raw          # exact model output, verbatim (before any split)
         rec["system"] = stext or None
