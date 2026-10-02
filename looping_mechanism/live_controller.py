@@ -244,7 +244,7 @@ def stage_summary(args):
     W = [json.loads(l) for l in open(os.path.join(OUT, "switch.jsonl"))] if os.path.exists(
         os.path.join(OUT, "switch.jsonl")) else []
     B = [json.loads(l) for l in open(os.path.join(MSP, "stop.jsonl"))]       # baselines
-    L = ["# Live stop controller: probe as sensor, stop-MLPs as switch", "",
+    L = ["# Online stopping rule on recorded loops: probe as sensor, stop-MLPs as switch", "",
          f"Each looping run is replayed; the controller stops at the first 'states an answer, then",
          f"doubts it' point where the held-out probe gives P(correct) > {t}. Answers are generated",
          "for real after the stop (T=0.6) and scored. Loops that never trigger keep looping (no",

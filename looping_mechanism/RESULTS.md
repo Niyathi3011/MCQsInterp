@@ -188,7 +188,7 @@ logistic regression on the residual stream, 5-fold split by question
   loops stays ~20%, since unstopped loops still give no answer. (Correct = the stated
   answer at the stopping point; the forced-stop answer tracks it, section 3c.)
 
-### 3g. Live controller: probe as sensor, stop-MLPs as switch (negative)
+### 3g. Online stopping rule on recorded loops: probe as sensor, stop-MLPs as switch (negative)
 All 460 natural loops replayed; at every "states an answer, then doubts it" point (in order,
 online) the held-out probe gives P(correct); the controller stops at the first point with
 P > 0.7, then the answer is generated (T=0.6): with the catch-learned MLP switch (1 sample)
@@ -215,6 +215,10 @@ reference, not an online rule.
 - The MLP switch is again no better than forcing </think> (sometimes worse).
 - Conclusion: hidden states encode answer correctness, but a forced stop does not let the
   model act on it. This sharpens "stopping is not resolving" rather than providing a fix.
+- Scope: the decision is online (only text up to each point), but the reasoning is REPLAYED
+  from recorded loops, not generated live, and only runs known to loop are tested; a truly
+  live controller (generation token by token, on all runs, measuring harm to runs that would
+  have finished) has not been run.
 
 ## 4. Bugs found and fixed (all reported numbers are after the fixes)
 1. **Stop-position reconstruction.** Joining reasoning + "\n</think>" added a second

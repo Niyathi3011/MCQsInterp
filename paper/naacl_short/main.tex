@@ -213,8 +213,9 @@ with 5-fold splits by question. It predicts correctness with AUC 0.88 overall an
 (position baselines: 0.51); within datasets, 0.87 (MATH-500) and 0.80 (AQuA), but 0.53 (chance) on
 LogiQA, so the signal is specific to mathematical answers, in line with \citet{zhang2025know}.
 
-We then use it as a live controller on all 460 natural loops: replaying each loop, it stops at the
-first commit point where the held-out probe gives $P(\mathrm{correct})>0.7$ and the answer is generated.
+We then evaluate it as an online stopping rule on the 460 recorded natural loops: replaying each loop
+and using only the text so far, it stops at the first commit point where the held-out probe gives
+$P(\mathrm{correct})>0.7$, and the answer is then generated.
 The probe picks better points by the stated answer (40\% correct vs.\ 21\% at the first commit point),
 but not by the answer the model then writes: 19--36\% correct for AQuA, LogiQA and MATH-500 (MLP switch
 or forced \think{}), no better than stopping blindly, and because it stops only 40--49\% of these loops,
@@ -244,7 +245,8 @@ Commit points come from a heuristic detector (hand-checked: 11/12 controlled, 9/
 stop with a doubt is partly built in by selection, which is why we rely on the doubt-vs-doubt and
 position-matched comparisons. Interventions use three samples per pair; AQuA contributes
 28 pairs. The probe's labels are the correctness of the stated answer, not of the answer written after
-a forced stop, and it fails on LogiQA. Activations are bfloat16, to which late layers are sensitive.
+a forced stop, and it fails on LogiQA; the stopping rule is evaluated by replaying recorded loops, not in
+live generation, and only on runs known to loop, so its effect on runs that would have finished is untested. Activations are bfloat16, to which late layers are sensitive.
 We do not identify the upstream computation that opens the gate, and loops are defined by a 12k-token
 budget.
 
