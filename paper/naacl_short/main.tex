@@ -1,4 +1,5 @@
 % NAACL short paper draft. Compile: tectonic main.tex  (or pdflatex + bibtex)
+% Numbers: looping_mechanism/results/paper_numbers.md (python looping_mechanism/paper_numbers.py)
 \documentclass[11pt]{article}
 \usepackage[review]{acl}
 \usepackage{times}
@@ -24,61 +25,63 @@ When No Answer Fits}
 \maketitle
 
 \begin{abstract}
-Reasoning models sometimes never stop thinking, and common fixes simply force them to. We ask
-why the loops arise and whether stopping them helps. Removing the valid answer from a
-multiple-choice question makes DeepSeek-R1-Distill-Qwen-7B loop on 75\% of problems it otherwise
-solves (vs.\ 4--5\%), and deleting the correct option from real AQuA questions does the same
-(74\% vs.\ 9\%); most natural loops show the same conflict between the model's answer and the
-options. The decision to emit \think{} is written by the same late MLPs in controlled and
-natural loops, yet this gate is generic: it is as closed at healthy self-doubt as in loops, and
-loops never come close to opening it. Opening it, or forcing \think{}, ends the thinking but not
-the doubt: deliberation continues after \think{}, and accuracy is recovered only when the answer
-being doubted was already right. The model even encodes whether that answer is right (a linear
-probe reaches AUC 0.77 inside loops), yet stopping where the probe is confident does not make it
-commit to the answer: the doubt survives the stop.
+Reasoning models sometimes never stop thinking, and common fixes simply force them to. We ask why
+the loops arise and whether stopping them helps. Removing the valid answer from multiple-choice
+questions makes DeepSeek-R1-Distill-Qwen-7B loop on 73--75\% of MATH, GSM8K and AQuA questions it
+otherwise solves (vs.\ 2--9\%), and natural AQuA loops concentrate on questions whose open-ended
+answer matches no option (30\% vs.\ 1\% of runs). In R1 and in Qwen3-4B-Thinking, the decision to
+emit \think{} is made in late layers in the same way on four benchmarks, but this gate is generic:
+it is as closed at healthy self-doubt as in loops. Opening it, by forcing \think{} or with an
+internal switch learned on controlled loops and tested on held-out natural ones, ends loops without
+resolving them: in a live test, stopping changes accuracy by $-5$ to $+30$ points and the switch
+never beats forcing the token. Resolving the conflict works better: allowing ``None'' as an answer
+removes 55--70\% of R1's controlled loops with almost no cost on answerable questions.
 \end{abstract}
 
 \section{Introduction}
-Large reasoning models (LRMs) think before they answer, and occasionally they do not stop: the
-trace runs to the token budget, re-checking the same step, and no answer is produced
+Large reasoning models (LRMs) think before they answer, and occasionally they do not stop: the trace
+runs to the token budget, re-checking the same step, and no answer is produced
 \citep{duan2026circular}. Practical remedies end the thinking from outside, by forcing the
-end-of-thinking delimiter \citep[budget forcing;][]{muennighoff2025s1} or by steering the model out
-of the loop \citep{yu2026sophia,zhang2026astray}, and are judged on whether the loop is broken. We
-ask what triggers the loop and whether breaking it resolves whatever caused it.
+end-of-thinking delimiter \citep[budget forcing;][]{muennighoff2025s1} or by steering the model out of
+the loop \citep{yu2026sophia,zhang2026astray}, and are judged on whether the loop is broken. We ask
+what triggers the loop and whether breaking it resolves whatever caused it.
 
-Our contributions: (1) a controlled trigger: removing the valid option makes the model loop on
-three quarters of multiple-choice questions (MCQs) it can solve, on constructed and on real
-questions, and the same answer--option conflict underlies most natural MCQ loops
-(\S\ref{sec:when}); (2) a mechanism: the \think{} decision is written by the same late MLPs in
-controlled and natural loops, but this gate is generic rather than suppressed in loops
-(\S\ref{sec:where}); (3) stopping is not resolving: every way of opening the gate ends the thinking
-but leaves the doubt, and helps only when the doubted answer was right (\S\ref{sec:fix}); (4) the
-model's hidden state encodes whether its committed answer is right, but a probe-guided stop does not
-turn that knowledge into correct answers (\S\ref{sec:know}).
+Our contributions: (1) a controlled trigger: with no valid option, R1 loops on three quarters of
+multiple-choice questions (MCQs) it can solve, on constructed and real questions, and the same
+answer--option conflict predicts which natural questions loop (\S\ref{sec:when}); (2) a mechanism:
+the \think{} decision is written by late layers, identically across four benchmarks, but the gate
+is generic rather than suppressed in loops; it is concentrated in a few MLPs in R1 and spread over
+late MLPs and attention in Qwen3 (\S\ref{sec:where}); (3) stopping is not resolving: in replay and in
+a live test on held-out loops, every way of stopping ends the thinking but leaves the doubt, and the
+internal switch never beats budget forcing (\S\ref{sec:fix}); (4) resolving is: allowing ``None''
+removes most conflict loops (\S\ref{sec:resolve}).
 
 \section{Setup}
 \label{sec:setup}
-\paragraph{Model and decoding.} DeepSeek-R1-Distill-Qwen-7B \citep{deepseek2025r1}, served with
-vLLM \citep{kwon2023vllm}, sampled with the recommended $T{=}0.6$, top-$p$ 0.95, 4 seeds and a
-12k-token budget. A \textbf{loop} is a run that exhausts the budget without emitting \think{}.
-Greedy decoding inflates looping 2--4$\times$ wherever a valid answer exists (Table~\ref{tab:loops}).
+\paragraph{Models and decoding.} DeepSeek-R1-Distill-Qwen-7B \citep[R1;][]{deepseek2025r1} and
+Qwen3-4B-Thinking-2507 \citep{yang2025qwen3}, served with vLLM \citep{kwon2023vllm}, sampled with the
+recommended $T{=}0.6$, top-$p$ 0.95, 4 seeds and a 12k-token budget; for R1 we also report greedy
+decoding. A \textbf{loop} is a run that exhausts the budget without emitting \think{}.
 
-\paragraph{Controlled conditions.} 150 MATH \citep{hendrycks2021math} problems (level $\geq3$,
-numeric answers) as two-option MCQs: \textsc{aligned} (correct number vs.\ an unrelated sentence),
-\textsc{swap} (reversed) and \textsc{catch} (a wrong number vs.\ a sentence: no valid option), plus
-the open-ended question. To avoid an artificial distractor, we also pose 227 AQuA questions with the
-correct option deleted (four real wrong options), next to their original and open-ended forms.
+\paragraph{Conditions.} Two-option MCQs built from 150 MATH \citep{hendrycks2021math} and 200 GSM8K
+\citep{cobbe2021gsm8k} problems: \textsc{aligned} (correct number vs.\ an unrelated sentence) and
+\textsc{catch} (a wrong number vs.\ a sentence: no valid option). To avoid an artificial distractor we
+also pose 227 AQuA \citep{ling2017aqua} and 200 LogiQA \citep{liu2020logiqa} questions with the
+correct option deleted, next to their original forms. Natural benchmarks are the datasets of
+\citet{yu2026sophia} in native form: GSM8K, MATH-500, AQuA (5 options), LogiQA (4 options).
 
-\paragraph{Natural benchmarks.} The datasets of \citet{yu2026sophia} in their native form: GSM8K
-\citep{cobbe2021gsm8k}, MATH-500, AQuA \citep{ling2017aqua} (5 options), LogiQA
-\citep{liu2020logiqa} (4 options).
-
-\paragraph{Pairs and positions.} To locate the mechanism we pair a run that loops with one that
-finishes: \textsc{catch} vs.\ \textsc{aligned} on the same problem and seed, \textsc{catch} looping in
-one seed and finishing in another, and natural questions that loop in one seed and finish in another
-(identical prompt); 426 pairs (272 controlled, 154 natural). We compare the token before \think{} in
-the finished run with the looping run's \emph{commit point}, the token after which, having just
-stated an answer, it writes ``Wait'' (detected heuristically, hand-checked; Appendix).
+\paragraph{Learning and held-out testing.} For each benchmark and temperature, questions that loop
+naturally in any seed are \emph{held out}. On the remaining questions we pair a \textsc{catch} run that
+loops with the \textsc{aligned} run that finishes correctly (same question and seed) and compare the token
+before \think{} in the finished run with the loop's \emph{commit point}, where, having just stated an
+answer, it writes ``Wait'' (detected from the text without the answer key; hand-checked, Appendix).
+Stop components and their values (the mean output at real stops) are learned from these pairs only.
+We test on the held-out questions in two ways. \emph{Replay}: each natural loop is fed up to its commit
+point and the intervention applied there. \emph{Live}: the held-out questions are generated afresh
+with new seeds; a rule that reads only the text so far fires on any run with no \think{} after 6k
+thinking tokens, at the next ``states a result, then doubts it'' point (fixed in advance, not tuned),
+and every run it fires on, loop or not, is continued under each intervention. Answers (up to 1.2k
+tokens after \think{}) are scored against the key.
 
 \section{When do reasoning models loop?}
 \label{sec:when}
@@ -86,46 +89,44 @@ stated an answer, it writes ``Wait'' (detected heuristically, hand-checked; Appe
 \begin{table}[t]
 \centering
 \small
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3.5pt}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{llcc}
+\begin{tabular}{llccc}
 \toprule
- & valid answer? & sampled & greedy \\
+ & valid? & R1 & R1 greedy & Qwen3 \\
 \midrule
-open-ended & yes & 4.2 & 9.3 \\
-\textsc{aligned} (A correct) & yes & 5.3 & 11.3 \\
-\textsc{swap} (B correct) & yes & 4.8 & 8.0 \\
-\textsc{catch} (A wrong) & \textbf{no} & \textbf{74.7} & 75.3 \\
+MATH-150 \textsc{aligned} & yes & 5.3 & 10.0 & 9.3 \\
+MATH-150 \textsc{catch} & \textbf{no} & \textbf{74.7} & \textbf{98.0} & \textbf{29.5} \\
+GSM8K-200 \textsc{aligned} & yes & 2.1 & 8.0 & 0.0 \\
+GSM8K-200 \textsc{catch} & \textbf{no} & \textbf{73.4} & \textbf{100} & 0.2 \\
+AQuA-227 original & yes & 8.5 & 25.1 & 2.9 \\
+AQuA-227 correct removed & \textbf{no} & \textbf{74.4} & \textbf{93.8} & \textbf{9.0} \\
+LogiQA-200 original & yes & 7.5 & 36.5 & 2.6 \\
+LogiQA-200 correct removed & \textbf{no} & \textbf{15.0} & \textbf{42.0} & \textbf{10.1} \\
 \midrule
-AQuA, open-ended & yes & 2.5 & -- \\
-AQuA, original 5 options & yes & 8.5 & -- \\
-AQuA, correct option removed & \textbf{no} & \textbf{74.4} & -- \\
-\midrule
-GSM8K (open) & yes & -- & 4.2 \\
-MATH-500 (open) & yes & 5.2 & 10.0 \\
-AQuA, all 254 (5 options) & yes & 7.9 & 25.6 \\
-LogiQA (4 options) & yes & 9.5 & 39.4 \\
+GSM8K / MATH-500 (open) & yes & 0.4 / 5.2 & 4.2 / 10.0 & 0.1 / 15.3 \\
+AQuA / LogiQA & yes & 7.9 / 9.5 & 25.6 / 39.4 & 2.9 / 3.2 \\
 \bottomrule
 \end{tabular}}
-\caption{Loop rate (\%): the run never emits \think{} within 12k tokens. Sampled = mean over 4
-seeds (range $\leq\pm$4.7). Top: 150 MATH problems; middle: the same 227 AQuA questions in three
-forms; bottom: natural benchmarks.}
+\caption{Loop rate (\%): the run never emits \think{} within 12k tokens. Sampled ($T{=}0.6$) rates are
+means over 4 seeds. Top: the same questions with and without a valid option; bottom: natural
+benchmarks.}
 \label{tab:loops}
 \end{table}
 
-Removing the valid answer makes the model loop on 74.7\% of runs on problems it solves in every other
-form (90--95\% accuracy), a 15$\times$ increase that is unchanged under greedy decoding
-(Table~\ref{tab:loops}). The traces are explicit: the model derives the answer, notes it is not an
-option, re-derives it, and repeats. The effect does not depend on the artificial distractor: deleting
-the correct option from real AQuA questions gives 74.4\%, against 8.5\% with the five options and
-2.5\% open-ended. Runs without a valid option that do finish pick a wrong option (82\% for
-\textsc{catch}, 100\% for AQuA) and never decline, the behaviour \citet{goral2025wait} report for
-instruction-tuned models.
+Removing the valid answer makes R1 loop on 73--75\% of MATH, GSM8K and AQuA runs, against 2--9\% on
+the same questions with a valid option (Table~\ref{tab:loops}); greedy decoding raises both, to
+94--100\% without a valid option. The traces are explicit: the model derives the answer, notes it is
+not an option, re-derives it, and repeats. Runs that do finish pick a wrong option (82\% for MATH
+\textsc{catch}, 100\% for AQuA) and never decline, as instruction-tuned models do
+\citep{goral2025wait}. LogiQA, whose options are arguments rather than values, only doubles (7.5\% to
+15\%). Qwen3 shows the same effect at a smaller scale (MATH 9\% to 30\%, AQuA 3\% to 9\%, LogiQA 3\% to
+10\%) and handles GSM8K \textsc{catch} without looping.
 
-The conflict also arises naturally: MCQ benchmarks loop more than open-ended ones (8--10\% vs.\ 5\%),
-and 23 of 30 AQuA questions that loop in one seed but finish in another say, in the loop, that the
-model's answer is not among the options. Here the conflict comes from the model's own error (or
-from noisy answer keys).
+\paragraph{Natural loops follow the same conflict.} We ask each model the AQuA questions with no options
+and group them by its own answer. If that answer matches the correct option, the 5-option question
+loops in 1\% of runs (R1; Qwen3 0\%); if it matches no option, through the model's own error or a noisy
+key, it loops in 30\% (Qwen3 10\%). Natural MCQ loops are the controlled conflict, arising by itself.
 
 \section{Where is the stop decided?}
 \label{sec:where}
@@ -133,30 +134,33 @@ from noisy answer keys).
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/stop_gate.pdf}
-\caption{(a) Logit of \think{} at the real stop of finished runs, at healthy doubts in finished runs
+\caption{R1. (a) Logit of \think{} at the real stop of finished runs, at healthy doubts in finished runs
 (an answer is stated, then ``Wait'', but the run later stops) and at the commit point of looping
 runs. (b) Direct contribution of each MLP to the gap between the real stop and the loop's commit
 point, for controlled and natural pairs.}
 \label{fig:gate}
 \end{figure*}
 
-At a real stop \think{} has logit $\approx$+32 and is the top-1 token in every pair; at the loop's
-commit point it is $\approx$+5 (gap $>0$ in 100\% of pairs in every group, Wilcoxon
-$p\leq4{\times}10^{-6}$). Direct logit attribution \citep{nostalgebraist2020lens,
-nanda2022transformerlens} assigns 90--92\% of the gap to MLPs in layers 20--27, with the same profile
-in controlled and natural pairs (Spearman $\rho=0.98$--$1.00$; Figure~\ref{fig:gate}b). The gate is
-causal: replacing these MLPs' output at the commit point with their output at a real stop recovers
-76--80\% of the gap, a mean vector from the controlled pairs recovers 79--92\% in natural loops, and
-the same patch on MLP 15 recovers $\approx$0\%.
+At a real stop \think{} has logit $\approx$+32 and is the top-1 token; at the loop's commit point it is
+$\approx$+5 (gap $>0$ in 100\% of pairs). Direct logit attribution \citep{nostalgebraist2020lens,
+nanda2022transformerlens} assigns about 90\% of R1's gap to MLPs. Learned separately on each
+benchmark's own pairs (24--175 pairs per benchmark and temperature), the six MLPs carrying it are the
+same in all eight settings (layers 22--27), the gap is +24 to +29, and replacing their output at the
+commit point with the learned values recovers 78--98\% of it (control MLP: $\leq$1\%).
 
 \paragraph{The gate is generic.} If loops suppressed the gate, the stop signal should be lower at a
-loop's commit point than at a healthy doubt. It is not (Figure~\ref{fig:gate}a): at the same position
-in the trace, loop doubts are +0.35 logits \emph{higher} (95\% CI 0.08--0.62; regression on 3.4k doubt
-points with log-position and dataset), against $\approx$+26 for a real stop. Without any pairing,
-across all 460 natural loops the highest $P(\think)$ at any line break is $\approx$0.001 (median),
-and that closest point is where the stop MLPs push hardest (+9 to +12 vs.\ +5 at a typical line break
-and +24 at a real stop). The late MLPs are the model's general ``stop now'' gate; a loop is a run that
-never reaches the state that opens it.
+loop's commit point than at a healthy doubt. It is not (Figure~\ref{fig:gate}a): at the same position,
+loop doubts are +0.35 logits \emph{higher} (95\% CI 0.08--0.62), against $\approx$+26 for a real stop,
+and across all natural loops the highest $P(\think)$ at any line break is $\approx$0.001 (median).
+The late layers are the model's general ``stop now'' gate; a loop is a run that never reaches the state
+that opens it.
+
+\paragraph{Qwen3 spreads the gate.} Qwen3 shows the same gap (+27 to +28 on every benchmark), but only
+59\% of it is written by MLPs and 41\% by attention in the last four layers; its six strongest MLPs
+carry 47\%. Patching them recovers half the gap but never makes \think{} the top token. Patching all
+MLPs from layer 18 recovers 83\% and makes it the top token in 93\% of pairs, and replacing the residual
+stream at layer 21 or later recovers all of it: the decision is formed by layer 21 and written by many
+late components.
 
 \section{Does stopping fix loops?}
 \label{sec:fix}
@@ -164,102 +168,124 @@ never reaches the state that opens it.
 \begin{table}[t]
 \centering
 \small
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3pt}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lccc|c}
+\begin{tabular}{l|ccc|ccc|ccc}
 \toprule
- & AQuA & LogiQA & MATH & \textsc{catch} \\
+ & \multicolumn{3}{c|}{R1} & \multicolumn{3}{c|}{R1 greedy} & \multicolumn{3}{c}{Qwen3} \\
+ & none & force & switch & none & force & switch & none & force & switch \\
 \midrule
-left looping & 0 & 0 & 0 & -- \\
-resampled from commit (4k) & 7 & 20 & 30 & -- \\
-restore MLPs & 12 & 31 & 31 & -- \\
-force \think{} & 14 & 34 & 35 & -- \\
-boost logit(\think{}) & 24 & 36 & 39 & -- \\
-\midrule
-\emph{doubted answer was correct} & 42--58 & 59--66 & 48--58 & -- \\
-\emph{doubted answer was wrong} & 6--18 & 14--18 & 13--18 & -- \\
-\midrule
-answer runs to the 1.2k cap & 45 & 31 & 63 & 72 \\
-finished-run ceiling & 50 & 71 & 90 & -- \\
+AQuA & 31 & 39 & 41 & 28 & 58 & 52 & 38 & 46 & 38 \\
+LogiQA & 31 & 37 & 34 & 22 & 37 & 33 & 42 & 41 & 41 \\
+MATH-500 & 45 & 40 & 40 & 42 & 44 & 46 & 34 & 60 & 34 \\
+GSM8K & -- & -- & -- & 38 & 57 & 57 & -- & -- & -- \\
 \bottomrule
 \end{tabular}}
-\caption{Interventions at the commit point of natural loops (accuracy, \%; 3 sampling seeds per pair).
-95\% bootstrap CIs over pairs are $\pm$8--15 points (e.g.\ MATH force 22--51, restore 18--44); the three
-stops do not differ. All three end 89--100\% of loops at once; random, \think{}-direction-only and
-MLP-15 edits stop 0--7\%. Split rows: range over the three stops (n = 4/36/16 correct,
-24/59/15 wrong).}
+\caption{Live test: accuracy (\%) over fresh runs of the held-out questions (those that loop
+naturally) when the stop rule may fire. none = no intervention; force = \think{}; switch = the
+benchmark's own learned stop MLPs, set once. 95\% CIs are $\pm$8--13 points. Sampled GSM8K has too
+few held-out questions (R1: 5, Qwen3: 1).}
 \label{tab:fix}
 \end{table}
 
-We open the gate at each natural loop's commit point by restoring the MLPs once, forcing \think{},
-or adding the matched logit boost (Table~\ref{tab:fix}). All end the thinking at once; controls do
-not. Stopping costs nothing relative to letting the loop run 4k more tokens, but the three ways of
-stopping are equivalent and far below the ceiling, for two reasons. First, the doubt survives: the
-answer often opens with ``But wait'' and keeps re-checking (median 11--13 ``Wait''s) until the answer
-budget runs out (31--63\% of natural, 72\% of \textsc{catch} loops). Second, stopping freezes the
-doubted answer: when it was right, stopping returns it 42--66\% of the time against 6--39\% left
-alone; when it was wrong, accuracy stays at 6--18\%. Most AQuA loops (24/28) doubt a wrong answer.
-The same holds without pairs: applying the controlled MLP donor at the model's own closest-to-stop
-point in 60 natural loops stops all of them, with 33\% correct (forcing \think{}: 30\%; MLP-15
-control: 17\% stop, 8\% correct).
+\paragraph{Replay.} At the commit point of held-out natural loops, forcing \think{} ends every loop and
+the learned switch 79--91\% of R1's, but answers are right for only 14--36\% (R1, $T{=}0.6$; switch
+15--25\%), against 0\% if the loop is left alone. The doubt survives the stop: the answer often opens
+with ``But wait'' and keeps re-checking until the answer budget runs out (45--86\% of answers). In
+Qwen3 the switch stops 0\% of loops (forcing: 17--38\% correct), as its gate predicts. A broad patch of
+all late MLPs does stop all 20 Qwen3 loops we tested, with 10\% correct, the same as forcing \think{}.
 
-\section{The model knows, but stopping does not help it act}
-\label{sec:know}
-Stopping helps exactly when the doubted answer is correct, but the text does not reveal when: how
-often a loop re-states its answer does not predict that it is right (31--40\% at every count). The
-hidden state does. We train a logistic-regression probe on the layer-24 residual at 6.1k ``states an
-answer, then doubts it'' points (and real stops) from 1.6k sampled runs, labelled by the answer key,
-with 5-fold splits by question. It predicts correctness with AUC 0.88 overall and 0.77 at loop points
-(position baselines: 0.51); within datasets, 0.87 (MATH-500) and 0.80 (AQuA), but 0.53 (chance) on
-LogiQA, so the signal is specific to mathematical answers, in line with \citet{zhang2025know}.
+\paragraph{Live.} As a real stop rule (Table~\ref{tab:fix}), stopping helps on the MCQ benchmarks
+(R1: +3 to +10 points) and hurts on MATH-500 at $T{=}0.6$ ($-5$): there the rule cuts short runs that
+would have finished correctly (7) more often than it rescues loops (2). Gains are larger where loops
+are runs that would have solved the problem: greedy loops, which are mostly repetition (AQuA 28\% to
+58\%), and Qwen3's MATH loops, which mostly run out of budget (34\% to 60\%). Across all ten settings,
+the internal switch is never better than forcing \think{} by more than 2 points, and on Qwen3 it never
+fires. Opening the gate from inside adds nothing to opening it from outside.
 
-We then evaluate it as an online stopping rule on the 460 recorded natural loops: replaying each loop
-and using only the text so far, it stops at the first commit point where the held-out probe gives
-$P(\mathrm{correct})>0.7$, and the answer is then generated.
-The probe picks better points by the stated answer (40\% correct vs.\ 21\% at the first commit point),
-but not by the answer the model then writes: 19--36\% correct for AQuA, LogiQA and MATH-500 (MLP switch
-or forced \think{}), no better than stopping blindly, and because it stops only 40--49\% of these loops,
-its overall accuracy (8--18\%) is lower than stopping every loop (14--28\%). Even when the model's state
-encodes that its answer is right, a forced stop does not make it commit to that answer.
+\section{Resolving the conflict}
+\label{sec:resolve}
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{l|cc|cc}
+\toprule
+ & \multicolumn{2}{c|}{R1} & \multicolumn{2}{c}{Qwen3} \\
+no valid option & loops & ``None'' & loops & ``None'' \\
+\midrule
+MATH \textsc{catch} & 73 $\to$ \textbf{33} & 45 & 32 $\to$ \textbf{18} & 82 \\
+GSM8K \textsc{catch} & 71 $\to$ \textbf{21} & 65 & 0 $\to$ 0 & 96 \\
+AQuA, correct removed & 76 $\to$ \textbf{33} & 31 & 9 $\to$ \textbf{4} & 75 \\
+LogiQA, correct removed & 14 $\to$ \textbf{6} & 22 & 10 $\to$ 8 & 18 \\
+\bottomrule
+\end{tabular}}
+\caption{Allowing ``None'': loop rate (\%) without $\to$ with the added sentence, and the share of runs
+answering ``None''. R1: seed 0; Qwen3: 2 seeds.}
+\label{tab:none}
+\end{table}
+
+If the conflict drives the loop, a legitimate way out should remove it where stopping did not. We add
+one sentence to the prompt: ``If none of the options is correct, put None within \textbackslash
+boxed\{\}.'' Loops fall by 55--70\% for R1 and by 44--56\% where Qwen3 loops (MATH, AQuA), and the model now often declines
+(Table~\ref{tab:none}). The cost is small: on the same questions with a valid option, Qwen3 answers
+``None'' in 1--5\% of runs and its accuracy changes by at most 2 points (R1: 0 false ``None''s in 80 MATH
+\textsc{aligned} runs; \todo{R1 answerable sets}). The exit is not always taken: LogiQA runs still pick
+an option 70--74\% of the time, matching its weak trigger. \todo{gate reopen: logit of \think{} at
+``not among the options'' with vs.\ without the exit.}
 
 \section{Related work}
-Loops in LRMs have been characterised through attention \citep{duan2026circular,zhang2026astray}
-and broken by steering \citep{yu2026sophia} or budget forcing \citep{muennighoff2025s1}; we isolate a
-trigger and show that breaking a loop does not resolve it. Missing premises cause verbose reasoning
-\citep{fan2025missing}, and instruction-tuned models pick invalid options \citep{goral2025wait}; a
-reasoning model facing the same conflict fails to terminate. Hidden states encode answer correctness
-\citep{zhang2025know}; we show that acting on this signal with a forced stop does not recover it.
+Loops in LRMs have been characterised through attention \citep{duan2026circular,zhang2026astray} and
+broken by steering \citep{yu2026sophia} or budget forcing \citep{muennighoff2025s1}; we isolate a
+trigger and show that breaking a loop does not resolve it, while removing the trigger does. Missing
+premises cause verbose reasoning \citep{fan2025missing}, and instruction-tuned models pick invalid
+options \citep{goral2025wait}; a reasoning model facing the same conflict fails to terminate. Hidden
+states encode answer correctness \citep{zhang2025know}; acting on this signal with a forced stop does
+not recover it (Appendix~\ref{app:probe}).
 
 \section{Conclusion}
-Reasoning models loop when their answer cannot be reconciled with the options, a condition we create
-on constructed and real questions and that natural MCQ loops reproduce through the model's own
-errors. A generic late-MLP gate decides when to stop, and loops never open it. Forcing it open ends the
-thinking but not the doubt, so loop-breaking methods should be judged on what happens after the stop.
-The model even carries the missing signal, whether its answer is right, but a stop does not let it
-use it: resolving loops will require acting on the conflict itself, not on the stop.
+Reasoning models loop when their answer cannot be reconciled with the options, a condition we create on
+constructed and real questions and that predicts which natural questions loop. A generic late-layer
+gate decides when to stop, and loops never open it. Forcing it open, from outside or inside, ends the
+thinking but not the doubt; giving the model a legitimate answer for the conflict removes most loops.
+Loop-breaking methods should be judged on what happens after the stop, and resolving loops requires
+acting on their cause.
 
 \section*{Limitations}
-We study one model (\todo{second model}); results may differ for larger or differently trained LRMs.
-Commit points come from a heuristic detector (hand-checked: 11/12 controlled, 9/10 AQuA/LogiQA,
-19/31 MATH-500, all 13 MATH pairs that commit to the gold answer correct); the comparison of a real
-stop with a doubt is partly built in by selection, which is why we rely on the doubt-vs-doubt and
-position-matched comparisons. Interventions use three samples per pair; AQuA contributes
-28 pairs. The probe's labels are the correctness of the stated answer, not of the answer written after
-a forced stop, and it fails on LogiQA; the stopping rule is evaluated by replaying recorded loops, not in
-live generation, and only on runs known to loop, so its effect on runs that would have finished is untested. Activations are bfloat16, to which late layers are sensitive.
-We do not identify the upstream computation that opens the gate, and loops are defined by a 12k-token
-budget.
+We study two models of 4--7B parameters with a 12k-token budget; larger or differently trained LRMs may
+differ, and Qwen3 is evaluated only with sampling, as its authors recommend. Commit points come from a
+text heuristic that does not use the answer key (hand-checked: 11/12 controlled, 9/10 AQuA/LogiQA; on
+MATH about 2 in 3 land on a stated result). Held-out test sets are small for some settings (sampled GSM8K
+5 and 1 questions; Qwen3 AQuA 13), and LogiQA yields few learning pairs (24--26). The live test's runs up
+to the trigger are generated with vLLM and continued with TransformerLens; its trigger threshold was fixed
+in advance and not tuned. Activations are bfloat16, to which late layers are sensitive. We do not
+identify the upstream computation that opens the gate.
 
 \bibliography{references}
 
 \appendix
 \section{Implementation details}
 \label{app:details}
-Mechanism analyses use TransformerLens with RMSNorm folding and unembedding centering applied in
-place on the GPU (matching an unprocessed model to bf16 precision), KV-cached batched decoding, and
-positions mapped through tokenizer character offsets. A finished run is rebuilt as reasoning~+~\think{}
-~+~answer exactly as generated: inserting an extra newline before \think{} moves the ``stop'' to a
-position where $P(\think)\approx0$, an error we found in and corrected for an earlier analysis. MATH
-answers are scored with math-verify. Code and data will be released.
+Mechanism analyses use TransformerLens with RMSNorm folding and unembedding centering applied in place on
+the GPU (matching an unprocessed model to bf16 precision), KV-cached batched decoding, and positions mapped
+through tokenizer character offsets. A finished run is rebuilt as reasoning~+~\think{}~+~answer exactly as
+generated: inserting an extra newline before \think{} moves the ``stop'' to a position where
+$P(\think)\approx0$. Commit points: the first sentence-initial doubt (``Wait'', ``But'', ``Alternatively'',
+\dots) after a sentence that states the value the loop states most often (MCQs: with a conclusion cue such as
+``answer'' or ``not among the options''; open-ended: a sentence ending in a stated result, excluding
+conditions and checks). An earlier version that preferred the gold value for open-ended loops inflated MATH
+replay accuracy (38\% vs.\ 14\% with forcing) and was replaced. MATH answers are scored with math-verify.
+Code and data will be released.
+
+\section{The model knows its answer is right, but a stop does not use it}
+\label{app:probe}
+A logistic-regression probe on R1's layer-24 residual at 6.1k ``states an answer, then doubts it'' points
+from 1.6k sampled runs, labelled by the answer key with 5-fold splits by question, predicts whether the
+stated answer is correct with AUC 0.88 overall and 0.77 at loop points (MATH-500 0.87, AQuA 0.80, LogiQA
+0.53). Used as an online stopping rule on recorded loops (stop at the first point with held-out
+$P(\mathrm{correct})>0.7$), it picks better stated answers (40\% vs.\ 21\% correct) but not better written
+answers (19--36\%), and its overall accuracy (8--18\%) is below stopping every loop (14--28\%).
 
 \end{document}
