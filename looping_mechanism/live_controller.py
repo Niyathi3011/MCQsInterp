@@ -32,18 +32,18 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-RES = os.path.join(HERE, "results", "r1-distill-qwen-7b")
+from model_cfg import CFG, MODEL, TAG  # noqa: E402  (LOOP_MODEL env var)
+RES = os.path.join(HERE, "results", TAG)
 PROBE = os.path.join(RES, "answer_probe")
 MSP = os.path.join(RES, "model_stop_points")
 OUT = os.path.join(RES, "live_controller")
-MODEL = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
 sys.path.insert(0, os.path.join(ROOT, "natural_looping"))
 sys.path.insert(0, os.path.join(ROOT, "phase2"))
 sys.path.insert(0, HERE)
 from generate import extract, is_correct  # noqa: E402
 from model_stop_points import chat_prefix, load_loops  # noqa: E402
 
-LAYER = 24
+LAYER = CFG["probe_layer"]
 
 
 # --------------------------------------------------------------------- fit
@@ -188,7 +188,7 @@ def stage_switch(args):
     from loop_probe import get_model, think_dir
     from rq3_resolve import Cond, generate_batch
     rq3_resolve.prefill.__defaults__ = (256,)
-    comp = [27, 26, 25, 24, 22, 20]
+    comp = CFG["stop"]
     model = get_model(MODEL, "cuda", "bfloat16")
     model.eval()
     model.requires_grad_(False)

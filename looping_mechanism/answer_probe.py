@@ -31,15 +31,15 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-OUT = os.path.join(HERE, "results", "r1-distill-qwen-7b", "answer_probe")
-MODEL = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+from model_cfg import CFG, MODEL, TAG  # noqa: E402  (LOOP_MODEL env var)
+OUT = os.path.join(HERE, "results", TAG, "answer_probe")
 sys.path.insert(0, os.path.join(ROOT, "natural_looping"))
 sys.path.insert(0, os.path.join(ROOT, "phase2"))
 sys.path.insert(0, HERE)
 from generate import DATA, extract, is_correct, letter_of_stated_number  # noqa: E402
 
-NAT = os.path.join(ROOT, "natural_looping", "results", "r1-distill-qwen-7b", "sampled_t0.6_max12k")
-CTRL = os.path.join(ROOT, "controlled_looping", "results", "r1-distill-qwen-7b",
+NAT = os.path.join(ROOT, "natural_looping", "results", TAG, "sampled_t0.6_max12k")
+CTRL = os.path.join(ROOT, "controlled_looping", "results", TAG,
                     "sampled_t0.6_max12k", "prompt_boxed")
 
 
@@ -54,6 +54,8 @@ def load_runs():
             items[r["id"]] = r
     runs = []
     for f in sorted(glob.glob(os.path.join(NAT, "seed*", "*.jsonl"))):
+        if os.path.basename(f) == "gsm8k.jsonl":     # same datasets as the R1 analysis
+            continue
         if os.path.basename(f) == "summary.json":
             continue
         for r in map(json.loads, open(f)):
@@ -233,7 +235,7 @@ def main():
     sys.stdout.reconfigure(line_buffering=True)
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", required=True, choices=["extract", "train"])
-    ap.add_argument("--layers", default="14,20,24,27")
+    ap.add_argument("--layers", default=CFG["probe_layers"])
     ap.add_argument("--n-finished", type=int, default=1200)
     ap.add_argument("--max-points", type=int, default=8)
     ap.add_argument("--chunk", type=int, default=256)

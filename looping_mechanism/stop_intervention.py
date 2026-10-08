@@ -51,8 +51,11 @@ NAT = ("nat_aqua", "nat_logiqa", "nat_math500")
 
 
 # --------------------------------------------------------------------- pairs & items
+PAIRS = os.path.join(HERE, "data", "pairs.jsonl")
+
+
 def load_pairs(n_ctrl, seed=0):
-    P = [json.loads(l) for l in open(os.path.join(HERE, "data", "pairs.jsonl"))]
+    P = [json.loads(l) for l in open(PAIRS)]
     nat = [p for p in P if p["group"] in NAT]
     ctrl = [p for p in P if p["group"] == "ctrl_cross"]
     random.Random(seed).shuffle(ctrl)
@@ -161,7 +164,11 @@ def stage_intervene(args):
     sys.path.insert(0, HERE)
     from stop_signal import measure, positions
     loop_probe.RAW_THINK = False
-    comp, ctrl = parse_layers(args.components), parse_layers(args.control_layers)
+    if args.components.endswith(".json"):
+        cj = json.load(open(args.components))
+        comp, ctrl = cj["components"], cj["control"]
+    else:
+        comp, ctrl = parse_layers(args.components), parse_layers(args.control_layers)
     model = get_model(MODEL, "cuda", "bfloat16")
     model.eval()
     model.requires_grad_(False)
@@ -171,7 +178,7 @@ def stage_intervene(args):
 
     # the controlled donor: mean mlp_out right before </think> over the sampled
     # catch-vs-aligned finished runs (as in stop_signal.py)
-    allp = [json.loads(l) for l in open(os.path.join(HERE, "data", "pairs.jsonl"))]
+    allp = [json.loads(l) for l in open(PAIRS)]
     vecs = []
     for p in [q for q in allp if q["group"] == "ctrl_cross"]:
         pos = positions(model, p, tid)
@@ -332,6 +339,7 @@ def stage_summary(args):
 
 
 def main():
+    global MODEL, PAIRS, OUT
     sys.stdout.reconfigure(line_buffering=True)
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", required=True, choices=["continue", "intervene", "summary"])
@@ -340,13 +348,18 @@ def main():
     ap.add_argument("--max-new", type=int, default=4000)
     ap.add_argument("--workers", type=int, default=32)
     ap.add_argument("--base-url", default="http://localhost:8000/v1")
-    ap.add_argument("--components", default="27,26,25,24,22,20")
+    ap.add_argument("--components", default="27,26,25,24,22,20",
+                    help="stop-signal MLPs, or a components.json written by stop_signal.py")
+    ap.add_argument("--model", default=MODEL)
+    ap.add_argument("--pairs", default=PAIRS)
+    ap.add_argument("--out", default=OUT)
     ap.add_argument("--control-layers", default="15")
     ap.add_argument("--think-cap", type=int, default=256)
     ap.add_argument("--post-cap", type=int, default=1200)
     ap.add_argument("--seed", type=int, default=0, help="intervene: sampling seed (0 = the main run)")
     ap.add_argument("--natural-only", action="store_true", help="intervene: natural pairs only")
     args = ap.parse_args()
+    MODEL, PAIRS, OUT = args.model, args.pairs, args.out
     {"continue": stage_continue, "intervene": stage_intervene, "summary": stage_summary}[args.stage](args)
 
 

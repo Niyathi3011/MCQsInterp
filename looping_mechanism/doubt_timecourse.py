@@ -89,23 +89,30 @@ def read_points(model, toks, points, u, tid, comp, chunk=512):
 
 
 def main():
+    global OUT
     sys.stdout.reconfigure(line_buffering=True)
     ap = argparse.ArgumentParser()
-    ap.add_argument("--components", default="27,26,25,24,22,20")
+    ap.add_argument("--components", default="27,26,25,24,22,20",
+                    help="stop-signal MLPs, or a components.json written by stop_signal.py")
+    ap.add_argument("--model", default="deepseek-ai/DeepSeek-R1-Distill-Qwen-7B")
+    ap.add_argument("--pairs", default=os.path.join(HERE, "data", "pairs.jsonl"))
+    ap.add_argument("--out", default=OUT)
     ap.add_argument("--max-points", type=int, default=10)
     ap.add_argument("--groups", default="greedy_ref,ctrl_cross,ctrl_same,nat_aqua,nat_logiqa,nat_math500")
     args = ap.parse_args()
-    comp = parse_layers(args.components)
+    OUT = args.out
+    comp = (json.load(open(args.components))["components"] if args.components.endswith(".json")
+            else parse_layers(args.components))
     groups = args.groups.split(",")
     os.makedirs(OUT, exist_ok=True)
     loop_probe.RAW_THINK = False
-    model = get_model("deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", "cuda", "bfloat16")
+    model = get_model(args.model, "cuda", "bfloat16")
     model.eval()
     model.requires_grad_(False)
     tid, u = think_dir(model)
     u = u.float()
 
-    pairs = [p for p in map(json.loads, open(os.path.join(HERE, "data", "pairs.jsonl")))
+    pairs = [p for p in map(json.loads, open(args.pairs))
              if p["group"] in groups]
     path = os.path.join(OUT, "points.jsonl")
     done = {json.loads(l)["id"] for l in open(path)} if os.path.exists(path) else set()

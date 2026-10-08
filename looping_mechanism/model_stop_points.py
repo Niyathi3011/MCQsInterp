@@ -32,15 +32,15 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-OUT = os.path.join(HERE, "results", "r1-distill-qwen-7b", "model_stop_points")
-MODEL = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+from model_cfg import CFG, MODEL, TAG  # noqa: E402  (LOOP_MODEL env var)
+OUT = os.path.join(HERE, "results", TAG, "model_stop_points")
 sys.path.insert(0, os.path.join(ROOT, "natural_looping"))
 sys.path.insert(0, os.path.join(ROOT, "phase2"))
 sys.path.insert(0, HERE)
 from generate import DATA, extract, is_correct  # noqa: E402
 
-NAT = os.path.join(ROOT, "natural_looping", "results", "r1-distill-qwen-7b", "sampled_t0.6_max12k")
-CTRL = os.path.join(ROOT, "controlled_looping", "results", "r1-distill-qwen-7b",
+NAT = os.path.join(ROOT, "natural_looping", "results", TAG, "sampled_t0.6_max12k")
+CTRL = os.path.join(ROOT, "controlled_looping", "results", TAG,
                     "sampled_t0.6_max12k", "prompt_boxed")
 
 
@@ -56,6 +56,8 @@ def load_loops():
             items[("ctrl", r["id"])] = r
     loops = []
     for f in sorted(glob.glob(os.path.join(NAT, "seed*", "*.jsonl"))):
+        if os.path.basename(f) == "gsm8k.jsonl":     # same datasets as the R1 analysis
+            continue
         for r in map(json.loads, open(f)):
             if r["truncated"]:
                 loops.append(dict(uid=f"{r['id']}|s{r['seed']}", group=r["dataset"],
@@ -228,7 +230,7 @@ def stage_mlp(args):
         donor = torch.load(dpath)
     else:                                           # mean over the G2 finished runs
         vecs = []
-        for p in map(json.loads, open(os.path.join(HERE, "data", "pairs.jsonl"))):
+        for p in map(json.loads, open(os.path.join(HERE, "data", CFG["ref_pairs"]))):
             if p["group"] == "ctrl_cross":
                 pos = positions(model, p, tid)
                 if pos:
@@ -335,7 +337,7 @@ def main():
     sys.stdout.reconfigure(line_buffering=True)
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", required=True, choices=["scan", "stop", "mlp", "summary"])
-    ap.add_argument("--components", default="27,26,25,24,22,20")
+    ap.add_argument("--components", default=",".join(map(str, CFG["stop"])))
     ap.add_argument("--n-mlp", type=int, default=60)
     ap.add_argument("--chunk", type=int, default=256)
     ap.add_argument("--seeds", type=int, default=2)

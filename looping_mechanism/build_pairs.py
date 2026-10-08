@@ -36,11 +36,10 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, "phase2"))
 from prep_loop import BACKTRACK  # noqa: E402
 
-CTRL = os.path.join(ROOT, "controlled_looping", "results", "r1-distill-qwen-7b",
-                    "sampled_t0.6_max12k", "prompt_boxed")
-NAT = os.path.join(ROOT, "natural_looping", "results", "r1-distill-qwen-7b",
-                   "sampled_t0.6_max12k", "matched_pairs.jsonl")
-GREEDY = os.path.join(ROOT, "phase2", "loop_pairs.jsonl")
+R1 = "r1-distill-qwen-7b"
+CTRL = os.path.join(ROOT, "controlled_looping", "results", R1, "sampled_t0.6_max12k", "prompt_boxed")
+NAT = os.path.join(ROOT, "natural_looping", "results", R1, "sampled_t0.6_max12k", "matched_pairs.jsonl")
+GREEDY = os.path.join(ROOT, "phase2", "loop_pairs.jsonl")    # R1 only
 
 # weak cue: any stated result -- enough when we look for a KNOWN value (the gold)
 CUE = re.compile(r"\b(so|therefore|thus|hence|answer|which is|we get|get|gives|equals|"
@@ -121,6 +120,19 @@ def piece(r, **kw):
 
 
 def main():
+    global CTRL, NAT
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--model-tag", default=R1, help="results subfolder of the model, e.g. "
+                    "qwen3-4b-thinking-2507")
+    args = ap.parse_args()
+    if args.model_tag != R1:
+        CTRL = os.path.join(ROOT, "controlled_looping", "results", args.model_tag,
+                            "sampled_t0.6_max12k", "prompt_boxed")
+        NAT = os.path.join(ROOT, "natural_looping", "results", args.model_tag,
+                           "sampled_t0.6_max12k", "matched_pairs.jsonl")
+    out = os.path.join(HERE, "data", "pairs.jsonl" if args.model_tag == R1
+                       else f"pairs_{args.model_tag}.jsonl")
     rng = random.Random(0)
     pairs, stats = [], collections.Counter()
     catch, aligned, opn = load_seeds("catch"), load_seeds("aligned"), load_seeds("open")
@@ -168,7 +180,7 @@ def main():
         add(g, p["id"], lr, fr, None if mcq else p["gold"], mcq,
             dict(seed_loop=p["loop"]["seed"], seed_finish=p["finish"]["seed"]))
 
-    for rec in map(json.loads, open(GREEDY)):
+    for rec in (map(json.loads, open(GREEDY)) if args.model_tag == R1 else []):
         c, a = rec["catch"], rec["aligned"]
         tmpl = ("{q}\n(A) {a}\n(B) {b}\n\nEnd with a line formatted exactly as: "
                 "Answer: (X)  where X is A or B.")
@@ -180,7 +192,7 @@ def main():
             dict(seed_loop="greedy", seed_finish="greedy"))
 
     os.makedirs(os.path.join(HERE, "data"), exist_ok=True)
-    with open(os.path.join(HERE, "data", "pairs.jsonl"), "w") as f:
+    with open(out, "w") as f:
         for p in pairs:
             f.write(json.dumps(p, ensure_ascii=False) + "\n")
     groups = sorted({g for g, _ in stats})
@@ -188,7 +200,7 @@ def main():
     for g in groups:
         how = collections.Counter(p["loop"]["commit_how"].split("(")[0] for p in pairs if p["group"] == g)
         print(f"{g:12s} {stats[(g, 'pairs')]:6d} {stats[(g, 'no commit point')]:16d}   {dict(how)}")
-    print(f"\n{len(pairs)} pairs -> looping_mechanism/data/pairs.jsonl")
+    print(f"\n{len(pairs)} pairs -> {os.path.relpath(out, ROOT)}")
 
 
 if __name__ == "__main__":

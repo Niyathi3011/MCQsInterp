@@ -126,7 +126,7 @@ def measure(model, toks, pos, u, tid, patches=None):
     return out, vec
 
 
-def summarise(rows, comp, ctrl, nL):
+def summarise(rows, comp, ctrl, nL, model_name="DeepSeek-R1-Distill-Qwen-7B"):
     from scipy.stats import spearmanr, wilcoxon
     S = collections.OrderedDict()
     for g in GROUPS:
@@ -140,7 +140,7 @@ def summarise(rows, comp, ctrl, nL):
             dm = np.mean([r["finish"]["mlp"] - r["loop"]["mlp"] for r in R], 0)
             da = np.mean([r["finish"]["attn"] - r["loop"]["attn"] for r in R], 0)
             rec = {k: float(np.mean([r["loop"][f"patch_{k}"] - r["loop"]["logit"] for r in R]) / gap.mean())
-                   for k in ("own", "donor_greedy", "donor_ctrl", "control")}
+                   for k in ("own", "donor_greedy", "donor_ctrl", "control") if f"patch_{k}" in R[0]["loop"]}
             try:
                 p = float(wilcoxon(fl, ll).pvalue)
             except ValueError:
@@ -155,12 +155,13 @@ def summarise(rows, comp, ctrl, nL):
                 comp_share=float(dm[comp].sum() / gap.mean()), recover=rec,
                 lens_finish=np.mean([r["finish"]["lens"] for r in R], 0),
                 lens_loop=np.mean([r["loop"]["lens"] for r in R], 0))
-    ref = S.get(("greedy_ref", False))
+    ref = S.get(("greedy_ref", False)) or S.get(("ctrl_cross", False))
+    ref_name = "greedy controlled pairs" if ("greedy_ref", False) in S else "controlled catch-vs-aligned pairs"
     for s in S.values():
         s["rho_vs_greedy"] = float(spearmanr(s["mlp_delta"], ref["mlp_delta"])[0]) if ref else float("nan")
 
     L = ["# The </think> stop signal: controlled vs natural loops", "",
-         "DeepSeek-R1-Distill-Qwen-7B. Each pair: one run that FINISHED and one that LOOPED.",
+         f"{model_name}. Each pair: one run that FINISHED and one that LOOPED.",
          "finish@stop = token before </think> in the finished run; loop@commit = token",
          "before the doubt phrase after the looping run commits to its answer. Controlled",
          "and natural pairs are sampled (T=0.6, boxed prompt) unless marked greedy.",
@@ -173,23 +174,21 @@ def summarise(rows, comp, ctrl, nL):
                  f"{s['loop_logit']:+.2f} | **{s['gap']:+.2f}** | {100 * s['gap_pos']:.0f}% | "
                  f"{100 * s['finish_top1']:.0f}% / {100 * s['loop_top1']:.0f}% | {s['p']:.1e} |")
     L += ["", "## 2. Which components carry the gap?", "",
-          f"MLP share = MLP part of the gap (vs attention). Stop-signal MLPs from the greedy "
-          f"experiment: {comp}. rho = Spearman correlation of the 28 per-MLP gap contributions "
-          "with the greedy controlled pairs.", "",
+          f"MLP share = MLP part of the gap (vs attention). Stop-signal MLPs: {comp}. rho = "
+          f"Spearman correlation of the {nL} per-MLP gap contributions with the {ref_name}.", "",
           "| group | MLP share | top-6 MLPs by gap | share of gap in MLPs "
-          f"{comp} | rho vs greedy |", "|---|---|---|---|---|"]
+          f"{comp} | rho vs reference |", "|---|---|---|---|---|"]
     for (g, st), s in S.items():
         L.append(f"| {LABEL[g]}{' (strict)' if st else ''} | {100 * s['mlp_share']:.0f}% | "
                  f"{s['top_mlps']} | {100 * s['comp_share']:.0f}% | {s['rho_vs_greedy']:+.2f} |")
     L += ["", "## 3. Does restoring the late MLPs restore the stop logit?", "",
           f"% of the finish-loop gap recovered by replacing MLPs {comp} at loop@commit.", "",
-          "| group | own finish values | greedy-experiment donor | sampled-controlled donor | "
-          f"control: MLP {ctrl} |", "|---|---|---|---|---|"]
+          "| group | own finish values | sampled-controlled donor | "
+          f"control: MLP {ctrl} |", "|---|---|---|---|"]
     for (g, st), s in S.items():
         r = s["recover"]
         L.append(f"| {LABEL[g]}{' (strict)' if st else ''} | {100 * r['own']:.0f}% | "
-                 f"{100 * r['donor_greedy']:.0f}% | {100 * r['donor_ctrl']:.0f}% | "
-                 f"{100 * r['control']:.0f}% |")
+                 f"{100 * r['donor_ctrl']:.0f}% | {100 * r['control']:.0f}% |")
     return S, L
 
 
@@ -198,12 +197,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pairs", default=os.path.join(HERE, "data", "pairs.jsonl"))
     ap.add_argument("--model", default="deepseek-ai/DeepSeek-R1-Distill-Qwen-7B")
-    ap.add_argument("--components", default="27,26,25,24,22,20")
-    ap.add_argument("--control-layers", default="15")
+    ap.add_argument("--components", default="27,26,25,24,22,20",
+                    help="stop-signal MLPs to patch, or 'auto' = the 6 MLPs with the largest gap "
+                         "contribution on the controlled catch-vs-aligned pairs (found first)")
+    ap.add_argument("--control-layers", default="15", help="control MLP(s), or 'auto' = middle layer")
     ap.add_argument("--n", type=int, default=0, help="limit pairs per group (0 = all)")
     ap.add_argument("--out-dir", default=os.path.join(HERE, "results", "r1-distill-qwen-7b"))
     args = ap.parse_args()
-    comp, ctrl = parse_layers(args.components), parse_layers(args.control_layers)
     os.makedirs(args.out_dir, exist_ok=True)
     loop_probe.RAW_THINK = False
 
@@ -212,9 +212,14 @@ def main():
     model.requires_grad_(False)
     tid, u = think_dir(model)
     u = u.float()
-    greedy_donor, k = donor_mean(model, [json.loads(l) for l in open(
-        os.path.join(ROOT, "phase2", "loop_pairs.jsonl"))], sorted(set(comp) | set(ctrl)))
-    print(f"greedy donor: mean aligned mlp_out before </think> over {k} greedy pairs")
+    nL = model.cfg.n_layers
+    ctrl = [nL // 2] if args.control_layers == "auto" else parse_layers(args.control_layers)
+    comp = None if args.components == "auto" else parse_layers(args.components)
+    greedy_donor = None
+    if "R1-Distill-Qwen-7B" in args.model and comp is not None:   # the original greedy pairs
+        greedy_donor, k = donor_mean(model, [json.loads(l) for l in open(
+            os.path.join(ROOT, "phase2", "loop_pairs.jsonl"))], sorted(set(comp) | set(ctrl)))
+        print(f"greedy donor: mean aligned mlp_out before </think> over {k} greedy pairs")
 
     by = collections.defaultdict(list)
     for p in map(json.loads, open(args.pairs)):
@@ -233,11 +238,22 @@ def main():
             continue
         tf, ka, tl, kc = pos
         m, vec = measure(model, tf, ka, u, tid)
-        fin[p["id"]] = (pos, m, {L: vec[L] for L in sorted(set(comp) | set(ctrl))})
+        fin[p["id"]] = (pos, m, {L: v.cpu() for L, v in vec.items()})
         if (i + 1) % 50 == 0:
             print(f"  pass 1 (finished runs): {i + 1}/{len(work)}")
+    if comp is None:            # find the stop MLPs from the controlled catch-vs-aligned pairs
+        deltas = []
+        for p in work:
+            if p["group"] == "ctrl_cross" and p["id"] in fin:
+                (tf, ka, tl, kc), fm, _ = fin[p["id"]]
+                deltas.append(fm["mlp"] - measure(model, tl, kc, u, tid)[0]["mlp"])
+        dm = np.mean(deltas, 0)
+        comp = sorted(int(x) for x in np.argsort(-dm)[:6])
+        ctrl = [c for c in ctrl if c not in comp] or [nL // 2 - 1]
+        print(f"auto stop MLPs (top-6 gap contribution on {len(deltas)} controlled pairs): {comp}; "
+              f"control: {ctrl}")
     cc = [v[2] for pid, v in fin.items() if pid.startswith("ctrl_") and not pid.startswith("ctrlsame")]
-    ctrl_donor = {L: torch.stack([c[L] for c in cc]).mean(0) for L in comp}
+    ctrl_donor = {L: torch.stack([c[L] for c in cc]).mean(0).cuda() for L in comp}
     print(f"sampled ctrl donor: mean over {len(cc)} ctrl_cross finished runs; "
           f"skipped (no clean </think>/commit position): {dict(skipped)}")
 
@@ -247,14 +263,17 @@ def main():
         if p["id"] not in fin:
             continue
         (tf, ka, tl, kc), fm, fvec = fin[p["id"]]
-        lm, _ = measure(model, tl, kc, u, tid, patches={
-            "own": {L: fvec[L] for L in comp}, "donor_greedy": {L: greedy_donor[L] for L in comp},
-            "donor_ctrl": ctrl_donor, "control": {L: fvec[L] for L in ctrl}})
+        patches = {"own": {L: fvec[L].cuda() for L in comp}, "donor_ctrl": ctrl_donor,
+                   "control": {L: fvec[L].cuda() for L in ctrl}}
+        if greedy_donor is not None:
+            patches["donor_greedy"] = {L: greedy_donor[L] for L in comp}
+        lm, _ = measure(model, tl, kc, u, tid, patches=patches)
         rows.append(dict(group=p["group"], id=p["id"], finish=fm, loop=lm))
         if (i + 1) % 50 == 0:
             print(f"  pass 2 (looping runs): {i + 1}/{len(work)}")
 
-    S, L = summarise(rows, comp, ctrl, model.cfg.n_layers)
+    S, L = summarise(rows, comp, ctrl, nL, args.model.split("/")[-1])
+    json.dump(dict(components=comp, control=ctrl), open(os.path.join(args.out_dir, "components.json"), "w"))
     ser = lambda x: x.tolist() if isinstance(x, np.ndarray) else x  # noqa: E731
     json.dump({f"{g}{'/strict' if st else ''}": {k: ser(v) for k, v in s.items()}
                for (g, st), s in S.items()},

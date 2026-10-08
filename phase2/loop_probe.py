@@ -26,7 +26,7 @@ RAW_THINK = False
 
 
 # ----------------------------------------------------------------------------- model
-def get_model(name, device, dtype, process=True):
+def get_model(name, device, dtype, process=True, n_ctx=None):
     """Equivalent of HookedTransformer.from_pretrained (default processing) for
     RMSNorm models, without its RAM peak.  TransformerLens 3.8 upcasts the whole
     state dict to fp32 and deep-copies it at every processing step: ~60 GB for a
@@ -42,8 +42,12 @@ def get_model(name, device, dtype, process=True):
     orig = ProcessWeights.__dict__["process_weights"]
     ProcessWeights.process_weights = staticmethod(lambda sd, *a, **kw: sd)
     try:
+        # TransformerLens caps Qwen3's context at 2,048 tokens, and extending the rotary
+        # table on the fly breaks under the KV cache; our traces run to ~12k tokens
+        n_ctx = n_ctx or (32768 if "qwen3" in name.lower() else None)
+        kw = {} if n_ctx is None else {"n_ctx": n_ctx}
         model = HookedTransformer.from_pretrained_no_processing(name, dtype=dtype,
-                                                                device=device)
+                                                                device=device, **kw)
     finally:
         ProcessWeights.process_weights = orig
     assert model.cfg.normalization_type == "RMS", model.cfg.normalization_type
