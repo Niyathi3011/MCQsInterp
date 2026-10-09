@@ -35,7 +35,7 @@ it is as closed at healthy self-doubt as in loops. Opening it, by forcing \think
 internal switch learned on controlled loops and tested on held-out natural ones, ends loops without
 resolving them: in a live test, stopping changes accuracy by $-5$ to $+30$ points and the switch
 never beats forcing the token. Resolving the conflict works better: allowing ``None'' as an answer
-removes 55--70\% of R1's controlled loops with almost no cost on answerable questions.
+removes half or more of the conflict loops with almost no cost on answerable questions.
 \end{abstract}
 
 \section{Introduction}
@@ -216,25 +216,30 @@ fires. Opening the gate from inside adds nothing to opening it from outside.
  & \multicolumn{2}{c|}{R1} & \multicolumn{2}{c}{Qwen3} \\
 no valid option & loops & ``None'' & loops & ``None'' \\
 \midrule
-MATH \textsc{catch} & 73 $\to$ \textbf{33} & 45 & 32 $\to$ \textbf{18} & 82 \\
-GSM8K \textsc{catch} & 71 $\to$ \textbf{21} & 65 & 0 $\to$ 0 & 96 \\
-AQuA, correct removed & 76 $\to$ \textbf{33} & 31 & 9 $\to$ \textbf{4} & 75 \\
-LogiQA, correct removed & 14 $\to$ \textbf{6} & 22 & 10 $\to$ 8 & 18 \\
+MATH \textsc{catch} & 76 $\to$ \textbf{35} & 44 & 32 $\to$ \textbf{18} & 82 \\
+GSM8K \textsc{catch} & 72 $\to$ \textbf{19} & 66 & 0 $\to$ 0 & 96 \\
+AQuA, correct removed & 74 $\to$ \textbf{35} & 30 & 9 $\to$ \textbf{4} & 75 \\
+LogiQA, correct removed & 16 $\to$ \textbf{8} & 20 & 10 $\to$ 8 & 18 \\
 \bottomrule
 \end{tabular}}
 \caption{Allowing ``None'': loop rate (\%) without $\to$ with the added sentence, and the share of runs
-answering ``None''. R1: seed 0; Qwen3: 2 seeds.}
+answering ``None'' (2 seeds each).}
 \label{tab:none}
 \end{table}
 
 If the conflict drives the loop, a legitimate way out should remove it where stopping did not. We add
 one sentence to the prompt: ``If none of the options is correct, put None within \textbackslash
-boxed\{\}.'' Loops fall by 55--70\% for R1 and by 44--56\% where Qwen3 loops (MATH, AQuA), and the model now often declines
-(Table~\ref{tab:none}). The cost is small: on the same questions with a valid option, Qwen3 answers
-``None'' in 1--5\% of runs and its accuracy changes by at most 2 points (R1: 0 false ``None''s in 80 MATH
-\textsc{aligned} runs; \todo{R1 answerable sets}). The exit is not always taken: LogiQA runs still pick
-an option 70--74\% of the time, matching its weak trigger. \todo{gate reopen: logit of \think{} at
-``not among the options'' with vs.\ without the exit.}
+boxed\{\}.'' Loops fall by 50--74\% for R1 and by 44--56\% where Qwen3 loops (MATH, AQuA), and the model now often declines
+(Table~\ref{tab:none}). The cost is small: on the same questions with a valid option, the models answer
+``None'' in 1--5\% of runs and accuracy changes by at most 2 points. The exit is not always taken: LogiQA runs still pick
+an option 70--74\% of the time, matching its weak trigger.
+
+\paragraph{The exit does not open the gate; reaching a conclusion does.} Where the model says its answer
+is not among the options, the stop signal is equally low with or without the exit, and whether or not the
+run then declines (R1: maximum logit +5.9, +6.1 and +6.3; Qwen3 +0.4 to +1.0; \think{} is never the top
+token there; 60 runs per group). It rises only at the run's actual stop, after it has written ``None''
+(+30 in R1, +26 in Qwen3), as at any real stop. The exit works upstream of the gate: it gives the
+reasoning a conclusion it can reach, and the generic gate then opens as usual.
 
 \section{Related work}
 Loops in LRMs have been characterised through attention \citep{duan2026circular,zhang2026astray} and
