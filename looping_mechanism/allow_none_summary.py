@@ -58,7 +58,10 @@ def main():
                 continue                                   # partial set (still running): skip
             R += rr
             if bp.startswith("natural:"):
-                B += [r for r in jl(os.path.join(N, f"seed{s}", f"{bp[8:]}.jsonl")) if r["idx"] in idx]
+                nat = os.path.join(N, f"seed{s}", f"{bp[8:]}.jsonl")
+                if not os.path.exists(nat):    # behaviour-only models: the original form run on its own
+                    nat = os.path.join(C, f"{bp[8:]}_forms", f"seed{s}", "original.jsonl")
+                B += [r for r in jl(nat) if r["idx"] in idx]
             else:
                 B += jl(os.path.join(C, bp.format(s) + ".jsonl"))
         if not R:

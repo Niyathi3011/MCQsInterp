@@ -76,7 +76,8 @@ def main():
             if not r["truncated"] and r.get("pred"):
                 opn[f"aqua_{r['idx']}"].append(r["pred"])
     loops = collections.defaultdict(list)
-    for p in glob.glob(os.path.join(NAT, "seed*", "aqua.jsonl")):
+    for p in (glob.glob(os.path.join(NAT, "seed*", "aqua.jsonl"))
+              or glob.glob(os.path.join(CTL, "aqua_forms", "seed*", "original.jsonl"))):
         for r in map(json.loads, open(p)):
             loops[r["id"]].append(r["truncated"])
     keep = {f"aqua_{json.loads(l)['idx']}" for l in open(os.path.join(ROOT, "controlled_looping", "data",
@@ -109,7 +110,12 @@ def main():
             f.write(json.dumps(r) + "\n")
 
     # ---- B: matched pairs, does the first stated answer fit?
-    P = [json.loads(l) for l in open(os.path.join(NAT, "matched_pairs.jsonl"))]
+    mp = os.path.join(NAT, "matched_pairs.jsonl")
+    if not os.path.exists(mp):
+        open(os.path.join(out, "summary.md"), "w").write("\n".join(L) + "\n")
+        print("\n".join(L))
+        return
+    P = [json.loads(l) for l in open(mp)]
     L += ["", "## B. Same question, looped in one seed and finished in another: does the first stated "
           "answer already fit?", "",
           "AQuA: first stated number is one of the options. LogiQA: first stated letter is the key. "

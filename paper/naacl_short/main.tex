@@ -28,14 +28,15 @@ When No Answer Fits}
 Reasoning models sometimes never stop thinking, and common fixes simply force them to. We ask why
 the loops arise and whether stopping them helps. Removing the valid answer from multiple-choice
 questions makes DeepSeek-R1-Distill-Qwen-7B loop on 73--75\% of MATH, GSM8K and AQuA questions it
-otherwise solves (vs.\ 2--9\%), and natural AQuA loops concentrate on questions whose open-ended
-answer matches no option (30\% vs.\ 1\% of runs). In R1 and in Qwen3-4B-Thinking, the decision to
+otherwise solves (vs.\ 2--9\%); a Llama-based distill and Qwen3 show the same trigger, and in all three
+natural AQuA loops concentrate on questions whose open-ended answer matches no option. In R1 and in Qwen3-4B-Thinking, the decision to
 emit \think{} is made in late layers in the same way on four benchmarks, but this gate is generic:
 it is as closed at healthy self-doubt as in loops. Opening it, by forcing \think{} or with an
 internal switch learned on controlled loops and tested on held-out natural ones, ends loops without
 resolving them: in a live test, stopping changes accuracy by $-5$ to $+30$ points and the switch
-never beats forcing the token. Resolving the conflict works better: allowing ``None'' as an answer
-removes half or more of the conflict loops with almost no cost on answerable questions.
+never beats forcing the token. Resolving the conflict works better where the model accepts it: allowing
+``None'' as an answer removes half or more of the conflict loops in R1 and Qwen3 at almost no cost,
+but the Llama-based model rarely takes the exit and keeps looping.
 \end{abstract}
 
 \section{Introduction}
@@ -53,13 +54,15 @@ the \think{} decision is written by late layers, identically across four benchma
 is generic rather than suppressed in loops; it is concentrated in a few MLPs in R1 and spread over
 late MLPs and attention in Qwen3 (\S\ref{sec:where}); (3) stopping is not resolving: in replay and in
 a live test on held-out loops, every way of stopping ends the thinking but leaves the doubt, and the
-internal switch never beats budget forcing (\S\ref{sec:fix}); (4) resolving is: allowing ``None''
-removes most conflict loops (\S\ref{sec:resolve}).
+internal switch never beats budget forcing (\S\ref{sec:fix}); (4) resolving can work: allowing ``None''
+removes most conflict loops in two of three models, and fails where the model will not decline
+(\S\ref{sec:resolve}).
 
 \section{Setup}
 \label{sec:setup}
 \paragraph{Models and decoding.} DeepSeek-R1-Distill-Qwen-7B \citep[R1;][]{deepseek2025r1} and
-Qwen3-4B-Thinking-2507 \citep{yang2025qwen3}, served with vLLM \citep{kwon2023vllm}, sampled with the
+Qwen3-4B-Thinking-2507 \citep{yang2025qwen3}, plus DeepSeek-R1-Distill-Llama-8B (Llama-3.1 base; behaviour
+only, 2 seeds), served with vLLM \citep{kwon2023vllm}, sampled with the
 recommended $T{=}0.6$, top-$p$ 0.95, 4 seeds and a 12k-token budget; for R1 we also report greedy
 decoding. A \textbf{loop} is a run that exhausts the budget without emitting \think{}.
 
@@ -91,25 +94,25 @@ tokens after \think{}) are scored against the key.
 \small
 \setlength{\tabcolsep}{3.5pt}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{llccc}
+\begin{tabular}{llcccc}
 \toprule
- & valid? & R1 & R1 greedy & Qwen3 \\
+ & valid? & R1 & R1 greedy & Qwen3 & Llama \\
 \midrule
-MATH-150 \textsc{aligned} & yes & 5.3 & 10.0 & 9.3 \\
-MATH-150 \textsc{catch} & \textbf{no} & \textbf{74.7} & \textbf{98.0} & \textbf{29.5} \\
-GSM8K-200 \textsc{aligned} & yes & 2.1 & 8.0 & 0.0 \\
-GSM8K-200 \textsc{catch} & \textbf{no} & \textbf{73.4} & \textbf{100} & 0.2 \\
-AQuA-227 original & yes & 8.5 & 25.1 & 2.9 \\
-AQuA-227 correct removed & \textbf{no} & \textbf{74.4} & \textbf{93.8} & \textbf{9.0} \\
-LogiQA-200 original & yes & 7.5 & 36.5 & 2.6 \\
-LogiQA-200 correct removed & \textbf{no} & \textbf{15.0} & \textbf{42.0} & \textbf{10.1} \\
+MATH-150 \textsc{aligned} & yes & 5.3 & 10.0 & 9.3 & 8.0 \\
+MATH-150 \textsc{catch} & \textbf{no} & \textbf{74.7} & \textbf{98.0} & \textbf{29.5} & \textbf{71.3} \\
+GSM8K-200 \textsc{aligned} & yes & 2.1 & 8.0 & 0.0 & 2.2 \\
+GSM8K-200 \textsc{catch} & \textbf{no} & \textbf{73.4} & \textbf{100} & 0.2 & \textbf{62.2} \\
+AQuA-227 original & yes & 8.5 & 25.1 & 2.9 & 7.7 \\
+AQuA-227 correct removed & \textbf{no} & \textbf{74.4} & \textbf{93.8} & \textbf{9.0} & \textbf{60.1} \\
+LogiQA-200 original & yes & 7.5 & 36.5 & 2.6 & 9.0 \\
+LogiQA-200 correct removed & \textbf{no} & \textbf{15.0} & \textbf{42.0} & \textbf{10.1} & \textbf{14.8} \\
 \midrule
-GSM8K / MATH-500 (open) & yes & 0.4 / 5.2 & 4.2 / 10.0 & 0.1 / 15.3 \\
-AQuA / LogiQA & yes & 7.9 / 9.5 & 25.6 / 39.4 & 2.9 / 3.2 \\
+GSM8K / MATH-500 (open) & yes & 0.4 / 5.2 & 4.2 / 10.0 & 0.1 / 15.3 & -- \\
+AQuA / LogiQA & yes & 7.9 / 9.5 & 25.6 / 39.4 & 2.9 / 3.2 & -- \\
 \bottomrule
 \end{tabular}}
 \caption{Loop rate (\%): the run never emits \think{} within 12k tokens. Sampled ($T{=}0.6$) rates are
-means over 4 seeds. Top: the same questions with and without a valid option; bottom: natural
+means over 4 seeds (Llama: 2). Top: the same questions with and without a valid option; bottom: natural
 benchmarks.}
 \label{tab:loops}
 \end{table}
@@ -121,12 +124,13 @@ not an option, re-derives it, and repeats. Runs that do finish pick a wrong opti
 \textsc{catch}, 100\% for AQuA) and never decline, as instruction-tuned models do
 \citep{goral2025wait}. LogiQA, whose options are arguments rather than values, only doubles (7.5\% to
 15\%). Qwen3 shows the same effect at a smaller scale (MATH 9\% to 30\%, AQuA 3\% to 9\%, LogiQA 3\% to
-10\%) and handles GSM8K \textsc{catch} without looping.
+10\%) and handles GSM8K \textsc{catch} without looping; the Llama-based distill reproduces R1 (MATH 8\% to
+71\%, GSM8K 2\% to 62\%, AQuA 8\% to 60\%), so the trigger is not specific to the Qwen base.
 
 \paragraph{Natural loops follow the same conflict.} We ask each model the AQuA questions with no options
 and group them by its own answer. If that answer matches the correct option, the 5-option question
-loops in 1\% of runs (R1; Qwen3 0\%); if it matches no option, through the model's own error or a noisy
-key, it loops in 30\% (Qwen3 10\%). Natural MCQ loops are the controlled conflict, arising by itself.
+loops in 1\% of runs (R1; Qwen3 0\%, Llama 2\%); if it matches no option, through the model's own error or a
+noisy key, it loops in 30\% (Qwen3 10\%, Llama 20\%). Natural MCQ loops are the controlled conflict, arising by itself.
 
 \section{Where is the stop decided?}
 \label{sec:where}
@@ -211,15 +215,15 @@ fires. Opening the gate from inside adds nothing to opening it from outside.
 \small
 \setlength{\tabcolsep}{4pt}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{l|cc|cc}
+\begin{tabular}{l|cc|cc|cc}
 \toprule
- & \multicolumn{2}{c|}{R1} & \multicolumn{2}{c}{Qwen3} \\
-no valid option & loops & ``None'' & loops & ``None'' \\
+ & \multicolumn{2}{c|}{R1} & \multicolumn{2}{c|}{Qwen3} & \multicolumn{2}{c}{Llama} \\
+no valid option & loops & ``None'' & loops & ``None'' & loops & ``None'' \\
 \midrule
-MATH \textsc{catch} & 76 $\to$ \textbf{35} & 44 & 32 $\to$ \textbf{18} & 82 \\
-GSM8K \textsc{catch} & 72 $\to$ \textbf{19} & 66 & 0 $\to$ 0 & 96 \\
-AQuA, correct removed & 74 $\to$ \textbf{35} & 30 & 9 $\to$ \textbf{4} & 75 \\
-LogiQA, correct removed & 16 $\to$ \textbf{8} & 20 & 10 $\to$ 8 & 18 \\
+MATH \textsc{catch} & 76 $\to$ \textbf{35} & 44 & 32 $\to$ \textbf{18} & 82 & 71 $\to$ 67 & 8 \\
+GSM8K \textsc{catch} & 72 $\to$ \textbf{19} & 66 & 0 $\to$ 0 & 96 & 62 $\to$ 60 & 17 \\
+AQuA, correct removed & 74 $\to$ \textbf{35} & 30 & 9 $\to$ \textbf{4} & 75 & 60 $\to$ 51 & 14 \\
+LogiQA, correct removed & 16 $\to$ \textbf{8} & 20 & 10 $\to$ 8 & 18 & 15 $\to$ 10 & 11 \\
 \bottomrule
 \end{tabular}}
 \caption{Allowing ``None'': loop rate (\%) without $\to$ with the added sentence, and the share of runs
@@ -231,8 +235,10 @@ If the conflict drives the loop, a legitimate way out should remove it where sto
 one sentence to the prompt: ``If none of the options is correct, put None within \textbackslash
 boxed\{\}.'' Loops fall by 50--74\% for R1 and by 44--56\% where Qwen3 loops (MATH, AQuA), and the model now often declines
 (Table~\ref{tab:none}). The cost is small: on the same questions with a valid option, the models answer
-``None'' in 1--5\% of runs and accuracy changes by at most 2 points. The exit is not always taken: LogiQA runs still pick
-an option 70--74\% of the time, matching its weak trigger.
+``None'' in 0--5\% of runs and accuracy changes by at most 2 points (Llama LogiQA: 5). The exit only helps
+if it is taken: the Llama-based distill answers ``None'' in just 8--17\% of runs and keeps looping (MATH 71\%
+to 67\%, GSM8K 62\% to 60\%), and LogiQA runs in every model still pick an option 70--78\% of the time.
+The trigger is shared; the willingness to decline is not.
 
 \paragraph{The exit does not open the gate; reaching a conclusion does.} Where the model says its answer
 is not among the options, the stop signal is equally low with or without the exit, and whether or not the
@@ -254,12 +260,13 @@ not recover it (Appendix~\ref{app:probe}).
 Reasoning models loop when their answer cannot be reconciled with the options, a condition we create on
 constructed and real questions and that predicts which natural questions loop. A generic late-layer
 gate decides when to stop, and loops never open it. Forcing it open, from outside or inside, ends the
-thinking but not the doubt; giving the model a legitimate answer for the conflict removes most loops.
+thinking but not the doubt; giving the model a legitimate answer for the conflict removes most loops, when the model is willing to
+take it.
 Loop-breaking methods should be judged on what happens after the stop, and resolving loops requires
 acting on their cause.
 
 \section*{Limitations}
-We study two models of 4--7B parameters with a 12k-token budget; larger or differently trained LRMs may
+We study three models of 4--8B parameters with a 12k-token budget (mechanism on two); larger or differently trained LRMs may
 differ, and Qwen3 is evaluated only with sampling, as its authors recommend. Commit points come from a
 text heuristic that does not use the answer key (hand-checked: 11/12 controlled, 9/10 AQuA/LogiQA; on
 MATH about 2 in 3 land on a stated result). Held-out test sets are small for some settings (sampled GSM8K
