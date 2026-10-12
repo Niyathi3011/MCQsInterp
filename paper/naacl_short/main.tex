@@ -30,7 +30,7 @@ the loops arise and whether stopping them helps. Removing the valid answer from 
 questions makes DeepSeek-R1-Distill-Qwen-7B loop on 73--75\% of MATH, GSM8K and AQuA questions it
 otherwise solves (vs.\ 2--9\%); a Llama-based distill and Qwen3 show the same trigger, and in all three
 natural AQuA loops concentrate on questions whose open-ended answer matches no option. In R1 and in Qwen3-4B-Thinking, the decision to
-emit \think{} is made in late layers in the same way on four benchmarks, but this gate is generic:
+emit \think{} is made in late layers in the same way on every benchmark, but this gate is generic:
 it is as closed at healthy self-doubt as in loops. Opening it, by forcing \think{} or with an
 internal switch learned on controlled loops and tested on held-out natural ones, ends loops without
 resolving them: in a live test, stopping changes accuracy by $-5$ to $+30$ points and the switch
@@ -61,8 +61,8 @@ removes most conflict loops in two of three models, and fails where the model wi
 \section{Setup}
 \label{sec:setup}
 \paragraph{Models and decoding.} DeepSeek-R1-Distill-Qwen-7B \citep[R1;][]{deepseek2025r1} and
-Qwen3-4B-Thinking-2507 \citep{yang2025qwen3}, plus DeepSeek-R1-Distill-Llama-8B (Llama-3.1 base; behaviour
-only, 2 seeds), served with vLLM \citep{kwon2023vllm}, sampled with the
+Qwen3-4B-Thinking-2507 \citep{yang2025qwen3}, plus DeepSeek-R1-Distill-Llama-8B \citep{deepseek2025r1} (Llama-3.1 base;
+behaviour only, 2 seeds), served with vLLM \citep{kwon2023vllm}, sampled with the
 recommended $T{=}0.6$, top-$p$ 0.95, 4 seeds and a 12k-token budget; for R1 we also report greedy
 decoding. A \textbf{loop} is a run that exhausts the budget without emitting \think{}.
 
@@ -81,7 +81,7 @@ answer, it writes ``Wait'' (detected from the text without the answer key; hand-
 Stop components and their values (the mean output at real stops) are learned from these pairs only.
 We test on the held-out questions in two ways. \emph{Replay}: each natural loop is fed up to its commit
 point and the intervention applied there. \emph{Live}: the held-out questions are generated afresh
-with new seeds; a rule that reads only the text so far fires on any run with no \think{} after 6k
+with new seeds (two; four for R1 AQuA); a rule that reads only the text so far fires on any run with no \think{} after 6k
 thinking tokens, at the next ``states a result, then doubts it'' point (fixed in advance, not tuned),
 and every run it fires on, loop or not, is continued under each intervention. Answers (up to 1.2k
 tokens after \think{}) are scored against the key.
@@ -160,7 +160,7 @@ The late layers are the model's general ``stop now'' gate; a loop is a run that 
 that opens it.
 
 \paragraph{Qwen3 spreads the gate.} Qwen3 shows the same gap (+27 to +28 on every benchmark), but only
-59\% of it is written by MLPs and 41\% by attention in the last four layers; its six strongest MLPs
+59\% of it is written by MLPs and 41\% by attention, mostly in the last four layers; its six strongest MLPs
 carry 47\%. Patching them recovers half the gap but never makes \think{} the top token. Patching all
 MLPs from layer 18 recovers 83\% and makes it the top token in 93\% of pairs, and replacing the residual
 stream at layer 21 or later recovers all of it: the decision is formed by layer 21 and written by many
@@ -187,7 +187,8 @@ GSM8K & -- & -- & -- & 38 & 57 & 57 & -- & -- & -- \\
 \end{tabular}}
 \caption{Live test: accuracy (\%) over fresh runs of the held-out questions (those that loop
 naturally) when the stop rule may fire. none = no intervention; force = \think{}; switch = the
-benchmark's own learned stop MLPs, set once. 95\% CIs are $\pm$8--13 points. Sampled GSM8K has too
+benchmark's own learned stop MLPs, set once. 95\% CIs are $\pm$8--10 points ($\pm$12--19 for greedy and
+Qwen3 AQuA and GSM8K, which have fewer runs). Sampled GSM8K has too
 few held-out questions (R1: 5, Qwen3: 1).}
 \label{tab:fix}
 \end{table}
@@ -235,7 +236,7 @@ If the conflict drives the loop, a legitimate way out should remove it where sto
 one sentence to the prompt: ``If none of the options is correct, put None within \textbackslash
 boxed\{\}.'' Loops fall by 50--74\% for R1 and by 44--56\% where Qwen3 loops (MATH, AQuA), and the model now often declines
 (Table~\ref{tab:none}). The cost is small: on the same questions with a valid option, the models answer
-``None'' in 0--5\% of runs and accuracy changes by at most 2 points (Llama LogiQA: 5). The exit only helps
+``None'' in 0--5\% of runs and accuracy changes by at most 2 points (Llama: $+3$ on MATH, $-5$ on LogiQA). The exit only helps
 if it is taken: the Llama-based distill answers ``None'' in just 8--17\% of runs and keeps looping (MATH 71\%
 to 67\%, GSM8K 62\% to 60\%), and LogiQA runs in every model still pick an option 70--78\% of the time.
 The trigger is shared; the willingness to decline is not.
@@ -250,7 +251,8 @@ reasoning a conclusion it can reach, and the generic gate then opens as usual.
 \section{Related work}
 Loops in LRMs have been characterised through attention \citep{duan2026circular,zhang2026astray} and
 broken by steering \citep{yu2026sophia} or budget forcing \citep{muennighoff2025s1}; we isolate a
-trigger and show that breaking a loop does not resolve it, while removing the trigger does. Missing
+trigger and show that breaking a loop does not resolve it, while offering a way out of the conflict
+often does. Missing
 premises cause verbose reasoning \citep{fan2025missing}, and instruction-tuned models pick invalid
 options \citep{goral2025wait}; a reasoning model facing the same conflict fails to terminate. Hidden
 states encode answer correctness \citep{zhang2025know}; acting on this signal with a forced stop does
@@ -266,8 +268,10 @@ Loop-breaking methods should be judged on what happens after the stop, and resol
 acting on their cause.
 
 \section*{Limitations}
-We study three models of 4--8B parameters with a 12k-token budget (mechanism on two); larger or differently trained LRMs may
-differ, and Qwen3 is evaluated only with sampling, as its authors recommend. Commit points come from a
+We study three models of 4--8B parameters with a 12k-token budget; the mechanism and stopping
+experiments use two of them, and the Llama-based model is evaluated for behaviour only, with two seeds.
+Larger or differently trained LRMs may differ, and Qwen3 is evaluated only with sampling, as its authors
+recommend. Commit points come from a
 text heuristic that does not use the answer key (hand-checked: 11/12 controlled, 9/10 AQuA/LogiQA; on
 MATH about 2 in 3 land on a stated result). Held-out test sets are small for some settings (sampled GSM8K
 5 and 1 questions; Qwen3 AQuA 13), and LogiQA yields few learning pairs (24--26). The live test's runs up
