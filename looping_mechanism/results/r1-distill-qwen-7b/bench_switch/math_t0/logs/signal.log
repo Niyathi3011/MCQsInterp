@@ -1,0 +1,14 @@
+[signal] math T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  signal 10/97     16s
+  signal 20/97     52s
+  signal 30/97     74s
+  signal 40/97     92s
+  signal 50/97    107s
+  signal 60/97    121s
+  signal 70/97    143s
+  signal 80/97    168s
+  signal 90/97    186s
+  signal 97/97    197s
+  own stop MLPs (top-6 gap contribution, 97 pairs): [27, 26, 23, 22, 24, 25]   MATH six: [27, 26, 25, 24, 22, 20]
+  gap recovered by patching: own 81%, math 78%, control 0%

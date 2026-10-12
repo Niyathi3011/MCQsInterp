@@ -1,0 +1,21 @@
+extract: 460 looping + 1200 finished runs
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  100/1660 runs, 565 points
+  200/1660 runs, 1110 points
+  300/1660 runs, 1678 points
+  400/1660 runs, 2295 points
+  500/1660 runs, 2633 points
+  600/1660 runs, 2942 points
+  700/1660 runs, 3256 points
+  800/1660 runs, 3576 points
+  900/1660 runs, 3897 points
+  1000/1660 runs, 4173 points
+  1100/1660 runs, 4515 points
+  1200/1660 runs, 4812 points
+  1300/1660 runs, 5119 points
+  1400/1660 runs, 5436 points
+  1500/1660 runs, 5705 points
+  1600/1660 runs, 5966 points
+saved 6115 points x layers [14, 20, 24, 27] -> /workspace/MCQsInterp/looping_mechanism/results/r1-distill-qwen-7b/answer_probe

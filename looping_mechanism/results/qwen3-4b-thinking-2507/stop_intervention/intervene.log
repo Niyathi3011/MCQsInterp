@@ -1,0 +1,96 @@
+Loaded pretrained model Qwen/Qwen3-4B-Thinking-2507 into HookedTransformer
+controlled donor: mean over 46 finished runs
+intervene: 127 pairs to run; conditions: ['base', 'force', 'bias', 'mlp@1', 'proj@1', 'random@1', 'ctrl@1']
+  [1/127] aqua_106               258.5s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [2/127] aqua_108               112.8s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [3/127] aqua_122               345.0s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [4/127] aqua_125               154.3s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [5/127] aqua_176               150.9s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [6/127] aqua_187               441.5s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [7/127] aqua_199               196.3s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [8/127] aqua_82                370.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 18:57:59.752418576 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [9/127] logiqa_0               425.5s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [10/127] logiqa_1               230.0s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [11/127] logiqa_102             684.8s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [12/127] logiqa_133             445.4s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [13/127] logiqa_147             474.4s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 19:35:55.685353035 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 17170432, total: 25295323136).
+  [14/127] logiqa_149             458.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [15/127] logiqa_15              631.5s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [16/127] logiqa_244             186.8s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [17/127] logiqa_246             205.2s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [18/127] logiqa_324              84.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [19/127] logiqa_332             372.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [20/127] logiqa_343             651.2s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [21/127] logiqa_348             390.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [22/127] logiqa_36              427.2s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 20:30:38.276495970 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [23/127] logiqa_37              379.0s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 20:36:48.940293560 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [24/127] logiqa_38              527.7s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [25/127] logiqa_443             472.6s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [26/127] logiqa_464             450.4s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 21:01:22.884483438 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 17170432, total: 25295323136).
+  [27/127] logiqa_495             593.2s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 21:09:38.482490941 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [28/127] logiqa_500             489.8s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [29/127] logiqa_511             188.7s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [30/127] logiqa_546             400.7s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [31/127] logiqa_548             186.5s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [32/127] logiqa_563             476.3s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [33/127] logiqa_593             269.7s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 21:42:28.037439741 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+[W1003 21:48:15.153874395 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 17170432, total: 25295323136).
+  [34/127] logiqa_66              622.2s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [35/127] logiqa_93              419.3s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [36/127] math500_123             89.6s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [37/127] math500_138            439.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [38/127] math500_145            239.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [39/127] math500_147            157.7s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [40/127] math500_152            196.5s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [41/127] math500_153            425.2s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=255 ctrl@1=None
+  [42/127] math500_17             263.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 22:30:02.379698800 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+[W1003 22:36:32.393581331 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 17170432, total: 25295323136).
+  [43/127] math500_189            533.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [44/127] math500_19             129.0s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [45/127] math500_194            457.3s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 22:51:44.916610674 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [46/127] math500_21             294.9s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [47/127] math500_222            219.2s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 23:00:21.023037425 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [48/127] math500_223            300.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 23:02:16.623563715 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+[W1003 23:08:46.573624041 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 17170432, total: 25295323136).
+[W1003 23:10:44.561700768 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 17170432, total: 25295323136).
+  [49/127] math500_236            575.8s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 23:13:49.385011091 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [50/127] math500_242            190.2s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [51/127] math500_26             187.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 23:18:10.691352239 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [52/127] math500_281            460.7s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [53/127] math500_282             77.6s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [54/127] math500_285            491.5s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [55/127] math500_291             80.0s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 23:40:19.782382660 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [56/127] math500_292            263.0s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1003 23:45:51.240497841 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [57/127] math500_294            424.5s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [58/127] math500_295            341.6s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [59/127] math500_299             92.4s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [60/127] math500_302            122.6s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1004 00:00:42.387278764 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [61/127] math500_303            392.8s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [62/127] math500_32              43.8s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [63/127] math500_327            284.2s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [64/127] math500_328            229.8s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [65/127] math500_332            424.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [66/127] math500_351            456.0s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [67/127] math500_355            210.9s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [68/127] math500_377            137.6s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1004 00:37:22.201565156 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [69/127] math500_382            355.6s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+  [70/127] math500_396             95.1s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None
+[W1004 00:44:15.665277279 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 19267584, total: 25295323136).
+  [71/127] math500_412            363.5s  stop@: base=None force=0 bias=None mlp@1=None proj@1=None random@1=None ctrl@1=None

@@ -1,0 +1,2 @@
+{"id": "gsm8k_1166", "seed": 10, "truncated": false, "correct": true, "completion_tokens": 6645, "trigger_off": null, "trigger_kind": null}
+{"id": "gsm8k_1166", "seed": 11, "truncated": false, "correct": false, "completion_tokens": 8476, "trigger_off": 20280, "trigger_kind": "commit"}

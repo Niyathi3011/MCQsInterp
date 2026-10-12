@@ -1,0 +1,72 @@
+Loaded pretrained model Qwen/Qwen3-4B-Thinking-2507 into HookedTransformer
+  locate 10/46    61s
+  locate 20/46   111s
+  locate 30/46   165s
+  locate 40/46   208s
+# Where is the stop signal written, and what makes qwen3-4b-thinking-2507 stop?
+
+46 MATH catch-vs-aligned pairs. logit(</think>): finished stop +26.6, loop commit -1.6, gap +28.2.
+
+## 1. Direct contribution to the gap (share of the gap)
+
+- all MLPs 59%, all attention 41% (the rest: embeddings / indirect)
+- top MLPs: 35 (22%), 34 (11%), 33 (5%), 32 (3%), 28 (3%), 31 (2%), 27 (2%), 30 (2%), 29 (2%), 25 (2%), 26 (1%), 24 (1%)
+- top attention: 34 (12%), 32 (8%), 35 (8%), 33 (5%), 29 (3%), 30 (2%), 22 (1%), 26 (1%)
+- the six stop MLPs [28, 31, 32, 33, 34, 35]: 47%
+
+  patch 10/46    47s
+  patch 20/46    88s
+  patch 30/46   128s
+  patch 40/46   165s
+
+own = this pair's finished-run values (upper bound); mean = the average over pairs (what a switch can use). top-1 = </think> becomes the most likely token (needed to stop).
+
+| patched | gap recovered: own / mean | </think> top-1: own / mean | P(</think>): own / mean |
+|---|---|---|---|
+| 6 stop MLPs | 49% / 50% | 0% / 0% | 0.00 / 0.00 |
+| 6 stop MLPs, alpha 2 | 55% / 57% | 67% / 65% | 0.12 / 0.14 |
+| 6 stop MLPs, alpha 3 | 48% / 49% | 50% / 65% | 0.05 / 0.07 |
+| top-12 MLPs | 69% / 71% | 13% / 7% | 0.11 / 0.06 |
+| all late MLPs (18-35) | 80% / 83% | 54% / 93% | 0.55 / 0.69 |
+| top-6 attention | 56% / 56% | 0% / 0% | 0.00 / 0.00 |
+| 6 MLPs + top-6 attention | 82% / 84% | 17% / 13% | 0.15 / 0.14 |
+| all late MLPs + attention | 99% / 103% | 100% / 100% | 1.00 / 1.00 |
+| residual stream at layer 18 | 46% / 45% | 0% / 2% | 0.01 / 0.02 |
+| residual stream at layer 21 | 100% / 102% | 96% / 100% | 0.94 / 0.98 |
+| residual stream at layer 24 | 101% / 102% | 100% / 100% | 1.00 / 1.00 |
+| residual stream at layer 27 | 101% / 103% | 100% / 100% | 1.00 / 1.00 |
+| residual stream at layer 30 | 100% / 102% | 100% / 100% | 1.00 / 1.00 |
+| residual stream at layer 33 | 100% / 103% | 100% / 100% | 1.00 / 1.00 |
+  generate 1/20  232s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=stop [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=stop
+  generate 2/20  362s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=stop
+  generate 3/20  559s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=stop
+  generate 4/20  654s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=stop [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=-
+  generate 5/20  723s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=stop [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=- [6 stop MLPs, every step]=stop
+  generate 6/20 1052s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=stop [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=-
+  generate 7/20 1125s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=- [6 stop MLPs, every step]=stop
+  generate 8/20 1561s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=- [6 stop MLPs, every step]=stop
+  generate 9/20 1652s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=stop [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=-
+  generate 10/20 1897s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=stop [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=-
+  generate 11/20 2045s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=stop [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=stop
+  generate 12/20 2231s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=stop
+[W1007 18:09:03.894527878 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 10878976, total: 25295323136).
+  generate 13/20 2538s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=stop [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=stop
+  generate 14/20 2646s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=stop [top-12 MLPs]=stop [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=-
+  generate 15/20 2995s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=stop [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=stop
+  generate 16/20 3276s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=stop [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=stop
+  generate 17/20 3508s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=-
+[W1007 18:30:35.784691757 CUDACachingAllocator.cpp:508] expandable_segments: memory mapping failed with OOM on device 0 while trying to map 20971520 bytes (free: 10878976, total: 25295323136).
+  generate 18/20 3881s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=stop [all late MLPs]=stop [all late MLPs, alpha 2]=- [6 stop MLPs, every step]=stop
+  generate 19/20 4195s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=- [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=stop
+  generate 20/20 4338s  [force]=stop [6 stop MLPs]=- [6 stop MLPs, alpha 3]=stop [top-12 MLPs]=- [all late MLPs]=stop [all late MLPs, alpha 2]=stop [6 stop MLPs, every step]=-
+## 3. Generation on 20 held-out natural loops (AQuA + LogiQA), from the commit point
+
+| intervention | stops (writes </think> within 256 tokens) | correct |
+|---|---|---|
+| force | 100% | 10% |
+| 6 stop MLPs | 0% | 0% |
+| 6 stop MLPs, alpha 3 | 25% | 5% |
+| top-12 MLPs | 45% | 5% |
+| all late MLPs | 100% | 10% |
+| all late MLPs, alpha 2 | 80% | 0% |
+| 6 stop MLPs, every step | 65% | 15% |

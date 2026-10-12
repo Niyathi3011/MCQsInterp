@@ -1,0 +1,537 @@
+01:27 ===== gsm8k T=0.6
+[pairs] gsm8k T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0.6
+  catch questions skipped (held out): 4
+  learning: no commit point: 25
+  test loops: no commit point: 1
+  questions: 500
+  held-out questions (loop naturally): 5
+  held-out questions tested: 5
+  learning pairs: 175
+  replay test loops: 5
+  replay test loops with a commit point: 4
+live_items: 5 rows, 0 already done, 5 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=10 max_tokens=12288
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  5/5  correct 3  hit cap (loop) 1     282s
+done live_items -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0.6/live_runs/seed10.jsonl
+live_items: 5 rows, 0 already done, 5 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=11 max_tokens=12288
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  5/5  correct 3  hit cap (loop) 0     146s
+done live_items -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0.6/live_runs/seed11.jsonl
+01:34 pausing the generation queue and vLLM
+01:35 stage trigger
+[trigger] gsm8k T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0.6
+  live runs 10: loops 1; trigger fires on 2 (1 loops, 1 would finish; kinds {'paragraph': 2})
+01:37 stage signal
+[signal] gsm8k T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  signal 10/175     16s
+  signal 20/175     34s
+  signal 30/175     48s
+  signal 40/175     59s
+  signal 50/175     75s
+  signal 60/175     91s
+  signal 70/175    103s
+  signal 80/175    114s
+  signal 90/175    124s
+  signal 100/175    137s
+  signal 110/175    150s
+  signal 120/175    162s
+  signal 130/175    179s
+  signal 140/175    195s
+  signal 150/175    206s
+  signal 160/175    216s
+  signal 170/175    236s
+  signal 175/175    240s
+  own stop MLPs (top-6 gap contribution, 175 pairs): [27, 26, 23, 22, 24, 25]   MATH six: [27, 26, 25, 24, 22, 20]
+  gap recovered by patching: own 82%, math 80%, control 0%
+01:46 stage replay
+[replay] gsm8k T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  replay: 4 held-out loops to run; conditions: base force bias switch ctrl switch_math
+  [1/4] gsm8k_291_s0            39s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [2/4] gsm8k_365_s1            43s  base=stop/ok force=stop/ok bias=stop/ok switch=stop/ok ctrl=stop/ok switch_math=stop/ok
+  [3/4] gsm8k_380_s0            26s  base=-/x force=stop/x bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/x
+  [4/4] gsm8k_394_s2            49s  base=-/x force=stop/ok bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/ok
+01:51 stage live
+[live] gsm8k T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  live: 2 triggered runs to continue
+  [1/2] gsm8k_1012 seed10 (would finish)   56s  force=x switch=x switch_math=x
+  [2/2] gsm8k_380 seed10 (loop)  252s  force=x switch=x switch_math=x
+01:57 stage summary
+[summary] gsm8k T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0.6
+# Per-benchmark stop switch: gsm8k, T=0.6
+
+Learned from this benchmark's catch-vs-aligned pairs; tested on its natural loops (held out). Settings: `config.json`.
+
+## Data
+
+- catch questions skipped (held out): 4
+- learning: no commit point: 25
+- test loops: no commit point: 1
+- questions: 500
+- held-out questions (loop naturally): 5
+- held-out questions tested: 5
+- learning pairs: 175
+- replay test loops: 5
+- replay test loops with a commit point: 4
+
+## Learning: the stop signal on this benchmark's catch-vs-aligned pairs
+
+- pairs: 175
+- logit(</think>): finished stop +33.3, loop commit +5.3, gap +28.1 (gap > 0 in 100%)
+- MLP share of the gap: 91%
+- own stop MLPs (top-6): [27, 26, 23, 22, 24, 25]; MATH six: [27, 26, 25, 24, 22, 20]; share of gap in own six: 77%, in MATH six: 72%
+- gap recovered by patching at the commit point: own 82%, math 80%, control 0%
+
+## Option A: replay on the held-out natural loops
+
+One loop per held-out question, fed up to its commit point; answer generated fresh (T=0.6, answer cap 1200, thinking cap 256).
+
+| condition | loops | stops | correct [95% CI] | correct (of stopped) | answer hits the cap |
+|---|---|---|---|---|---|
+| base | 4 | 25% | 25% [0-75] | 100% | 0% |
+| force | 4 | 100% | 75% [25-100] | 75% | 0% |
+| bias | 4 | 100% | 100% [100-100] | 100% | 0% |
+| switch | 4 | 100% | 75% [25-100] | 75% | 0% |
+| switch_math | 4 | 100% | 75% [25-100] | 75% | 0% |
+| ctrl | 4 | 25% | 25% [0-75] | 100% | 0% |
+
+## Option B: live test on the held-out questions (fresh runs)
+
+- fresh runs: 10 (5 questions x seeds [10, 11]); loops 1; correct with no intervention 60%
+- rule fires on 2 runs: 1 loops, 1 that would have finished (0 of them correctly)
+
+Accuracy over ALL fresh runs. Runs the rule did not fire on keep their own outcome; so do triggered runs whose branch did not stop within 256 tokens (the intervention did not take effect: a loop stays a loop, a run that would finish keeps its answer). Only runs whose branches are done are counted.
+
+| condition | runs | correct [95% CI] | loops left | of triggered: loops rescued | would-finish runs hurt (right -> wrong) |
+|---|---|---|---|---|---|
+| none | 10 | 60% [30-90] | 1 | - | - |
+| force | 10 | 60% [30-90] | 0 | 0 | 0 |
+| switch | 10 | 60% [30-90] | 0 | 0 | 0 |
+| switch_math | 10 | 60% [30-90] | 0 | 0 | 0 |
+01:57 restarting vLLM and the generation queue
+01:57 ===== math T=0.6
+[pairs] math T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0.6
+  catch questions skipped (held out): 22
+  learning: no commit point: 26
+  test loops: no commit point: 23
+  questions: 500
+  held-out questions (loop naturally): 57
+  held-out questions tested: 57
+  learning pairs: 116
+  replay test loops: 57
+  replay test loops with a commit point: 34
+live_items: 57 rows, 0 already done, 57 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=10 max_tokens=12288
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  25/57  correct 14  hit cap (loop) 8     359s
+  50/57  correct 25  hit cap (loop) 20     731s
+  57/57  correct 25  hit cap (loop) 27     803s
+done live_items -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0.6/live_runs/seed10.jsonl
+live_items: 57 rows, 0 already done, 57 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=11 max_tokens=12288
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  25/57  correct 16  hit cap (loop) 8     363s
+  50/57  correct 25  hit cap (loop) 23     739s
+  57/57  correct 26  hit cap (loop) 27     854s
+done live_items -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0.6/live_runs/seed11.jsonl
+02:28 pausing the generation queue and vLLM
+02:28 stage trigger
+[trigger] math T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0.6
+  live runs 114: loops 54; trigger fires on 70 (53 loops, 17 would finish; kinds {'commit': 1, 'paragraph': 69})
+02:29 stage signal
+[signal] math T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  signal 10/116     17s
+  signal 20/116     53s
+  signal 30/116     71s
+  signal 40/116    103s
+  signal 50/116    128s
+  signal 60/116    147s
+  signal 70/116    172s
+  signal 80/116    199s
+  signal 90/116    231s
+  signal 100/116    260s
+  signal 110/116    280s
+  signal 116/116    300s
+  own stop MLPs (top-6 gap contribution, 116 pairs): [27, 26, 23, 22, 24, 25]   MATH six: [27, 26, 25, 24, 22, 20]
+  gap recovered by patching: own 81%, math 79%, control 0%
+02:40 stage replay
+[replay] math T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  replay: 34 held-out loops to run; conditions: base force bias switch ctrl switch_math
+  [1/34] math500_101_s0         226s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [2/34] math500_126_s2         113s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [3/34] math500_129_s3         260s  base=-/x force=stop/ok bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [4/34] math500_136_s2         452s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [5/34] math500_151_s0         118s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [6/34] math500_166_s0         232s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [7/34] math500_168_s2         299s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [8/34] math500_18_s3          350s  base=-/x force=stop/x bias=stop/ok switch=-/x ctrl=-/x switch_math=stop/ok
+  [9/34] math500_204_s0         300s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [10/34] math500_217_s2         229s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [11/34] math500_222_s3          79s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [12/34] math500_224_s0         434s  base=-/x force=stop/ok bias=stop/ok switch=-/x ctrl=-/x switch_math=stop/ok
+  [13/34] math500_26_s0          291s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [14/34] math500_287_s3         205s  base=-/x force=stop/x bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [15/34] math500_302_s0         168s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/x
+  [16/34] math500_323_s0         311s  base=-/x force=stop/ok bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [17/34] math500_332_s0         209s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [18/34] math500_340_s0         355s  base=stop/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [19/34] math500_381_s1         153s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [20/34] math500_400_s1         360s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [21/34] math500_406_s3          46s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [22/34] math500_41_s0           32s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [23/34] math500_422_s1         492s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [24/34] math500_425_s3         236s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [25/34] math500_444_s0         442s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [26/34] math500_445_s0         381s  base=-/x force=stop/ok bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/x
+  [27/34] math500_458_s1         336s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [28/34] math500_460_s3         229s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [29/34] math500_473_s1         241s  base=-/x force=stop/ok bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/ok
+  [30/34] math500_481_s0         367s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [31/34] math500_486_s0         276s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [32/34] math500_490_s3         221s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [33/34] math500_497_s1         208s  base=-/x force=stop/ok bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [34/34] math500_9_s0           399s  base=-/x force=stop/ok bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+05:12 stage live
+[live] math T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  live: 70 triggered runs to continue
+  [1/70] math500_101 seed10 (would finish, right)   12s  force=ok switch=ok switch_math=ok
+  [2/70] math500_129 seed10 (would finish, right)   13s  force=ok switch=ok switch_math=ok
+  [3/70] math500_242 seed10 (would finish, right)  242s  force=x switch=ok switch_math=x
+  [4/70] math500_154 seed10 (would finish)  243s  force=x switch=x switch_math=x
+  [5/70] math500_217 seed10 (loop)  240s  force=x switch=x switch_math=x
+  [6/70] math500_11 seed10 (loop)  242s  force=x switch=x switch_math=x
+  [7/70] math500_18 seed10 (loop)  242s  force=x switch=x switch_math=x
+  [8/70] math500_126 seed10 (loop)  243s  force=x switch=x switch_math=x
+  [9/70] math500_236 seed10 (loop)  244s  force=x switch=x switch_math=x
+  [10/70] math500_166 seed10 (loop)  243s  force=x switch=x switch_math=x
+  [11/70] math500_264 seed10 (loop)  245s  force=x switch=x switch_math=x
+  [12/70] math500_110 seed10 (loop)  244s  force=x switch=x switch_math=x
+  [13/70] math500_26 seed10 (loop)  242s  force=x switch=x switch_math=x
+  [14/70] math500_100 seed10 (loop)  242s  force=x switch=x switch_math=x
+  [15/70] math500_168 seed10 (would finish, right)  248s  force=x switch=x switch_math=x
+  [16/70] math500_332 seed10 (would finish, right)  226s  force=ok switch=ok switch_math=x
+  [17/70] math500_136 seed10 (loop)  241s  force=x switch=x switch_math=x
+  [18/70] math500_308 seed10 (loop)  243s  force=x switch=x switch_math=x
+  [19/70] math500_204 seed10 (loop)  241s  force=x switch=x switch_math=x
+  [20/70] math500_425 seed10 (would finish, right)   62s  force=ok switch=ok switch_math=ok
+  [21/70] math500_490 seed10 (would finish, right)  238s  force=x switch=ok switch_math=ok
+  [22/70] math500_352 seed10 (loop)  247s  force=x switch=x switch_math=x
+  [23/70] math500_481 seed10 (would finish, right)  246s  force=x switch=x switch_math=x
+  [24/70] math500_381 seed10 (loop)  245s  force=x switch=x switch_math=x
+  [25/70] math500_392 seed10 (loop)  249s  force=x switch=x switch_math=x
+  [26/70] math500_400 seed10 (loop)  245s  force=x switch=x switch_math=x
+  [27/70] math500_41 seed10 (loop)  245s  force=x switch=x switch_math=x
+  [28/70] math500_422 seed10 (loop)  240s  force=x switch=x switch_math=x
+  [29/70] math500_445 seed10 (loop)  243s  force=x switch=x switch_math=x
+  [30/70] math500_43 seed10 (loop)  241s  force=x switch=x switch_math=x
+  [31/70] math500_444 seed10 (loop)  222s  force=x switch=x switch_math=x
+  [32/70] math500_460 seed10 (loop)  242s  force=x switch=x switch_math=x
+  [33/70] math500_486 seed10 (loop)  230s  force=x switch=ok switch_math=ok
+  [34/70] math500_9 seed10 (loop)  241s  force=x switch=x switch_math=x
+  [35/70] math500_96 seed10 (loop)  241s  force=x switch=x switch_math=x
+  [36/70] math500_94 seed10 (loop)  244s  force=x switch=x switch_math=x
+  [37/70] math500_317 seed11 (would finish, right)  241s  force=x switch=ok switch_math=x
+  [38/70] math500_154 seed11 (would finish)  175s  force=x switch=x switch_math=x
+  [39/70] math500_166 seed11 (would finish, right)  243s  force=x switch=x switch_math=x
+  [40/70] math500_323 seed11 (would finish, right)  240s  force=ok switch=x switch_math=x
+  [41/70] math500_324 seed11 (loop)  173s  force=x switch=x switch_math=x
+  [42/70] math500_11 seed11 (loop)  245s  force=x switch=x switch_math=x
+  [43/70] math500_26 seed11 (loop)  142s  force=x switch=x switch_math=x
+  [44/70] math500_126 seed11 (loop)  248s  force=x switch=x switch_math=x
+  [45/70] math500_308 seed11 (loop)  248s  force=x switch=x switch_math=x
+  [46/70] math500_264 seed11 (loop)  251s  force=x switch=x switch_math=x
+  [47/70] math500_204 seed11 (loop)  249s  force=x switch=x switch_math=x
+  [48/70] math500_110 seed11 (loop)  248s  force=x switch=x switch_math=x
+  [49/70] math500_18 seed11 (loop)  248s  force=x switch=x switch_math=x
+  [50/70] math500_100 seed11 (loop)  249s  force=x switch=x switch_math=x
+  [51/70] math500_236 seed11 (loop)  247s  force=x switch=x switch_math=x
+  [52/70] math500_240 seed11 (loop)  246s  force=x switch=x switch_math=x
+  [53/70] math500_340 seed11 (would finish, right)   45s  force=x switch=x switch_math=ok
+  [54/70] math500_351 seed11 (would finish, right)  160s  force=x switch=ok switch_math=ok
+  [55/70] math500_352 seed11 (loop)  245s  force=x switch=x switch_math=x
+  [56/70] math500_381 seed11 (loop)  243s  force=x switch=x switch_math=x
+  [57/70] math500_392 seed11 (loop)  248s  force=x switch=x switch_math=x
+  [58/70] math500_398 seed11 (loop)   54s  force=ok switch=ok switch_math=ok
+  [59/70] math500_400 seed11 (loop)  250s  force=x switch=x switch_math=x
+  [60/70] math500_422 seed11 (loop)  251s  force=x switch=x switch_math=x
+  [61/70] math500_43 seed11 (loop)  246s  force=x switch=x switch_math=x
+  [62/70] math500_473 seed11 (loop)  248s  force=x switch=x switch_math=x
+  [63/70] math500_460 seed11 (loop)  247s  force=x switch=x switch_math=x
+  [64/70] math500_444 seed11 (loop)  244s  force=x switch=x switch_math=x
+  [65/70] math500_445 seed11 (loop)  243s  force=x switch=x switch_math=x
+  [66/70] math500_486 seed11 (would finish)   72s  force=x switch=x switch_math=x
+  [67/70] math500_481 seed11 (loop)  248s  force=x switch=x switch_math=x
+  [68/70] math500_490 seed11 (would finish, right)  245s  force=x switch=x switch_math=ok
+  [69/70] math500_497 seed11 (loop)  247s  force=x switch=x switch_math=x
+  [70/70] math500_9 seed11 (loop)  247s  force=x switch=x switch_math=x
+09:36 stage summary
+[summary] math T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0.6
+# Per-benchmark stop switch: math, T=0.6
+
+Learned from this benchmark's catch-vs-aligned pairs; tested on its natural loops (held out). Settings: `config.json`.
+
+## Data
+
+- catch questions skipped (held out): 22
+- learning: no commit point: 26
+- test loops: no commit point: 23
+- questions: 500
+- held-out questions (loop naturally): 57
+- held-out questions tested: 57
+- learning pairs: 116
+- replay test loops: 57
+- replay test loops with a commit point: 34
+
+## Learning: the stop signal on this benchmark's catch-vs-aligned pairs
+
+- pairs: 116
+- logit(</think>): finished stop +32.9, loop commit +5.0, gap +27.9 (gap > 0 in 100%)
+- MLP share of the gap: 91%
+- own stop MLPs (top-6): [27, 26, 23, 22, 24, 25]; MATH six: [27, 26, 25, 24, 22, 20]; share of gap in own six: 77%, in MATH six: 72%
+- gap recovered by patching at the commit point: own 81%, math 79%, control 0%
+
+## Option A: replay on the held-out natural loops
+
+One loop per held-out question, fed up to its commit point; answer generated fresh (T=0.6, answer cap 1200, thinking cap 256).
+
+| condition | loops | stops | correct [95% CI] | correct (of stopped) | answer hits the cap |
+|---|---|---|---|---|---|
+| base | 34 | 3% | 0% [0-0] | 0% | 0% |
+| force | 34 | 100% | 38% [24-56] | 38% | 50% |
+| bias | 34 | 100% | 26% [12-41] | 26% | 71% |
+| switch | 34 | 74% | 29% [15-44] | 40% | 48% |
+| switch_math | 34 | 94% | 32% [18-47] | 34% | 59% |
+| ctrl | 34 | 0% | 0% [0-0] | - | - |
+
+## Option B: live test on the held-out questions (fresh runs)
+
+- fresh runs: 114 (57 questions x seeds [10, 11]); loops 54; correct with no intervention 45%
+- rule fires on 70 runs: 53 loops, 17 that would have finished (14 of them correctly)
+
+Accuracy over ALL fresh runs. Runs the rule did not fire on keep their own outcome; so do triggered runs whose branch did not stop within 256 tokens (the intervention did not take effect: a loop stays a loop, a run that would finish keeps its answer). Only runs whose branches are done are counted.
+
+| condition | runs | correct [95% CI] | loops left | of triggered: loops rescued | would-finish runs hurt (right -> wrong) |
+|---|---|---|---|---|---|
+| none | 114 | 45% [36-54] | 54 | - | - |
+| force | 114 | 38% [29-46] | 1 | 1 | 9 |
+| switch | 114 | 42% [33-51] | 4 | 2 | 5 |
+| switch_math | 114 | 40% [32-49] | 3 | 2 | 7 |
+09:36 restarting vLLM and the generation queue
+09:36 ===== logiqa T=0.6
+[pairs] logiqa T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6
+  catch questions skipped (held out): 38
+  learning: no commit point: 1
+  test loops: no commit point: 7
+  questions: 500
+  held-out questions (loop naturally): 120
+  held-out questions tested: 60
+  learning pairs: 24
+  replay test loops: 60
+  replay test loops with a commit point: 53
+live_items: 60 rows, 0 already done, 60 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=10 max_tokens=12288
+  25/60  correct 10  hit cap (loop) 0     295s
+  50/60  correct 16  hit cap (loop) 7     518s
+  60/60  correct 17  hit cap (loop) 12     690s
+done live_items -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6/live_runs/seed10.jsonl
+live_items: 60 rows, 0 already done, 60 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=11 max_tokens=12288
+  25/60  correct 12  hit cap (loop) 0     262s
+  50/60  correct 20  hit cap (loop) 14     612s
+  60/60  correct 20  hit cap (loop) 24     706s
+done live_items -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6/live_runs/seed11.jsonl
+10:05 pausing the generation queue and vLLM
+10:05 stage trigger
+[trigger] logiqa T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6
+  live runs 120: loops 36; trigger fires on 63 (36 loops, 27 would finish; kinds {'commit': 23, 'paragraph': 40})
+10:06 stage signal
+[signal] logiqa T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  signal 10/24     36s
+  signal 20/24     83s
+  signal 24/24    103s
+  own stop MLPs (top-6 gap contribution, 24 pairs): [27, 26, 23, 22, 24, 25]   MATH six: [27, 26, 25, 24, 22, 20]
+  gap recovered by patching: own 91%, math 98%, control 1%
+10:12 stage replay
+[replay] logiqa T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  replay: 53 held-out loops to run; conditions: base force bias switch ctrl switch_math
+  [1/53] logiqa_0_s3            227s  base=-/x force=stop/x bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/x
+  [2/53] logiqa_1_s2            242s  base=-/x force=stop/x bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [3/53] logiqa_109_s2           76s  base=-/x force=stop/ok bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [4/53] logiqa_114_s0          134s  base=-/x force=stop/x bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/x
+  [5/53] logiqa_128_s0          228s  base=-/x force=stop/ok bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [6/53] logiqa_145_s0           77s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [7/53] logiqa_148_s0          379s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [8/53] logiqa_161_s3           33s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [9/53] logiqa_166_s1          201s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [10/53] logiqa_208_s0          115s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [11/53] logiqa_23_s2           371s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [12/53] logiqa_247_s1          270s  base=-/x force=stop/ok bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/x
+  [13/53] logiqa_248_s1          252s  base=-/x force=stop/ok bias=stop/ok switch=-/x ctrl=-/x switch_math=stop/x
+  [14/53] logiqa_249_s0          228s  base=-/x force=stop/ok bias=stop/ok switch=-/x ctrl=-/x switch_math=stop/x
+  [15/53] logiqa_261_s0          233s  base=-/x force=stop/x bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/ok
+  [16/53] logiqa_288_s2           48s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [17/53] logiqa_290_s0           61s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=stop/ok switch_math=stop/ok
+  [18/53] logiqa_294_s1          131s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [19/53] logiqa_297_s0          228s  base=-/x force=stop/x bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/x
+  [20/53] logiqa_298_s3          286s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [21/53] logiqa_313_s3          121s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [22/53] logiqa_346_s3          219s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/ok
+  [23/53] logiqa_35_s0           219s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/ok
+  [24/53] logiqa_37_s0           291s  base=-/x force=stop/ok bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/ok
+  [25/53] logiqa_387_s3           35s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [26/53] logiqa_396_s0           84s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [27/53] logiqa_397_s3          214s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/x
+  [28/53] logiqa_4_s2             58s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [29/53] logiqa_400_s0          230s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [30/53] logiqa_409_s2           51s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [31/53] logiqa_426_s1          204s  base=-/x force=stop/x bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/x
+  [32/53] logiqa_430_s0           52s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [33/53] logiqa_443_s0          319s  base=-/x force=stop/ok bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [34/53] logiqa_464_s1          250s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [35/53] logiqa_489_s2           88s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [36/53] logiqa_495_s1          341s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/ok
+  [37/53] logiqa_497_s0          233s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/ok
+  [38/53] logiqa_50_s0           117s  base=-/x force=stop/ok bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/x
+  [39/53] logiqa_520_s2          109s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=stop/x switch_math=stop/x
+  [40/53] logiqa_521_s0           53s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [41/53] logiqa_534_s1          148s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [42/53] logiqa_546_s1          276s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/x
+  [43/53] logiqa_577_s1           33s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [44/53] logiqa_581_s0           31s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [45/53] logiqa_593_s2          226s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [46/53] logiqa_600_s0          299s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [47/53] logiqa_642_s0          327s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [48/53] logiqa_644_s2          270s  base=-/x force=stop/ok bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [49/53] logiqa_646_s1          391s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [50/53] logiqa_67_s2           276s  base=-/x force=stop/ok bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/x
+  [51/53] logiqa_91_s0            39s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [52/53] logiqa_93_s1           399s  base=-/x force=stop/ok bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/ok
+  [53/53] logiqa_98_s0           126s  base=-/x force=stop/ok bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/ok
+12:59 stage live
+[live] logiqa T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  live: 63 triggered runs to continue
+  [1/63] logiqa_409 seed10 (would finish)   25s  force=x switch=x switch_math=x
+  [2/63] logiqa_346 seed10 (would finish, right)   85s  force=ok switch=ok switch_math=ok
+  [3/63] logiqa_247 seed10 (would finish, right)   90s  force=ok switch=ok switch_math=ok
+  [4/63] logiqa_23 seed10 (would finish)  252s  force=x switch=x switch_math=x
+  [5/63] logiqa_4 seed10 (would finish)   50s  force=x switch=x switch_math=x
+  [6/63] logiqa_348 seed10 (would finish)  250s  force=x switch=x switch_math=x
+  [7/63] logiqa_400 seed10 (would finish, right)   81s  force=ok switch=x switch_math=x
+  [8/63] logiqa_148 seed10 (would finish)   49s  force=x switch=x switch_math=x
+  [9/63] logiqa_248 seed10 (would finish, right)  249s  force=x switch=x switch_math=ok
+  [10/63] logiqa_208 seed10 (would finish)  156s  force=x switch=x switch_math=x
+  [11/63] logiqa_298 seed10 (would finish)  161s  force=x switch=x switch_math=x
+  [12/63] logiqa_1 seed10 (loop)  237s  force=x switch=x switch_math=x
+  [13/63] logiqa_166 seed10 (loop)  248s  force=x switch=x switch_math=ok
+  [14/63] logiqa_37 seed10 (loop)  134s  force=ok switch=x switch_math=ok
+  [15/63] logiqa_102 seed10 (loop)  248s  force=ok switch=x switch_math=x
+  [16/63] logiqa_396 seed10 (loop)  249s  force=x switch=x switch_math=x
+  [17/63] logiqa_249 seed10 (loop)  237s  force=ok switch=x switch_math=ok
+  [18/63] logiqa_443 seed10 (would finish)  167s  force=ok switch=x switch_math=x
+  [19/63] logiqa_426 seed10 (would finish, right)  131s  force=x switch=ok switch_math=x
+  [20/63] logiqa_297 seed10 (loop)   35s  force=x switch=x switch_math=x
+  [21/63] logiqa_451 seed10 (would finish)  247s  force=x switch=x switch_math=x
+  [22/63] logiqa_520 seed10 (would finish)   49s  force=ok switch=ok switch_math=ok
+  [23/63] logiqa_500 seed10 (would finish)  247s  force=x switch=x switch_math=x
+  [24/63] logiqa_495 seed10 (loop)  247s  force=x switch=x switch_math=x
+  [25/63] logiqa_497 seed10 (loop)  235s  force=x switch=x switch_math=x
+  [26/63] logiqa_498 seed10 (loop)  248s  force=x switch=x switch_math=x
+  [27/63] logiqa_548 seed10 (would finish)  249s  force=x switch=x switch_math=x
+  [28/63] logiqa_546 seed10 (would finish)  248s  force=x switch=x switch_math=x
+  [29/63] logiqa_593 seed10 (would finish)  125s  force=x switch=x switch_math=x
+  [30/63] logiqa_649 seed10 (would finish)  248s  force=x switch=x switch_math=x
+  [31/63] logiqa_646 seed10 (loop)  173s  force=x switch=x switch_math=x
+  [32/63] logiqa_91 seed10 (loop)   40s  force=x switch=x switch_math=x
+  [33/63] logiqa_145 seed11 (would finish)  211s  force=x switch=x switch_math=x
+  [34/63] logiqa_400 seed11 (would finish)   84s  force=x switch=x switch_math=x
+  [35/63] logiqa_37 seed11 (would finish, right)  158s  force=ok switch=ok switch_math=ok
+  [36/63] logiqa_249 seed11 (would finish)  237s  force=x switch=x switch_math=x
+  [37/63] logiqa_0 seed11 (would finish, right)  185s  force=x switch=x switch_math=ok
+  [38/63] logiqa_409 seed11 (would finish, right)   26s  force=ok switch=ok switch_math=ok
+  [39/63] logiqa_348 seed11 (would finish)   62s  force=x switch=x switch_math=x
+  [40/63] logiqa_102 seed11 (loop)  247s  force=x switch=x switch_math=x
+  [41/63] logiqa_166 seed11 (loop)  167s  force=x switch=x switch_math=x
+  [42/63] logiqa_148 seed11 (loop)  173s  force=x switch=ok switch_math=x
+  [43/63] logiqa_346 seed11 (loop)   57s  force=x switch=x switch_math=x
+  [44/63] logiqa_208 seed11 (loop)  247s  force=x switch=x switch_math=x
+  [45/63] logiqa_1 seed11 (loop)  170s  force=ok switch=x switch_math=ok
+  [46/63] logiqa_396 seed11 (loop)  246s  force=x switch=x switch_math=x
+  [47/63] logiqa_4 seed11 (loop)   38s  force=x switch=x switch_math=x
+  [48/63] logiqa_35 seed11 (loop)  223s  force=x switch=ok switch_math=ok
+  [49/63] logiqa_443 seed11 (loop)  248s  force=x switch=x switch_math=ok
+  [50/63] logiqa_451 seed11 (loop)  169s  force=ok switch=x switch_math=x
+  [51/63] logiqa_495 seed11 (loop)   29s  force=x switch=x switch_math=x
+  [52/63] logiqa_497 seed11 (loop)  246s  force=x switch=ok switch_math=x
+  [53/63] logiqa_498 seed11 (loop)  244s  force=x switch=x switch_math=x
+  [54/63] logiqa_500 seed11 (loop)  244s  force=x switch=x switch_math=x
+  [55/63] logiqa_534 seed11 (loop)   34s  force=x switch=x switch_math=x
+  [56/63] logiqa_546 seed11 (loop)  250s  force=x switch=x switch_math=x
+  [57/63] logiqa_548 seed11 (loop)  135s  force=ok switch=x switch_math=ok
+  [58/63] logiqa_593 seed11 (loop)   63s  force=ok switch=x switch_math=ok
+  [59/63] logiqa_642 seed11 (loop)  242s  force=x switch=x switch_math=ok
+  [60/63] logiqa_93 seed11 (loop)  250s  force=x switch=x switch_math=x
+  [61/63] logiqa_91 seed11 (loop)   39s  force=x switch=x switch_math=x
+  [62/63] logiqa_646 seed11 (loop)  243s  force=ok switch=ok switch_math=x
+  [63/63] logiqa_649 seed11 (loop)  253s  force=x switch=x switch_math=x
+16:00 stage summary
+[summary] logiqa T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6
+# Per-benchmark stop switch: logiqa, T=0.6
+
+Learned from this benchmark's catch-vs-aligned pairs; tested on its natural loops (held out). Settings: `config.json`.
+
+## Data
+
+- catch questions skipped (held out): 38
+- learning: no commit point: 1
+- test loops: no commit point: 7
+- questions: 500
+- held-out questions (loop naturally): 120
+- held-out questions tested: 60
+- learning pairs: 24
+- replay test loops: 60
+- replay test loops with a commit point: 53
+
+## Learning: the stop signal on this benchmark's catch-vs-aligned pairs
+
+- pairs: 24
+- logit(</think>): finished stop +30.0, loop commit +5.7, gap +24.3 (gap > 0 in 100%)
+- MLP share of the gap: 89%
+- own stop MLPs (top-6): [27, 26, 23, 22, 24, 25]; MATH six: [27, 26, 25, 24, 22, 20]; share of gap in own six: 75%, in MATH six: 69%
+- gap recovered by patching at the commit point: own 91%, math 98%, control 1%
+
+## Option A: replay on the held-out natural loops
+
+One loop per held-out question, fed up to its commit point; answer generated fresh (T=0.6, answer cap 1200, thinking cap 256).
+
+| condition | loops | stops | correct [95% CI] | correct (of stopped) | answer hits the cap |
+|---|---|---|---|---|---|
+| base | 53 | 0% | 0% [0-0] | - | - |
+| force | 53 | 100% | 36% [23-49] | 36% | 45% |
+| bias | 53 | 100% | 38% [25-51] | 38% | 38% |
+| switch | 53 | 87% | 25% [15-36] | 28% | 39% |
+| switch_math | 53 | 98% | 30% [19-43] | 31% | 46% |
+| ctrl | 53 | 4% | 2% [0-6] | 50% | 0% |
+
+## Option B: live test on the held-out questions (fresh runs)
+
+- fresh runs: 120 (60 questions x seeds [10, 11]); loops 36; correct with no intervention 31%
+- rule fires on 63 runs: 36 loops, 27 that would have finished (8 of them correctly)
+
+Accuracy over ALL fresh runs. Runs the rule did not fire on keep their own outcome; so do triggered runs whose branch did not stop within 256 tokens (the intervention did not take effect: a loop stays a loop, a run that would finish keeps its answer). Only runs whose branches are done are counted.
+
+| condition | runs | correct [95% CI] | loops left | of triggered: loops rescued | would-finish runs hurt (right -> wrong) |
+|---|---|---|---|---|---|
+| none | 120 | 31% [22-39] | 36 | - | - |
+| force | 120 | 37% [28-46] | 0 | 8 | 3 |
+| switch | 120 | 34% [26-43] | 15 | 4 | 1 |
+| switch_math | 120 | 38% [29-47] | 2 | 9 | 2 |
+16:01 restarting vLLM and the generation queue
+16:01 ALL BENCHMARKS DONE (T=0.6)

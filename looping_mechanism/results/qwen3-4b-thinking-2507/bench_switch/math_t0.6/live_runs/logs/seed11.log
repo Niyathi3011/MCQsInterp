@@ -1,0 +1,9 @@
+live_items: 107 rows, 0 already done, 107 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=11 max_tokens=12288
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  25/107  correct 9  hit cap (loop) 16     737s
+  50/107  correct 17  hit cap (loop) 33    1351s
+  75/107  correct 25  hit cap (loop) 50    2042s
+  100/107  correct 35  hit cap (loop) 65    2653s
+  107/107  correct 36  hit cap (loop) 71    2760s
+done live_items -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/math_t0.6/live_runs/seed11.jsonl

@@ -1,0 +1,19 @@
+[signal] gsm8k T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  signal 10/145     11s
+  signal 20/145     21s
+  signal 30/145     32s
+  signal 40/145     42s
+  signal 50/145     54s
+  signal 60/145     62s
+  signal 70/145     73s
+  signal 80/145     85s
+  signal 90/145     94s
+  signal 100/145    105s
+  signal 110/145    115s
+  signal 120/145    126s
+  signal 130/145    136s
+  signal 140/145    145s
+  signal 145/145    150s
+  own stop MLPs (top-6 gap contribution, 145 pairs): [27, 26, 23, 22, 24, 25]   MATH six: [27, 26, 25, 24, 22, 20]
+  gap recovered by patching: own 82%, math 79%, control 0%

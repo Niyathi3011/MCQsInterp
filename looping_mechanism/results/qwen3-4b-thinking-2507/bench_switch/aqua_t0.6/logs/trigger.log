@@ -1,0 +1,2 @@
+[trigger] aqua T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/aqua_t0.6
+  live runs 26: loops 13; trigger fires on 24 (13 loops, 11 would finish; kinds {'commit': 11, 'paragraph': 13})

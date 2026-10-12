@@ -1,0 +1,2 @@
+[trigger] math T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0
+  live runs 50: loops 29; trigger fires on 32 (28 loops, 4 would finish; kinds {'commit': 12, 'paragraph': 20})

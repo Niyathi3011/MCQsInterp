@@ -1,0 +1,2 @@
+[trigger] gsm8k T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/gsm8k_t0.6
+  live runs 2: loops 0; trigger fires on 1 (0 loops, 1 would finish; kinds {'commit': 1})

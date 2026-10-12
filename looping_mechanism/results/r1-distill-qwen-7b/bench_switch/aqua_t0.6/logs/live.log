@@ -1,0 +1,105 @@
+[live] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  live: 102 triggered runs to continue
+  [1/102] aqua_152 seed10 (would finish)   67s  force=x bias=x switch=x ctrl=x switch_math=x
+  [2/102] aqua_139 seed10 (would finish)  104s  force=x bias=x switch=x ctrl=x switch_math=x
+  [3/102] aqua_112 seed10 (would finish)   92s  force=x bias=x switch=x ctrl=x switch_math=x
+  [4/102] aqua_106 seed10 (loop)  282s  force=ok bias=x switch=ok ctrl=x switch_math=ok
+  [5/102] aqua_125 seed10 (loop)   74s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [6/102] aqua_115 seed10 (loop)  281s  force=x bias=x switch=x ctrl=x switch_math=x
+  [7/102] aqua_117 seed10 (loop)  260s  force=x bias=x switch=x ctrl=x switch_math=x
+  [8/102] aqua_159 seed10 (loop)  325s  force=x bias=x switch=x ctrl=x switch_math=x
+  [9/102] aqua_132 seed10 (loop)   66s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [10/102] aqua_176 seed10 (loop)  353s  force=x bias=x switch=x ctrl=x switch_math=x
+  [11/102] aqua_184 seed10 (loop)  259s  force=x bias=x switch=x ctrl=x switch_math=x
+  [12/102] aqua_20 seed10 (loop)  266s  force=x bias=x switch=x ctrl=x switch_math=x
+  [13/102] aqua_172 seed10 (loop)  282s  force=x bias=x switch=x ctrl=x switch_math=x
+  [14/102] aqua_207 seed10 (would finish, right)   61s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [15/102] aqua_165 seed10 (loop)  327s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [16/102] aqua_232 seed10 (loop)  338s  force=x bias=x switch=x ctrl=x switch_math=x
+  [17/102] aqua_238 seed10 (would finish)  115s  force=x bias=x switch=x ctrl=x switch_math=x
+  [18/102] aqua_241 seed10 (would finish, right)  203s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [19/102] aqua_48 seed10 (loop)  174s  force=x bias=x switch=x ctrl=x switch_math=x
+  [20/102] aqua_187 seed10 (loop)  352s  force=x bias=x switch=x ctrl=x switch_math=ok
+  [21/102] aqua_32 seed10 (loop)  329s  force=x bias=x switch=x ctrl=x switch_math=x
+  [22/102] aqua_237 seed10 (loop)  257s  force=x bias=x switch=x ctrl=x switch_math=x
+  [23/102] aqua_250 seed10 (loop)  269s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [24/102] aqua_59 seed10 (loop)  351s  force=x bias=x switch=x ctrl=x switch_math=x
+  [25/102] aqua_69 seed10 (loop)  352s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [26/102] aqua_22 seed11 (would finish, right)  229s  force=ok bias=ok switch=ok ctrl=ok switch_math=ok
+  [27/102] aqua_132 seed11 (would finish, right)  103s  force=ok bias=ok switch=ok ctrl=ok switch_math=ok
+  [28/102] aqua_187 seed11 (would finish)   69s  force=x bias=x switch=x ctrl=x switch_math=x
+  [29/102] aqua_112 seed11 (would finish)   61s  force=x bias=x switch=x ctrl=x switch_math=x
+  [30/102] aqua_181 seed11 (would finish, right)  269s  force=ok bias=x switch=ok ctrl=x switch_math=ok
+  [31/102] aqua_106 seed11 (loop)  265s  force=ok bias=x switch=ok ctrl=x switch_math=x
+  [32/102] aqua_165 seed11 (loop)  275s  force=x bias=x switch=x ctrl=x switch_math=x
+  [33/102] aqua_159 seed11 (loop)  355s  force=x bias=x switch=x ctrl=x switch_math=x
+  [34/102] aqua_124 seed11 (loop)   79s  force=x bias=x switch=x ctrl=x switch_math=x
+  [35/102] aqua_172 seed11 (loop)  332s  force=x bias=x switch=x ctrl=x switch_math=x
+  [36/102] aqua_173 seed11 (loop)  357s  force=x bias=x switch=x ctrl=x switch_math=x
+  [37/102] aqua_184 seed11 (loop)   64s  force=x bias=x switch=x ctrl=x switch_math=x
+  [38/102] aqua_115 seed11 (loop)  141s  force=x bias=x switch=x ctrl=x switch_math=x
+  [39/102] aqua_117 seed11 (loop)  350s  force=x bias=x switch=x ctrl=x switch_math=x
+  [40/102] aqua_125 seed11 (loop)  295s  force=x bias=x switch=ok ctrl=x switch_math=ok
+  [41/102] aqua_20 seed11 (loop)  259s  force=x bias=x switch=x ctrl=x switch_math=x
+  [42/102] aqua_152 seed11 (loop)  272s  force=x bias=x switch=x ctrl=x switch_math=x
+  [43/102] aqua_48 seed11 (would finish)  184s  force=x bias=x switch=ok ctrl=x switch_math=x
+  [44/102] aqua_237 seed11 (loop)  352s  force=x bias=x switch=x ctrl=x switch_math=x
+  [45/102] aqua_250 seed11 (loop)   76s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [46/102] aqua_238 seed11 (loop)  252s  force=x bias=x switch=x ctrl=x switch_math=x
+  [47/102] aqua_232 seed11 (loop)   61s  force=x bias=x switch=x ctrl=x switch_math=x
+  [48/102] aqua_241 seed11 (would finish, right)  299s  force=x bias=x switch=ok ctrl=x switch_math=ok
+  [49/102] aqua_32 seed11 (loop)  351s  force=x bias=x switch=x ctrl=x switch_math=x
+  [50/102] aqua_54 seed11 (would finish)  354s  force=x bias=x switch=x ctrl=x switch_math=x
+  [51/102] aqua_59 seed11 (loop)  306s  force=x bias=x switch=x ctrl=x switch_math=x
+  [52/102] aqua_69 seed11 (loop)  334s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [53/102] aqua_115 seed12 (would finish)  272s  force=ok bias=x switch=x ctrl=x switch_math=x
+  [54/102] aqua_207 seed12 (would finish, right)  177s  force=x bias=x switch=x ctrl=x switch_math=x
+  [55/102] aqua_112 seed12 (loop)  103s  force=x bias=x switch=x ctrl=x switch_math=x
+  [56/102] aqua_172 seed12 (loop)  343s  force=x bias=x switch=x ctrl=x switch_math=x
+  [57/102] aqua_152 seed12 (loop)  282s  force=x bias=x switch=x ctrl=x switch_math=x
+  [58/102] aqua_106 seed12 (loop)  339s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [59/102] aqua_159 seed12 (loop)  329s  force=x bias=x switch=x ctrl=x switch_math=x
+  [60/102] aqua_117 seed12 (loop)  353s  force=x bias=x switch=x ctrl=x switch_math=x
+  [61/102] aqua_165 seed12 (loop)  328s  force=x bias=x switch=x ctrl=x switch_math=x
+  [62/102] aqua_176 seed12 (loop)  353s  force=x bias=x switch=x ctrl=x switch_math=x
+  [63/102] aqua_187 seed12 (loop)  354s  force=x bias=x switch=x ctrl=x switch_math=x
+  [64/102] aqua_20 seed12 (loop)  292s  force=x bias=x switch=x ctrl=x switch_math=x
+  [65/102] aqua_250 seed12 (loop)   68s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [66/102] aqua_32 seed12 (loop)  343s  force=x bias=x switch=x ctrl=x switch_math=x
+  [67/102] aqua_241 seed12 (would finish)  282s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [68/102] aqua_237 seed12 (loop)  352s  force=x bias=x switch=x ctrl=x switch_math=x
+  [69/102] aqua_184 seed12 (loop)   79s  force=x bias=x switch=x ctrl=x switch_math=x
+  [70/102] aqua_232 seed12 (loop)  207s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [71/102] aqua_238 seed12 (loop)  306s  force=x bias=ok switch=ok ctrl=x switch_math=ok
+  [72/102] aqua_59 seed12 (loop)  251s  force=x bias=x switch=x ctrl=x switch_math=x
+  [73/102] aqua_69 seed12 (loop)  333s  force=x bias=x switch=x ctrl=x switch_math=x
+  [74/102] aqua_169 seed13 (would finish, right)   82s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [75/102] aqua_132 seed13 (would finish, right)  181s  force=ok bias=ok switch=ok ctrl=ok switch_math=ok
+  [76/102] aqua_184 seed13 (would finish)   61s  force=x bias=x switch=x ctrl=x switch_math=x
+  [77/102] aqua_250 seed13 (would finish, right)  252s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [78/102] aqua_48 seed13 (would finish)  281s  force=x bias=x switch=x ctrl=x switch_math=x
+  [79/102] aqua_22 seed13 (would finish, right)  293s  force=x bias=x switch=x ctrl=x switch_math=x
+  [80/102] aqua_238 seed13 (loop)  327s  force=x bias=x switch=x ctrl=x switch_math=ok
+  [81/102] aqua_165 seed13 (loop)  356s  force=ok bias=x switch=x ctrl=x switch_math=x
+  [82/102] aqua_237 seed13 (loop)  261s  force=x bias=x switch=x ctrl=x switch_math=x
+  [83/102] aqua_172 seed13 (loop)  353s  force=x bias=x switch=x ctrl=x switch_math=x
+  [84/102] aqua_159 seed13 (loop)  335s  force=x bias=x switch=x ctrl=x switch_math=ok
+  [85/102] aqua_20 seed13 (loop)  260s  force=x bias=x switch=x ctrl=x switch_math=x
+  [86/102] aqua_198 seed13 (loop)  247s  force=x bias=x switch=x ctrl=x switch_math=x
+  [87/102] aqua_106 seed13 (loop)  251s  force=x bias=x switch=x ctrl=x switch_math=x
+  [88/102] aqua_173 seed13 (loop)  335s  force=x bias=x switch=x ctrl=x switch_math=x
+  [89/102] aqua_139 seed13 (would finish)  326s  force=x bias=x switch=x ctrl=x switch_math=x
+  [90/102] aqua_232 seed13 (loop)  257s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [91/102] aqua_115 seed13 (loop)  120s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [92/102] aqua_241 seed13 (would finish, right)  261s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [93/102] aqua_32 seed13 (loop)  331s  force=x bias=x switch=x ctrl=x switch_math=x
+  [94/102] aqua_176 seed13 (loop)  351s  force=x bias=x switch=x ctrl=x switch_math=x
+  [95/102] aqua_125 seed13 (loop)  289s  force=ok bias=x switch=ok ctrl=x switch_math=ok
+  [96/102] aqua_112 seed13 (loop)   62s  force=x bias=x switch=x ctrl=x switch_math=x
+  [97/102] aqua_181 seed13 (would finish, right)  127s  force=ok bias=ok switch=x ctrl=x switch_math=ok
+  [98/102] aqua_187 seed13 (loop)  276s  force=x bias=x switch=x ctrl=x switch_math=x
+  [99/102] aqua_117 seed13 (loop)  282s  force=x bias=x switch=x ctrl=x switch_math=x
+  [100/102] aqua_207 seed13 (loop)  176s  force=ok bias=ok switch=x ctrl=x switch_math=ok
+  [101/102] aqua_59 seed13 (loop)  350s  force=x bias=x switch=x ctrl=x switch_math=x
+  [102/102] aqua_69 seed13 (loop)  255s  force=x bias=x switch=ok ctrl=x switch_math=x

@@ -1,0 +1,227 @@
+{"id": "aqua_1", "group": "own answer matches NO option", "open_preds": ["78.21"], "mcq_loops": [false, false]}
+{"id": "aqua_10", "group": "own answer matches NO option", "open_preds": ["234.29"], "mcq_loops": [false, false]}
+{"id": "aqua_100", "group": "own answer = correct option", "open_preds": ["90"], "mcq_loops": [false, false]}
+{"id": "aqua_101", "group": "own answer = correct option", "open_preds": ["25"], "mcq_loops": [false, false]}
+{"id": "aqua_103", "group": "own answer = correct option", "open_preds": ["1800"], "mcq_loops": [false, false]}
+{"id": "aqua_105", "group": "own answer = correct option", "open_preds": ["60"], "mcq_loops": [false, false]}
+{"id": "aqua_106", "group": "own answer matches NO option", "open_preds": ["48"], "mcq_loops": [true, true]}
+{"id": "aqua_108", "group": "never answers (open form always loops)", "open_preds": [], "mcq_loops": [false, true]}
+{"id": "aqua_109", "group": "own answer = correct option", "open_preds": ["130"], "mcq_loops": [false, false]}
+{"id": "aqua_11", "group": "own answer = correct option", "open_preds": ["4000"], "mcq_loops": [false, false]}
+{"id": "aqua_110", "group": "own answer = correct option", "open_preds": ["5"], "mcq_loops": [false, false]}
+{"id": "aqua_111", "group": "own answer = correct option", "open_preds": ["80"], "mcq_loops": [false, false]}
+{"id": "aqua_112", "group": "own answer matches NO option", "open_preds": ["\\dfrac{60}{7}"], "mcq_loops": [false, false]}
+{"id": "aqua_113", "group": "own answer = correct option", "open_preds": ["3000\\pi"], "mcq_loops": [false, false]}
+{"id": "aqua_115", "group": "own answer matches NO option", "open_preds": ["87.5"], "mcq_loops": [true, true]}
+{"id": "aqua_116", "group": "own answer = correct option", "open_preds": ["4"], "mcq_loops": [true, false]}
+{"id": "aqua_117", "group": "own answer matches NO option", "open_preds": ["400 - 100\\pi"], "mcq_loops": [true, true]}
+{"id": "aqua_118", "group": "own answer = correct option", "open_preds": ["\\dfrac{M + N}{8}"], "mcq_loops": [false, false]}
+{"id": "aqua_119", "group": "own answer = correct option", "open_preds": ["96"], "mcq_loops": [false, false]}
+{"id": "aqua_12", "group": "own answer = correct option", "open_preds": ["36"], "mcq_loops": [false, false]}
+{"id": "aqua_120", "group": "own answer = correct option", "open_preds": ["168"], "mcq_loops": [false, false]}
+{"id": "aqua_121", "group": "own answer = correct option", "open_preds": ["240"], "mcq_loops": [false, false]}
+{"id": "aqua_123", "group": "own answer = correct option", "open_preds": ["22.5"], "mcq_loops": [false, false]}
+{"id": "aqua_124", "group": "own answer = a wrong option", "open_preds": ["6"], "mcq_loops": [false, true]}
+{"id": "aqua_125", "group": "own answer matches NO option", "open_preds": ["863"], "mcq_loops": [false, false]}
+{"id": "aqua_126", "group": "own answer = correct option", "open_preds": ["\\dfrac{59}{91}"], "mcq_loops": [false, true]}
+{"id": "aqua_127", "group": "own answer = correct option", "open_preds": ["24"], "mcq_loops": [false, false]}
+{"id": "aqua_129", "group": "own answer = correct option", "open_preds": ["86\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_13", "group": "own answer = correct option", "open_preds": ["15"], "mcq_loops": [false, false]}
+{"id": "aqua_130", "group": "own answer matches NO option", "open_preds": ["\\dfrac{13}{3}"], "mcq_loops": [false, false]}
+{"id": "aqua_132", "group": "never answers (open form always loops)", "open_preds": [], "mcq_loops": [false, false]}
+{"id": "aqua_133", "group": "own answer = correct option", "open_preds": ["770"], "mcq_loops": [false, false]}
+{"id": "aqua_134", "group": "own answer = correct option", "open_preds": ["400"], "mcq_loops": [false, false]}
+{"id": "aqua_135", "group": "own answer = correct option", "open_preds": ["2300"], "mcq_loops": [false, false]}
+{"id": "aqua_136", "group": "own answer = correct option", "open_preds": ["2"], "mcq_loops": [false, false]}
+{"id": "aqua_137", "group": "own answer = correct option", "open_preds": ["600"], "mcq_loops": [false, false]}
+{"id": "aqua_139", "group": "own answer matches NO option", "open_preds": ["\\dfrac{10}{3}"], "mcq_loops": [false, false]}
+{"id": "aqua_14", "group": "own answer matches NO option", "open_preds": ["5040"], "mcq_loops": [false, false]}
+{"id": "aqua_140", "group": "own answer = correct option", "open_preds": ["360"], "mcq_loops": [false, false]}
+{"id": "aqua_141", "group": "own answer = correct option", "open_preds": ["12.5"], "mcq_loops": [false, false]}
+{"id": "aqua_142", "group": "own answer = correct option", "open_preds": ["5"], "mcq_loops": [false, false]}
+{"id": "aqua_143", "group": "own answer = correct option", "open_preds": ["0.9"], "mcq_loops": [false, false]}
+{"id": "aqua_144", "group": "own answer = correct option", "open_preds": ["\\dfrac{6}{\\pi}"], "mcq_loops": [false, false]}
+{"id": "aqua_145", "group": "own answer = correct option", "open_preds": ["6"], "mcq_loops": [false, false]}
+{"id": "aqua_146", "group": "own answer matches NO option", "open_preds": ["\\dfrac{125}{12}"], "mcq_loops": [false, false]}
+{"id": "aqua_147", "group": "own answer = correct option", "open_preds": ["2"], "mcq_loops": [false, false]}
+{"id": "aqua_148", "group": "own answer = correct option", "open_preds": ["50\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_149", "group": "own answer matches NO option", "open_preds": ["7:56"], "mcq_loops": [false, false]}
+{"id": "aqua_15", "group": "own answer = correct option", "open_preds": ["0.2"], "mcq_loops": [false, false]}
+{"id": "aqua_150", "group": "own answer = correct option", "open_preds": ["2"], "mcq_loops": [false, false]}
+{"id": "aqua_151", "group": "own answer = correct option", "open_preds": ["960"], "mcq_loops": [false, false]}
+{"id": "aqua_152", "group": "own answer matches NO option", "open_preds": ["15"], "mcq_loops": [true, false]}
+{"id": "aqua_153", "group": "own answer = correct option", "open_preds": ["15"], "mcq_loops": [false, false]}
+{"id": "aqua_154", "group": "own answer = correct option", "open_preds": ["4"], "mcq_loops": [false, true]}
+{"id": "aqua_155", "group": "own answer = correct option", "open_preds": ["102"], "mcq_loops": [false, false]}
+{"id": "aqua_156", "group": "own answer = correct option", "open_preds": ["25"], "mcq_loops": [false, false]}
+{"id": "aqua_157", "group": "own answer matches NO option", "open_preds": ["-\\dfrac{97}{6}"], "mcq_loops": [false, false]}
+{"id": "aqua_158", "group": "own answer matches NO option", "open_preds": ["604800"], "mcq_loops": [false, false]}
+{"id": "aqua_159", "group": "own answer matches NO option", "open_preds": ["60"], "mcq_loops": [false, false]}
+{"id": "aqua_160", "group": "own answer matches NO option", "open_preds": ["14"], "mcq_loops": [false, false]}
+{"id": "aqua_161", "group": "own answer = correct option", "open_preds": ["\\dfrac{20}{7}"], "mcq_loops": [false, false]}
+{"id": "aqua_162", "group": "own answer matches NO option", "open_preds": ["0.84I"], "mcq_loops": [false, true]}
+{"id": "aqua_163", "group": "own answer = correct option", "open_preds": ["14"], "mcq_loops": [false, false]}
+{"id": "aqua_164", "group": "own answer matches NO option", "open_preds": ["\\dfrac{20}{9}"], "mcq_loops": [false, false]}
+{"id": "aqua_165", "group": "own answer = correct option", "open_preds": ["y^2 > x^3"], "mcq_loops": [true, true]}
+{"id": "aqua_166", "group": "own answer = correct option", "open_preds": ["100"], "mcq_loops": [false, false]}
+{"id": "aqua_167", "group": "own answer = correct option", "open_preds": ["45"], "mcq_loops": [false, false]}
+{"id": "aqua_168", "group": "own answer = correct option", "open_preds": ["23.65"], "mcq_loops": [false, false]}
+{"id": "aqua_169", "group": "own answer matches NO option", "open_preds": ["\\dfrac{3}{2}"], "mcq_loops": [true, false]}
+{"id": "aqua_170", "group": "own answer = correct option", "open_preds": ["3.73"], "mcq_loops": [false, false]}
+{"id": "aqua_171", "group": "own answer = correct option", "open_preds": ["12"], "mcq_loops": [false, false]}
+{"id": "aqua_172", "group": "never answers (open form always loops)", "open_preds": [], "mcq_loops": [true, false]}
+{"id": "aqua_173", "group": "own answer matches NO option", "open_preds": ["462.5\\%"], "mcq_loops": [true, true]}
+{"id": "aqua_174", "group": "own answer = correct option", "open_preds": ["11.5"], "mcq_loops": [false, false]}
+{"id": "aqua_175", "group": "own answer = correct option", "open_preds": ["618"], "mcq_loops": [false, false]}
+{"id": "aqua_176", "group": "never answers (open form always loops)", "open_preds": [], "mcq_loops": [true, false]}
+{"id": "aqua_177", "group": "own answer = correct option", "open_preds": ["20"], "mcq_loops": [false, false]}
+{"id": "aqua_179", "group": "own answer = correct option", "open_preds": ["1.5"], "mcq_loops": [false, false]}
+{"id": "aqua_18", "group": "own answer = a wrong option", "open_preds": ["\\dfrac{yz - 2x}{z - 2}"], "mcq_loops": [false, false]}
+{"id": "aqua_180", "group": "own answer = correct option", "open_preds": ["16000"], "mcq_loops": [false, false]}
+{"id": "aqua_181", "group": "never answers (open form always loops)", "open_preds": [], "mcq_loops": [false, false]}
+{"id": "aqua_183", "group": "own answer = correct option", "open_preds": ["61"], "mcq_loops": [false, false]}
+{"id": "aqua_184", "group": "own answer matches NO option", "open_preds": ["5000p"], "mcq_loops": [false, false]}
+{"id": "aqua_185", "group": "own answer matches NO option", "open_preds": ["\\dfrac{6}{17}"], "mcq_loops": [false, false]}
+{"id": "aqua_186", "group": "own answer = correct option", "open_preds": ["33"], "mcq_loops": [false, false]}
+{"id": "aqua_188", "group": "own answer = correct option", "open_preds": ["252"], "mcq_loops": [false, false]}
+{"id": "aqua_19", "group": "own answer = correct option", "open_preds": ["5"], "mcq_loops": [false, false]}
+{"id": "aqua_190", "group": "own answer = correct option", "open_preds": ["900"], "mcq_loops": [false, false]}
+{"id": "aqua_192", "group": "own answer = correct option", "open_preds": ["24"], "mcq_loops": [false, false]}
+{"id": "aqua_193", "group": "never answers (open form always loops)", "open_preds": [], "mcq_loops": [false, false]}
+{"id": "aqua_194", "group": "own answer matches NO option", "open_preds": ["720"], "mcq_loops": [false, false]}
+{"id": "aqua_195", "group": "own answer = correct option", "open_preds": ["21"], "mcq_loops": [false, false]}
+{"id": "aqua_196", "group": "own answer = correct option", "open_preds": ["15"], "mcq_loops": [false, false]}
+{"id": "aqua_197", "group": "own answer matches NO option", "open_preds": ["\\dfrac{1}{2}(a - b)(-y)"], "mcq_loops": [false, false]}
+{"id": "aqua_198", "group": "own answer matches NO option", "open_preds": ["60"], "mcq_loops": [false, false]}
+{"id": "aqua_199", "group": "own answer = a wrong option", "open_preds": ["\\dfrac{13}{15}"], "mcq_loops": [true, true]}
+{"id": "aqua_2", "group": "own answer = correct option", "open_preds": ["36"], "mcq_loops": [false, false]}
+{"id": "aqua_20", "group": "own answer matches NO option", "open_preds": ["120"], "mcq_loops": [false, false]}
+{"id": "aqua_200", "group": "own answer = correct option", "open_preds": ["12\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_201", "group": "own answer = correct option", "open_preds": ["75"], "mcq_loops": [false, false]}
+{"id": "aqua_204", "group": "own answer = correct option", "open_preds": ["\\dfrac{5xy}{12w}"], "mcq_loops": [false, false]}
+{"id": "aqua_205", "group": "own answer = correct option", "open_preds": ["40"], "mcq_loops": [false, false]}
+{"id": "aqua_206", "group": "own answer = correct option", "open_preds": ["150"], "mcq_loops": [false, false]}
+{"id": "aqua_207", "group": "own answer matches NO option", "open_preds": ["6"], "mcq_loops": [false, false]}
+{"id": "aqua_208", "group": "own answer = correct option", "open_preds": ["960"], "mcq_loops": [false, false]}
+{"id": "aqua_209", "group": "own answer = correct option", "open_preds": ["11"], "mcq_loops": [false, false]}
+{"id": "aqua_21", "group": "own answer matches NO option", "open_preds": ["\\dfrac{245}{16}"], "mcq_loops": [false, false]}
+{"id": "aqua_210", "group": "own answer = correct option", "open_preds": ["13"], "mcq_loops": [false, true]}
+{"id": "aqua_211", "group": "own answer = correct option", "open_preds": ["20\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_212", "group": "own answer = correct option", "open_preds": ["100"], "mcq_loops": [false, false]}
+{"id": "aqua_213", "group": "own answer = correct option", "open_preds": ["89"], "mcq_loops": [false, false]}
+{"id": "aqua_214", "group": "own answer = correct option", "open_preds": ["0.5"], "mcq_loops": [false, false]}
+{"id": "aqua_215", "group": "own answer = correct option", "open_preds": ["2"], "mcq_loops": [false, false]}
+{"id": "aqua_216", "group": "own answer = correct option", "open_preds": ["\\dfrac{2}{5}"], "mcq_loops": [false, false]}
+{"id": "aqua_217", "group": "own answer = correct option", "open_preds": ["10"], "mcq_loops": [false, false]}
+{"id": "aqua_218", "group": "own answer = correct option", "open_preds": ["75"], "mcq_loops": [false, false]}
+{"id": "aqua_219", "group": "own answer = correct option", "open_preds": ["97"], "mcq_loops": [false, false]}
+{"id": "aqua_22", "group": "own answer matches NO option", "open_preds": ["32.5\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_220", "group": "own answer = correct option", "open_preds": ["33"], "mcq_loops": [false, false]}
+{"id": "aqua_221", "group": "own answer matches NO option", "open_preds": ["9"], "mcq_loops": [false, false]}
+{"id": "aqua_222", "group": "own answer = correct option", "open_preds": ["24"], "mcq_loops": [false, false]}
+{"id": "aqua_223", "group": "own answer = correct option", "open_preds": ["36\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_224", "group": "own answer matches NO option", "open_preds": ["166.5"], "mcq_loops": [false, false]}
+{"id": "aqua_225", "group": "own answer = correct option", "open_preds": ["1"], "mcq_loops": [false, false]}
+{"id": "aqua_226", "group": "own answer = correct option", "open_preds": ["71"], "mcq_loops": [false, false]}
+{"id": "aqua_227", "group": "own answer = correct option", "open_preds": ["11"], "mcq_loops": [false, false]}
+{"id": "aqua_228", "group": "own answer matches NO option", "open_preds": ["B"], "mcq_loops": [false, false]}
+{"id": "aqua_229", "group": "own answer = correct option", "open_preds": ["8"], "mcq_loops": [false, false]}
+{"id": "aqua_23", "group": "own answer = correct option", "open_preds": ["8880"], "mcq_loops": [false, false]}
+{"id": "aqua_230", "group": "own answer = correct option", "open_preds": ["4"], "mcq_loops": [false, false]}
+{"id": "aqua_231", "group": "own answer = correct option", "open_preds": ["116"], "mcq_loops": [false, false]}
+{"id": "aqua_232", "group": "own answer = a wrong option", "open_preds": ["8"], "mcq_loops": [false, true]}
+{"id": "aqua_234", "group": "own answer matches NO option", "open_preds": ["5722.5"], "mcq_loops": [false, false]}
+{"id": "aqua_235", "group": "own answer = correct option", "open_preds": ["\\dfrac{A \\times B}{2700}"], "mcq_loops": [false, false]}
+{"id": "aqua_236", "group": "own answer = correct option", "open_preds": ["46"], "mcq_loops": [false, true]}
+{"id": "aqua_237", "group": "own answer matches NO option", "open_preds": ["68"], "mcq_loops": [true, true]}
+{"id": "aqua_238", "group": "own answer = a wrong option", "open_preds": ["\\dfrac{200}{3}"], "mcq_loops": [false, false]}
+{"id": "aqua_239", "group": "own answer = correct option", "open_preds": ["\\dfrac{2}{5}"], "mcq_loops": [false, false]}
+{"id": "aqua_24", "group": "own answer = correct option", "open_preds": ["3.85"], "mcq_loops": [false, false]}
+{"id": "aqua_240", "group": "own answer = correct option", "open_preds": ["50000"], "mcq_loops": [false, false]}
+{"id": "aqua_241", "group": "own answer = correct option", "open_preds": ["50"], "mcq_loops": [false, false]}
+{"id": "aqua_242", "group": "own answer = correct option", "open_preds": ["84"], "mcq_loops": [false, false]}
+{"id": "aqua_243", "group": "own answer = correct option", "open_preds": ["\\dfrac{2500}{y}"], "mcq_loops": [false, false]}
+{"id": "aqua_244", "group": "own answer = correct option", "open_preds": ["48"], "mcq_loops": [false, false]}
+{"id": "aqua_245", "group": "own answer matches NO option", "open_preds": ["0.328"], "mcq_loops": [false, false]}
+{"id": "aqua_246", "group": "own answer = correct option", "open_preds": ["58"], "mcq_loops": [false, false]}
+{"id": "aqua_247", "group": "own answer = correct option", "open_preds": ["1900"], "mcq_loops": [false, false]}
+{"id": "aqua_248", "group": "own answer = correct option", "open_preds": ["39"], "mcq_loops": [false, false]}
+{"id": "aqua_25", "group": "own answer = correct option", "open_preds": ["70"], "mcq_loops": [false, false]}
+{"id": "aqua_250", "group": "own answer matches NO option", "open_preds": ["1096010"], "mcq_loops": [true, true]}
+{"id": "aqua_251", "group": "own answer = correct option", "open_preds": ["30"], "mcq_loops": [false, false]}
+{"id": "aqua_252", "group": "own answer = correct option", "open_preds": ["5"], "mcq_loops": [false, false]}
+{"id": "aqua_253", "group": "own answer matches NO option", "open_preds": ["104.17"], "mcq_loops": [false, false]}
+{"id": "aqua_27", "group": "own answer matches NO option", "open_preds": ["\\text{The pair where } y > \\sqrt{x}"], "mcq_loops": [false, false]}
+{"id": "aqua_28", "group": "own answer = correct option", "open_preds": ["144"], "mcq_loops": [false, false]}
+{"id": "aqua_29", "group": "own answer = correct option", "open_preds": ["59"], "mcq_loops": [false, false]}
+{"id": "aqua_3", "group": "own answer = correct option", "open_preds": ["0.26"], "mcq_loops": [false, false]}
+{"id": "aqua_30", "group": "own answer = correct option", "open_preds": ["28\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_31", "group": "own answer = correct option", "open_preds": ["800"], "mcq_loops": [false, false]}
+{"id": "aqua_32", "group": "own answer matches NO option", "open_preds": ["280"], "mcq_loops": [false, true]}
+{"id": "aqua_33", "group": "own answer = correct option", "open_preds": ["36"], "mcq_loops": [false, false]}
+{"id": "aqua_34", "group": "own answer matches NO option", "open_preds": ["5\\sqrt{10}"], "mcq_loops": [false, false]}
+{"id": "aqua_35", "group": "own answer = correct option", "open_preds": ["3"], "mcq_loops": [false, false]}
+{"id": "aqua_36", "group": "own answer = correct option", "open_preds": ["750"], "mcq_loops": [false, false]}
+{"id": "aqua_37", "group": "own answer = correct option", "open_preds": ["1584"], "mcq_loops": [true, false]}
+{"id": "aqua_39", "group": "own answer = correct option", "open_preds": ["384"], "mcq_loops": [false, false]}
+{"id": "aqua_4", "group": "own answer = correct option", "open_preds": ["300"], "mcq_loops": [false, false]}
+{"id": "aqua_40", "group": "own answer matches NO option", "open_preds": ["8"], "mcq_loops": [false, false]}
+{"id": "aqua_41", "group": "own answer = correct option", "open_preds": ["8"], "mcq_loops": [false, false]}
+{"id": "aqua_42", "group": "own answer = correct option", "open_preds": ["20\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_43", "group": "own answer = correct option", "open_preds": ["42857"], "mcq_loops": [false, false]}
+{"id": "aqua_44", "group": "own answer = correct option", "open_preds": ["30\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_46", "group": "own answer = correct option", "open_preds": ["2"], "mcq_loops": [false, false]}
+{"id": "aqua_48", "group": "never answers (open form always loops)", "open_preds": [], "mcq_loops": [false, false]}
+{"id": "aqua_49", "group": "own answer = correct option", "open_preds": ["42.86\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_5", "group": "own answer = correct option", "open_preds": ["400"], "mcq_loops": [false, false]}
+{"id": "aqua_50", "group": "own answer = correct option", "open_preds": ["400"], "mcq_loops": [false, false]}
+{"id": "aqua_52", "group": "own answer = correct option", "open_preds": ["5"], "mcq_loops": [false, false]}
+{"id": "aqua_53", "group": "own answer = correct option", "open_preds": ["45"], "mcq_loops": [false, false]}
+{"id": "aqua_54", "group": "own answer = correct option", "open_preds": ["11"], "mcq_loops": [false, false]}
+{"id": "aqua_55", "group": "own answer = correct option", "open_preds": ["272"], "mcq_loops": [false, false]}
+{"id": "aqua_56", "group": "never answers (open form always loops)", "open_preds": [], "mcq_loops": [false, false]}
+{"id": "aqua_57", "group": "own answer = correct option", "open_preds": ["9\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_58", "group": "own answer = correct option", "open_preds": ["28"], "mcq_loops": [false, false]}
+{"id": "aqua_59", "group": "own answer matches NO option", "open_preds": ["None of the given options can be one of these numbers."], "mcq_loops": [true, true]}
+{"id": "aqua_6", "group": "own answer matches NO option", "open_preds": ["26"], "mcq_loops": [false, false]}
+{"id": "aqua_60", "group": "own answer = correct option", "open_preds": ["1000"], "mcq_loops": [false, false]}
+{"id": "aqua_62", "group": "own answer = correct option", "open_preds": ["12.75"], "mcq_loops": [false, false]}
+{"id": "aqua_63", "group": "own answer = correct option", "open_preds": ["9"], "mcq_loops": [false, false]}
+{"id": "aqua_64", "group": "own answer = a wrong option", "open_preds": ["4"], "mcq_loops": [false, false]}
+{"id": "aqua_65", "group": "own answer = correct option", "open_preds": ["62"], "mcq_loops": [false, false]}
+{"id": "aqua_66", "group": "own answer = correct option", "open_preds": ["12.5"], "mcq_loops": [false, false]}
+{"id": "aqua_67", "group": "own answer matches NO option", "open_preds": ["9"], "mcq_loops": [false, false]}
+{"id": "aqua_68", "group": "own answer = correct option", "open_preds": ["6"], "mcq_loops": [false, false]}
+{"id": "aqua_69", "group": "own answer matches NO option", "open_preds": ["\\dfrac{18}{5}"], "mcq_loops": [true, true]}
+{"id": "aqua_7", "group": "own answer = correct option", "open_preds": ["12.5"], "mcq_loops": [false, false]}
+{"id": "aqua_70", "group": "own answer = correct option", "open_preds": ["25\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_71", "group": "own answer = correct option", "open_preds": ["126"], "mcq_loops": [false, false]}
+{"id": "aqua_72", "group": "own answer = correct option", "open_preds": ["22"], "mcq_loops": [false, false]}
+{"id": "aqua_73", "group": "own answer = correct option", "open_preds": ["720"], "mcq_loops": [false, false]}
+{"id": "aqua_74", "group": "own answer = a wrong option", "open_preds": ["\\dfrac{13x - 12}{24}"], "mcq_loops": [false, false]}
+{"id": "aqua_75", "group": "own answer = correct option", "open_preds": ["200"], "mcq_loops": [false, false]}
+{"id": "aqua_76", "group": "own answer = correct option", "open_preds": ["7500"], "mcq_loops": [false, false]}
+{"id": "aqua_77", "group": "own answer matches NO option", "open_preds": ["\\dfrac{4}{5}"], "mcq_loops": [false, false]}
+{"id": "aqua_78", "group": "own answer = correct option", "open_preds": ["40.8"], "mcq_loops": [false, false]}
+{"id": "aqua_79", "group": "own answer matches NO option", "open_preds": ["26"], "mcq_loops": [false, false]}
+{"id": "aqua_8", "group": "own answer = correct option", "open_preds": ["110"], "mcq_loops": [false, false]}
+{"id": "aqua_80", "group": "own answer = a wrong option", "open_preds": ["34"], "mcq_loops": [false, false]}
+{"id": "aqua_81", "group": "own answer = correct option", "open_preds": ["30"], "mcq_loops": [false, false]}
+{"id": "aqua_82", "group": "own answer = correct option", "open_preds": ["242"], "mcq_loops": [false, false]}
+{"id": "aqua_83", "group": "own answer = correct option", "open_preds": ["56"], "mcq_loops": [false, false]}
+{"id": "aqua_84", "group": "own answer matches NO option", "open_preds": ["11.25"], "mcq_loops": [false, false]}
+{"id": "aqua_85", "group": "own answer = correct option", "open_preds": ["20"], "mcq_loops": [false, false]}
+{"id": "aqua_87", "group": "own answer = correct option", "open_preds": ["41"], "mcq_loops": [false, false]}
+{"id": "aqua_88", "group": "own answer matches NO option", "open_preds": ["62"], "mcq_loops": [false, false]}
+{"id": "aqua_89", "group": "own answer = correct option", "open_preds": ["3\\%"], "mcq_loops": [false, false]}
+{"id": "aqua_9", "group": "own answer = correct option", "open_preds": ["40"], "mcq_loops": [false, false]}
+{"id": "aqua_90", "group": "own answer = correct option", "open_preds": ["3"], "mcq_loops": [false, false]}
+{"id": "aqua_91", "group": "own answer = correct option", "open_preds": ["1680"], "mcq_loops": [false, false]}
+{"id": "aqua_92", "group": "own answer matches NO option", "open_preds": ["91"], "mcq_loops": [false, false]}
+{"id": "aqua_93", "group": "own answer = correct option", "open_preds": ["20"], "mcq_loops": [false, false]}
+{"id": "aqua_94", "group": "own answer = correct option", "open_preds": ["15"], "mcq_loops": [false, false]}
+{"id": "aqua_95", "group": "own answer = correct option", "open_preds": ["8"], "mcq_loops": [false, false]}
+{"id": "aqua_96", "group": "own answer = correct option", "open_preds": ["22"], "mcq_loops": [false, false]}
+{"id": "aqua_97", "group": "own answer = correct option", "open_preds": ["800"], "mcq_loops": [false, false]}
+{"id": "aqua_98", "group": "own answer = correct option", "open_preds": ["58"], "mcq_loops": [false, false]}
+{"id": "aqua_99", "group": "own answer = correct option", "open_preds": ["60"], "mcq_loops": [false, false]}

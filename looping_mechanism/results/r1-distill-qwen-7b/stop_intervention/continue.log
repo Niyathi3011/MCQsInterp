@@ -1,0 +1,20 @@
+continue: 214 pairs x 4 seeds, 856 to run
+  50/856    326s
+  100/856    522s
+  150/856    771s
+  200/856    975s
+  250/856   1131s
+  300/856   1330s
+  350/856   1470s
+  400/856   1657s
+  450/856   1836s
+  500/856   2053s
+  550/856   2263s
+  600/856   2489s
+  650/856   2660s
+  700/856   2877s
+  750/856   3052s
+  800/856   3244s
+  850/856   3446s
+  856/856   3464s
+-> /workspace/MCQsInterp/looping_mechanism/results/r1-distill-qwen-7b/stop_intervention/continue_no_intervention.jsonl

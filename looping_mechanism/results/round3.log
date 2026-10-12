@@ -1,0 +1,16 @@
+08 07:10 waiting for the Qwen3 step-3 resume
+08 07:22 1. gate reopen
+08 07:44 2. R1 allow-None completion
+done math_aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed0/math_aligned.jsonl
+done gsm8k_aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed0/gsm8k_aligned.jsonl
+done aqua_original -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed0/aqua_original.jsonl
+done logiqa_original -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed0/logiqa_original.jsonl
+done math_catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed1/math_catch.jsonl
+done aqua_minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed1/aqua_minus_gold.jsonl
+done gsm8k_catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed1/gsm8k_catch.jsonl
+done logiqa_minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed1/logiqa_minus_gold.jsonl
+done math_aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed1/math_aligned.jsonl
+done aqua_original -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed1/aqua_original.jsonl
+done gsm8k_aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed1/gsm8k_aligned.jsonl
+done logiqa_original -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed1/logiqa_original.jsonl
+08 11:14 ROUND 3 DONE

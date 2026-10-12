@@ -1,0 +1,21 @@
+[replay] gsm8k T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  replay: 18 held-out loops to run; conditions: base force bias switch ctrl switch_math
+  [1/18] gsm8k_1074_sgreedy      25s  force=stop/x switch=stop/x switch_math=stop/x
+  [2/18] gsm8k_1120_sgreedy      24s  force=stop/x switch=stop/x switch_math=stop/x
+  [3/18] gsm8k_1176_sgreedy     199s  force=stop/x switch=stop/x switch_math=stop/x
+  [4/18] gsm8k_1247_sgreedy      12s  force=stop/ok switch=stop/ok switch_math=stop/ok
+  [5/18] gsm8k_186_sgreedy      187s  force=stop/x switch=stop/x switch_math=stop/x
+  [6/18] gsm8k_2_sgreedy         24s  force=stop/x switch=stop/x switch_math=stop/x
+  [7/18] gsm8k_299_sgreedy      180s  force=stop/x switch=stop/x switch_math=stop/x
+  [8/18] gsm8k_301_sgreedy       38s  force=stop/x switch=stop/x switch_math=stop/x
+  [9/18] gsm8k_316_sgreedy       49s  force=stop/ok switch=stop/ok switch_math=stop/ok
+  [10/18] gsm8k_380_sgreedy      104s  force=stop/x switch=stop/x switch_math=stop/x
+  [11/18] gsm8k_509_sgreedy       17s  force=stop/ok switch=stop/ok switch_math=stop/ok
+  [12/18] gsm8k_517_sgreedy      159s  force=stop/x switch=stop/ok switch_math=stop/x
+  [13/18] gsm8k_578_sgreedy        3s  force=stop/ok switch=stop/ok switch_math=stop/ok
+  [14/18] gsm8k_770_sgreedy       27s  force=stop/ok switch=stop/ok switch_math=stop/ok
+  [15/18] gsm8k_831_sgreedy       22s  force=stop/ok switch=stop/ok switch_math=stop/ok
+  [16/18] gsm8k_85_sgreedy       167s  force=stop/x switch=stop/x switch_math=stop/x
+  [17/18] gsm8k_912_sgreedy      180s  force=stop/x switch=stop/x switch_math=stop/x
+  [18/18] gsm8k_953_sgreedy      136s  force=stop/ok switch=stop/x switch_math=stop/x

@@ -1,0 +1,4 @@
+[signal] gsm8k T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/gsm8k_t0.6
+Loaded pretrained model Qwen/Qwen3-4B-Thinking-2507 into HookedTransformer
+  only 0 learning pairs: own switch = the MATH switch
+  own stop MLPs (top-6 gap contribution, 0 pairs): [28, 31, 32, 33, 34, 35]   MATH six: [28, 31, 32, 33, 34, 35]

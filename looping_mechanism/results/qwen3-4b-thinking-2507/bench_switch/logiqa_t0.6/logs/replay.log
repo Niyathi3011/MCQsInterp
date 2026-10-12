@@ -1,0 +1,35 @@
+[replay] logiqa T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/logiqa_t0.6
+Loaded pretrained model Qwen/Qwen3-4B-Thinking-2507 into HookedTransformer
+  replay: 32 held-out loops to run; conditions: base force bias switch ctrl switch_math
+  [1/32] logiqa_0_s1            198s  force=stop/x switch=-/x switch_math=-/x
+  [2/32] logiqa_1_s3            148s  force=stop/x switch=-/x switch_math=-/x
+  [3/32] logiqa_102_s0          278s  force=stop/x switch=-/x switch_math=-/x
+  [4/32] logiqa_133_s1          209s  force=stop/x switch=-/x switch_math=-/x
+  [5/32] logiqa_147_s3          212s  force=stop/x switch=-/x switch_math=-/x
+  [6/32] logiqa_149_s1          233s  force=stop/ok switch=-/x switch_math=-/x
+  [7/32] logiqa_15_s1           260s  force=stop/x switch=-/x switch_math=-/x
+  [8/32] logiqa_208_s0          156s  force=stop/x switch=-/x switch_math=-/x
+  [9/32] logiqa_244_s3          110s  force=stop/x switch=-/x switch_math=-/x
+  [10/32] logiqa_246_s1          123s  force=stop/ok switch=-/x switch_math=-/x
+  [11/32] logiqa_324_s1           96s  force=stop/x switch=-/x switch_math=-/x
+  [12/32] logiqa_332_s0          149s  force=stop/ok switch=-/x switch_math=-/x
+  [13/32] logiqa_343_s0          265s  force=stop/x switch=-/x switch_math=-/x
+  [14/32] logiqa_348_s0          180s  force=stop/x switch=-/x switch_math=-/x
+  [15/32] logiqa_36_s0           195s  force=stop/x switch=-/x switch_math=-/x
+  [16/32] logiqa_37_s2           193s  force=stop/x switch=-/x switch_math=-/x
+  [17/32] logiqa_38_s0           227s  force=stop/ok switch=-/x switch_math=-/x
+  [18/32] logiqa_443_s1          210s  force=stop/x switch=-/x switch_math=-/x
+  [19/32] logiqa_464_s3          204s  force=stop/x switch=-/x switch_math=-/x
+  [20/32] logiqa_495_s0          247s  force=stop/x switch=-/x switch_math=-/x
+  [21/32] logiqa_497_s0          275s  force=stop/ok switch=-/x switch_math=-/x
+  [22/32] logiqa_498_s0          174s  force=stop/x switch=-/x switch_math=-/x
+  [23/32] logiqa_500_s3          184s  force=stop/ok switch=-/x switch_math=-/x
+  [24/32] logiqa_511_s0          141s  force=stop/x switch=-/x switch_math=-/x
+  [25/32] logiqa_546_s1          153s  force=stop/ok switch=-/x switch_math=-/x
+  [26/32] logiqa_548_s0          139s  force=stop/x switch=-/x switch_math=-/x
+  [27/32] logiqa_563_s0          213s  force=stop/ok switch=-/x switch_math=-/x
+  [28/32] logiqa_593_s1          170s  force=stop/ok switch=-/x switch_math=-/x
+  [29/32] logiqa_642_s0          167s  force=stop/x switch=-/x switch_math=-/x
+  [30/32] logiqa_645_s0          224s  force=stop/x switch=-/x switch_math=-/x
+  [31/32] logiqa_66_s0           258s  force=stop/x switch=-/x switch_math=-/x
+  [32/32] logiqa_93_s0           193s  force=stop/ok switch=-/x switch_math=-/x

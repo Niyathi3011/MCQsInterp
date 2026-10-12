@@ -1,0 +1,36 @@
+[replay] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  replay: 33 held-out loops to run; conditions: base force bias switch ctrl switch_math
+  [1/33] aqua_106_s1            208s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [2/33] aqua_112_s1             59s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [3/33] aqua_115_s0            198s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [4/33] aqua_117_s0            224s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [5/33] aqua_124_s1             43s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [6/33] aqua_125_s0            243s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [7/33] aqua_132_s0            211s  base=-/x force=stop/x bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/x
+  [8/33] aqua_139_s3            125s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [9/33] aqua_152_s0            192s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [10/33] aqua_159_s0            327s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [11/33] aqua_16_s2             389s  base=-/x force=stop/ok bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/x
+  [12/33] aqua_165_s0            168s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [13/33] aqua_169_s1             36s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [14/33] aqua_172_s0            336s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [15/33] aqua_173_s1             92s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [16/33] aqua_181_s0            217s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [17/33] aqua_184_s1             83s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [18/33] aqua_187_s3            331s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [19/33] aqua_198_s3            196s  base=-/x force=stop/x bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [20/33] aqua_20_s0             328s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/ok
+  [21/33] aqua_205_s3            437s  base=-/x force=stop/ok bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [22/33] aqua_207_s1            136s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [23/33] aqua_22_s3             175s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [24/33] aqua_232_s0            251s  base=-/x force=stop/ok bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [25/33] aqua_237_s0            150s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=-/x
+  [26/33] aqua_238_s0            229s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [27/33] aqua_250_s0             70s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [28/33] aqua_32_s0             278s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [29/33] aqua_36_s2             160s  base=-/x force=stop/ok bias=stop/ok switch=-/x ctrl=-/x switch_math=stop/ok
+  [30/33] aqua_48_s2             201s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [31/33] aqua_54_s3             365s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [32/33] aqua_59_s0             165s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [33/33] aqua_69_s0             238s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x

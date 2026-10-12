@@ -1,0 +1,30 @@
+{
+ "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+ "bench": "logiqa",
+ "temperature": 0.6,
+ "trigger_tokens": 6000,
+ "think_cap": 256,
+ "post_cap": 1200,
+ "max_heldout": 0,
+ "math_six": [
+  27,
+  26,
+  25,
+  24,
+  22,
+  20
+ ],
+ "control": [
+  15
+ ],
+ "live_seeds": [
+  "10",
+  "11"
+ ],
+ "ran_pairs": "2026-10-05 09:36 UTC",
+ "ran_trigger": "2026-10-05 10:05 UTC",
+ "ran_signal": "2026-10-05 10:06 UTC",
+ "ran_replay": "2026-10-05 10:12 UTC",
+ "ran_live": "2026-10-05 12:59 UTC",
+ "ran_summary": "2026-10-05 16:01 UTC"
+}

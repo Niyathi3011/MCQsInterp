@@ -1,0 +1,11 @@
+{
+ "catch questions skipped (held out)": 40,
+ "learning: no commit point": 1,
+ "test loops: no commit point": 1,
+ "questions": 500,
+ "held-out questions (loop naturally)": 107,
+ "held-out questions tested": 107,
+ "learning pairs": 29,
+ "replay test loops": 107,
+ "replay test loops with a commit point": 106
+}

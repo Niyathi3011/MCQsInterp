@@ -1,0 +1,27 @@
+[live] aqua T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/aqua_t0.6
+Loaded pretrained model Qwen/Qwen3-4B-Thinking-2507 into HookedTransformer
+  live: 24 triggered runs to continue
+  [1/24] aqua_82 seed10 (would finish, right)  180s  force=ok switch=ok switch_math=x
+  [2/24] aqua_187 seed10 (would finish)  200s  force=x switch=x switch_math=x
+  [3/24] aqua_125 seed10 (would finish, right)  200s  force=ok switch=x switch_math=x
+  [4/24] aqua_199 seed10 (would finish)  203s  force=x switch=x switch_math=x
+  [5/24] aqua_241 seed10 (would finish, right)  216s  force=x switch=x switch_math=x
+  [6/24] aqua_32 seed10 (loop)  214s  force=ok switch=x switch_math=x
+  [7/24] aqua_69 seed10 (loop)  124s  force=ok switch=x switch_math=x
+  [8/24] aqua_172 seed10 (loop)  216s  force=x switch=x switch_math=x
+  [9/24] aqua_106 seed10 (loop)  157s  force=ok switch=x switch_math=x
+  [10/24] aqua_108 seed10 (loop)  107s  force=ok switch=x switch_math=x
+  [11/24] aqua_165 seed10 (loop)  198s  force=x switch=x switch_math=x
+  [12/24] aqua_122 seed11 (would finish, right)  179s  force=ok switch=x switch_math=x
+  [13/24] aqua_108 seed11 (would finish, right)  118s  force=ok switch=x switch_math=x
+  [14/24] aqua_125 seed11 (would finish, right)  215s  force=x switch=x switch_math=x
+  [15/24] aqua_199 seed11 (would finish)  216s  force=x switch=x switch_math=x
+  [16/24] aqua_176 seed11 (would finish, right)  199s  force=x switch=x switch_math=x
+  [17/24] aqua_187 seed11 (loop)  174s  force=x switch=x switch_math=x
+  [18/24] aqua_106 seed11 (loop)  182s  force=ok switch=x switch_math=x
+  [19/24] aqua_165 seed11 (loop)  215s  force=x switch=x switch_math=x
+  [20/24] aqua_172 seed11 (loop)  215s  force=x switch=x switch_math=x
+  [21/24] aqua_32 seed11 (loop)  215s  force=x switch=x switch_math=x
+  [22/24] aqua_69 seed11 (loop)  204s  force=x switch=x switch_math=x
+  [23/24] aqua_241 seed11 (would finish, right)  196s  force=ok switch=x switch_math=x
+  [24/24] aqua_82 seed11 (loop)  205s  force=x switch=x switch_math=x

@@ -1,0 +1,3 @@
+live_items: 1 rows, 0 already done, 1 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=11 max_tokens=12288
+  1/1  correct 0  hit cap (loop) 0     111s
+done live_items -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/gsm8k_t0.6/live_runs/seed11.jsonl

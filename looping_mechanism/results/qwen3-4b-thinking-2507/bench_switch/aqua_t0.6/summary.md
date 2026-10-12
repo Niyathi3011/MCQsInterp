@@ -1,0 +1,46 @@
+# Per-benchmark stop switch: aqua, T=0.6
+
+Learned from this benchmark's catch-vs-aligned pairs; tested on its natural loops (held out). Settings: `config.json`.
+
+## Data
+
+- catch questions skipped (held out): 11
+- test loops: no commit point: 1
+- questions: 254
+- held-out questions (loop naturally): 13
+- held-out questions tested: 13
+- learning pairs: 27
+- replay test loops: 13
+- replay test loops with a commit point: 12
+
+## Learning: the stop signal on this benchmark's catch-vs-aligned pairs
+
+- pairs: 27
+- logit(</think>): finished stop +25.9, loop commit -1.5, gap +27.4 (gap > 0 in 100%)
+- MLP share of the gap: 61%
+- own stop MLPs (top-6): [35, 34, 33, 32, 28, 30]; MATH six: [28, 31, 32, 33, 34, 35]; share of gap in own six: 48%, in MATH six: 48%
+- gap recovered by patching at the commit point: own 48%, math 52%, control 0%
+
+## Option A: replay on the held-out natural loops
+
+One loop per held-out question, fed up to its commit point; answer generated fresh (T=0.6, answer cap 1200, thinking cap 256).
+
+| condition | loops | stops | correct [95% CI] | correct (of stopped) | answer hits the cap |
+|---|---|---|---|---|---|
+| force | 12 | 100% | 17% [0-42] | 17% | 67% |
+| switch | 12 | 0% | 0% [0-0] | - | - |
+| switch_math | 12 | 0% | 0% [0-0] | - | - |
+
+## Option B: live test on the held-out questions (fresh runs)
+
+- fresh runs: 26 (13 questions x seeds [10, 11]); loops 13; correct with no intervention 38%
+- rule fires on 24 runs: 13 loops, 11 that would have finished (8 of them correctly)
+
+Accuracy over ALL fresh runs. Runs the rule did not fire on keep their own outcome; so do triggered runs whose branch did not stop within 256 tokens (the intervention did not take effect: a loop stays a loop, a run that would finish keeps its answer). Only runs whose branches are done are counted.
+
+| condition | runs | correct [95% CI] | loops left | of triggered: loops rescued | would-finish runs hurt (right -> wrong) |
+|---|---|---|---|---|---|
+| none | 26 | 38% [19-58] | 13 | - | - |
+| force | 26 | 46% [27-65] | 0 | 5 | 3 |
+| switch | 26 | 38% [19-58] | 13 | 0 | 0 |
+| switch_math | 26 | 38% [19-58] | 13 | 0 | 0 |

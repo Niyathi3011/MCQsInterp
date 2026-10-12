@@ -1,0 +1,122 @@
+[
+ {
+  "set": "math_catch",
+  "valid": false,
+  "seeds": [
+   0,
+   1
+  ],
+  "runs": 300,
+  "loops_before": 0.76,
+  "loops_after": 0.35,
+  "none": 0.44,
+  "letter": 0.17,
+  "correct_before": null,
+  "correct_after": null
+ },
+ {
+  "set": "gsm8k_catch",
+  "valid": false,
+  "seeds": [
+   0,
+   1
+  ],
+  "runs": 400,
+  "loops_before": 0.715,
+  "loops_after": 0.1875,
+  "none": 0.66,
+  "letter": 0.145,
+  "correct_before": null,
+  "correct_after": null
+ },
+ {
+  "set": "aqua_minus_gold",
+  "valid": false,
+  "seeds": [
+   0,
+   1
+  ],
+  "runs": 454,
+  "loops_before": 0.7422907488986784,
+  "loops_after": 0.34801762114537443,
+  "none": 0.2973568281938326,
+  "letter": 0.2709251101321586,
+  "correct_before": null,
+  "correct_after": null
+ },
+ {
+  "set": "logiqa_minus_gold",
+  "valid": false,
+  "seeds": [
+   0,
+   1
+  ],
+  "runs": 400,
+  "loops_before": 0.1575,
+  "loops_after": 0.08,
+  "none": 0.2025,
+  "letter": 0.705,
+  "correct_before": null,
+  "correct_after": null
+ },
+ {
+  "set": "math_aligned",
+  "valid": true,
+  "seeds": [
+   0,
+   1
+  ],
+  "runs": 300,
+  "loops_before": 0.056666666666666664,
+  "loops_after": 0.04666666666666667,
+  "none": 0.013333333333333334,
+  "letter": 0.9333333333333333,
+  "correct_before": 0.9433333333333334,
+  "correct_after": 0.9333333333333333
+ },
+ {
+  "set": "gsm8k_aligned",
+  "valid": true,
+  "seeds": [
+   0,
+   1
+  ],
+  "runs": 400,
+  "loops_before": 0.0175,
+  "loops_after": 0.02,
+  "none": 0.01,
+  "letter": 0.97,
+  "correct_before": 0.9825,
+  "correct_after": 0.965
+ },
+ {
+  "set": "aqua_original",
+  "valid": true,
+  "seeds": [
+   0,
+   1
+  ],
+  "runs": 454,
+  "loops_before": 0.08370044052863436,
+  "loops_after": 0.06167400881057269,
+  "none": 0.006607929515418502,
+  "letter": 0.9317180616740088,
+  "correct_before": 0.8656387665198237,
+  "correct_after": 0.8524229074889867
+ },
+ {
+  "set": "logiqa_original",
+  "valid": true,
+  "seeds": [
+   0,
+   1
+  ],
+  "runs": 400,
+  "loops_before": 0.0825,
+  "loops_after": 0.0725,
+  "none": 0.04,
+  "letter": 0.8775,
+  "correct_before": 0.505,
+  "correct_after": 0.4925
+ }
+]

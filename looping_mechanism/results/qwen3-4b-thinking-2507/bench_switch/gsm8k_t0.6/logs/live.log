@@ -1,0 +1,4 @@
+[live] gsm8k T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/gsm8k_t0.6
+Loaded pretrained model Qwen/Qwen3-4B-Thinking-2507 into HookedTransformer
+  live: 1 triggered runs to continue
+  [1/1] gsm8k_1166 seed11 (would finish)  116s  force=x switch=x switch_math=x

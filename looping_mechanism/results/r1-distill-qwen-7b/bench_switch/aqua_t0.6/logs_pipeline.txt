@@ -1,0 +1,244 @@
+02:06 pausing the generation queue and vLLM
+02:06 stage trigger
+grep: Trailing backslash
+stage trigger FAILED
+02:06 restarting vLLM and the generation queue
+07:00 pausing the generation queue and vLLM
+07:00 stage trigger
+[trigger] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+  live runs 140: loops 76; trigger fires on 102 (76 loops, 26 would finish; kinds {'commit': 73, 'paragraph': 29})
+07:01 stage signal
+[signal] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+Traceback (most recent call last):
+  File "/workspace/MCQsInterp/looping_mechanism/bench_switch.py", line 554, in <module>
+    main()
+  File "/workspace/MCQsInterp/looping_mechanism/bench_switch.py", line 549, in main
+    dict(pairs=stage_pairs, signal=stage_signal, replay=stage_replay, trigger=stage_trigger,
+  File "/workspace/MCQsInterp/looping_mechanism/bench_switch.py", line 233, in stage_signal
+    from stop_signal import measure, positions
+ImportError: cannot import name 'positions' from 'stop_signal' (/workspace/MCQsInterp/natural_looping/stop_signal.py)
+stage signal FAILED
+07:02 restarting vLLM and the generation queue
+07:02 pausing the generation queue and vLLM
+07:02 stage trigger
+[trigger] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+  live runs 140: loops 76; trigger fires on 102 (76 loops, 26 would finish; kinds {'commit': 73, 'paragraph': 29})
+07:03 stage signal
+[signal] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  signal 10/170     32s
+  signal 20/170     62s
+  signal 30/170     81s
+  signal 40/170     99s
+  signal 50/170    121s
+  signal 60/170    150s
+  signal 70/170    181s
+  signal 80/170    197s
+  signal 90/170    221s
+  signal 100/170    240s
+  signal 110/170    264s
+  signal 120/170    281s
+  signal 130/170    309s
+  signal 140/170    335s
+  signal 150/170    362s
+  signal 160/170    387s
+  signal 170/170    407s
+  own stop MLPs (top-6 gap contribution, 170 pairs): [27, 26, 23, 24, 22, 25]   MATH six: [27, 26, 25, 24, 22, 20]
+  MATH reference donor: mean over 128 finished runs -> /workspace/MCQsInterp/looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_ref_donor.pt
+  gap recovered by patching: own 82%, math 81%, control 0%
+07:19 stage replay
+[replay] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  replay: 33 held-out loops to run; conditions: base force bias switch ctrl switch_math
+  [1/33] aqua_106_s1            208s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [2/33] aqua_112_s1             59s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [3/33] aqua_115_s0            198s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [4/33] aqua_117_s0            224s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [5/33] aqua_124_s1             43s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [6/33] aqua_125_s0            243s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [7/33] aqua_132_s0            211s  base=-/x force=stop/x bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/x
+  [8/33] aqua_139_s3            125s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [9/33] aqua_152_s0            192s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [10/33] aqua_159_s0            327s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [11/33] aqua_16_s2             389s  base=-/x force=stop/ok bias=stop/ok switch=stop/x ctrl=-/x switch_math=stop/x
+  [12/33] aqua_165_s0            168s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [13/33] aqua_169_s1             36s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [14/33] aqua_172_s0            336s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [15/33] aqua_173_s1             92s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [16/33] aqua_181_s0            217s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/x
+  [17/33] aqua_184_s1             83s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [18/33] aqua_187_s3            331s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [19/33] aqua_198_s3            196s  base=-/x force=stop/x bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [20/33] aqua_20_s0             328s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=stop/ok
+  [21/33] aqua_205_s3            437s  base=-/x force=stop/ok bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [22/33] aqua_207_s1            136s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [23/33] aqua_22_s3             175s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [24/33] aqua_232_s0            251s  base=-/x force=stop/ok bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [25/33] aqua_237_s0            150s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=-/x
+  [26/33] aqua_238_s0            229s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [27/33] aqua_250_s0             70s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [28/33] aqua_32_s0             278s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [29/33] aqua_36_s2             160s  base=-/x force=stop/ok bias=stop/ok switch=-/x ctrl=-/x switch_math=stop/ok
+  [30/33] aqua_48_s2             201s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [31/33] aqua_54_s3             365s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [32/33] aqua_59_s0             165s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [33/33] aqua_69_s0             238s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+09:16 stage live
+[live] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  live: 102 triggered runs to continue
+  [1/102] aqua_152 seed10 (would finish)   67s  force=x bias=x switch=x ctrl=x switch_math=x
+  [2/102] aqua_139 seed10 (would finish)  104s  force=x bias=x switch=x ctrl=x switch_math=x
+  [3/102] aqua_112 seed10 (would finish)   92s  force=x bias=x switch=x ctrl=x switch_math=x
+  [4/102] aqua_106 seed10 (loop)  282s  force=ok bias=x switch=ok ctrl=x switch_math=ok
+  [5/102] aqua_125 seed10 (loop)   74s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [6/102] aqua_115 seed10 (loop)  281s  force=x bias=x switch=x ctrl=x switch_math=x
+  [7/102] aqua_117 seed10 (loop)  260s  force=x bias=x switch=x ctrl=x switch_math=x
+  [8/102] aqua_159 seed10 (loop)  325s  force=x bias=x switch=x ctrl=x switch_math=x
+  [9/102] aqua_132 seed10 (loop)   66s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [10/102] aqua_176 seed10 (loop)  353s  force=x bias=x switch=x ctrl=x switch_math=x
+  [11/102] aqua_184 seed10 (loop)  259s  force=x bias=x switch=x ctrl=x switch_math=x
+  [12/102] aqua_20 seed10 (loop)  266s  force=x bias=x switch=x ctrl=x switch_math=x
+  [13/102] aqua_172 seed10 (loop)  282s  force=x bias=x switch=x ctrl=x switch_math=x
+  [14/102] aqua_207 seed10 (would finish, right)   61s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [15/102] aqua_165 seed10 (loop)  327s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [16/102] aqua_232 seed10 (loop)  338s  force=x bias=x switch=x ctrl=x switch_math=x
+  [17/102] aqua_238 seed10 (would finish)  115s  force=x bias=x switch=x ctrl=x switch_math=x
+  [18/102] aqua_241 seed10 (would finish, right)  203s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [19/102] aqua_48 seed10 (loop)  174s  force=x bias=x switch=x ctrl=x switch_math=x
+  [20/102] aqua_187 seed10 (loop)  352s  force=x bias=x switch=x ctrl=x switch_math=ok
+  [21/102] aqua_32 seed10 (loop)  329s  force=x bias=x switch=x ctrl=x switch_math=x
+  [22/102] aqua_237 seed10 (loop)  257s  force=x bias=x switch=x ctrl=x switch_math=x
+  [23/102] aqua_250 seed10 (loop)  269s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [24/102] aqua_59 seed10 (loop)  351s  force=x bias=x switch=x ctrl=x switch_math=x
+  [25/102] aqua_69 seed10 (loop)  352s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [26/102] aqua_22 seed11 (would finish, right)  229s  force=ok bias=ok switch=ok ctrl=ok switch_math=ok
+  [27/102] aqua_132 seed11 (would finish, right)  103s  force=ok bias=ok switch=ok ctrl=ok switch_math=ok
+  [28/102] aqua_187 seed11 (would finish)   69s  force=x bias=x switch=x ctrl=x switch_math=x
+  [29/102] aqua_112 seed11 (would finish)   61s  force=x bias=x switch=x ctrl=x switch_math=x
+  [30/102] aqua_181 seed11 (would finish, right)  269s  force=ok bias=x switch=ok ctrl=x switch_math=ok
+  [31/102] aqua_106 seed11 (loop)  265s  force=ok bias=x switch=ok ctrl=x switch_math=x
+  [32/102] aqua_165 seed11 (loop)  275s  force=x bias=x switch=x ctrl=x switch_math=x
+  [33/102] aqua_159 seed11 (loop)  355s  force=x bias=x switch=x ctrl=x switch_math=x
+  [34/102] aqua_124 seed11 (loop)   79s  force=x bias=x switch=x ctrl=x switch_math=x
+  [35/102] aqua_172 seed11 (loop)  332s  force=x bias=x switch=x ctrl=x switch_math=x
+  [36/102] aqua_173 seed11 (loop)  357s  force=x bias=x switch=x ctrl=x switch_math=x
+  [37/102] aqua_184 seed11 (loop)   64s  force=x bias=x switch=x ctrl=x switch_math=x
+  [38/102] aqua_115 seed11 (loop)  141s  force=x bias=x switch=x ctrl=x switch_math=x
+  [39/102] aqua_117 seed11 (loop)  350s  force=x bias=x switch=x ctrl=x switch_math=x
+  [40/102] aqua_125 seed11 (loop)  295s  force=x bias=x switch=ok ctrl=x switch_math=ok
+  [41/102] aqua_20 seed11 (loop)  259s  force=x bias=x switch=x ctrl=x switch_math=x
+  [42/102] aqua_152 seed11 (loop)  272s  force=x bias=x switch=x ctrl=x switch_math=x
+  [43/102] aqua_48 seed11 (would finish)  184s  force=x bias=x switch=ok ctrl=x switch_math=x
+  [44/102] aqua_237 seed11 (loop)  352s  force=x bias=x switch=x ctrl=x switch_math=x
+  [45/102] aqua_250 seed11 (loop)   76s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [46/102] aqua_238 seed11 (loop)  252s  force=x bias=x switch=x ctrl=x switch_math=x
+  [47/102] aqua_232 seed11 (loop)   61s  force=x bias=x switch=x ctrl=x switch_math=x
+  [48/102] aqua_241 seed11 (would finish, right)  299s  force=x bias=x switch=ok ctrl=x switch_math=ok
+  [49/102] aqua_32 seed11 (loop)  351s  force=x bias=x switch=x ctrl=x switch_math=x
+  [50/102] aqua_54 seed11 (would finish)  354s  force=x bias=x switch=x ctrl=x switch_math=x
+  [51/102] aqua_59 seed11 (loop)  306s  force=x bias=x switch=x ctrl=x switch_math=x
+  [52/102] aqua_69 seed11 (loop)  334s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [53/102] aqua_115 seed12 (would finish)  272s  force=ok bias=x switch=x ctrl=x switch_math=x
+  [54/102] aqua_207 seed12 (would finish, right)  177s  force=x bias=x switch=x ctrl=x switch_math=x
+  [55/102] aqua_112 seed12 (loop)  103s  force=x bias=x switch=x ctrl=x switch_math=x
+  [56/102] aqua_172 seed12 (loop)  343s  force=x bias=x switch=x ctrl=x switch_math=x
+  [57/102] aqua_152 seed12 (loop)  282s  force=x bias=x switch=x ctrl=x switch_math=x
+  [58/102] aqua_106 seed12 (loop)  339s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [59/102] aqua_159 seed12 (loop)  329s  force=x bias=x switch=x ctrl=x switch_math=x
+  [60/102] aqua_117 seed12 (loop)  353s  force=x bias=x switch=x ctrl=x switch_math=x
+  [61/102] aqua_165 seed12 (loop)  328s  force=x bias=x switch=x ctrl=x switch_math=x
+  [62/102] aqua_176 seed12 (loop)  353s  force=x bias=x switch=x ctrl=x switch_math=x
+  [63/102] aqua_187 seed12 (loop)  354s  force=x bias=x switch=x ctrl=x switch_math=x
+  [64/102] aqua_20 seed12 (loop)  292s  force=x bias=x switch=x ctrl=x switch_math=x
+  [65/102] aqua_250 seed12 (loop)   68s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [66/102] aqua_32 seed12 (loop)  343s  force=x bias=x switch=x ctrl=x switch_math=x
+  [67/102] aqua_241 seed12 (would finish)  282s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [68/102] aqua_237 seed12 (loop)  352s  force=x bias=x switch=x ctrl=x switch_math=x
+  [69/102] aqua_184 seed12 (loop)   79s  force=x bias=x switch=x ctrl=x switch_math=x
+  [70/102] aqua_232 seed12 (loop)  207s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [71/102] aqua_238 seed12 (loop)  306s  force=x bias=ok switch=ok ctrl=x switch_math=ok
+  [72/102] aqua_59 seed12 (loop)  251s  force=x bias=x switch=x ctrl=x switch_math=x
+  [73/102] aqua_69 seed12 (loop)  333s  force=x bias=x switch=x ctrl=x switch_math=x
+  [74/102] aqua_169 seed13 (would finish, right)   82s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [75/102] aqua_132 seed13 (would finish, right)  181s  force=ok bias=ok switch=ok ctrl=ok switch_math=ok
+  [76/102] aqua_184 seed13 (would finish)   61s  force=x bias=x switch=x ctrl=x switch_math=x
+  [77/102] aqua_250 seed13 (would finish, right)  252s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [78/102] aqua_48 seed13 (would finish)  281s  force=x bias=x switch=x ctrl=x switch_math=x
+  [79/102] aqua_22 seed13 (would finish, right)  293s  force=x bias=x switch=x ctrl=x switch_math=x
+  [80/102] aqua_238 seed13 (loop)  327s  force=x bias=x switch=x ctrl=x switch_math=ok
+  [81/102] aqua_165 seed13 (loop)  356s  force=ok bias=x switch=x ctrl=x switch_math=x
+  [82/102] aqua_237 seed13 (loop)  261s  force=x bias=x switch=x ctrl=x switch_math=x
+  [83/102] aqua_172 seed13 (loop)  353s  force=x bias=x switch=x ctrl=x switch_math=x
+  [84/102] aqua_159 seed13 (loop)  335s  force=x bias=x switch=x ctrl=x switch_math=ok
+  [85/102] aqua_20 seed13 (loop)  260s  force=x bias=x switch=x ctrl=x switch_math=x
+  [86/102] aqua_198 seed13 (loop)  247s  force=x bias=x switch=x ctrl=x switch_math=x
+  [87/102] aqua_106 seed13 (loop)  251s  force=x bias=x switch=x ctrl=x switch_math=x
+  [88/102] aqua_173 seed13 (loop)  335s  force=x bias=x switch=x ctrl=x switch_math=x
+  [89/102] aqua_139 seed13 (would finish)  326s  force=x bias=x switch=x ctrl=x switch_math=x
+  [90/102] aqua_232 seed13 (loop)  257s  force=x bias=ok switch=x ctrl=x switch_math=x
+  [91/102] aqua_115 seed13 (loop)  120s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [92/102] aqua_241 seed13 (would finish, right)  261s  force=ok bias=ok switch=ok ctrl=x switch_math=ok
+  [93/102] aqua_32 seed13 (loop)  331s  force=x bias=x switch=x ctrl=x switch_math=x
+  [94/102] aqua_176 seed13 (loop)  351s  force=x bias=x switch=x ctrl=x switch_math=x
+  [95/102] aqua_125 seed13 (loop)  289s  force=ok bias=x switch=ok ctrl=x switch_math=ok
+  [96/102] aqua_112 seed13 (loop)   62s  force=x bias=x switch=x ctrl=x switch_math=x
+  [97/102] aqua_181 seed13 (would finish, right)  127s  force=ok bias=ok switch=x ctrl=x switch_math=ok
+  [98/102] aqua_187 seed13 (loop)  276s  force=x bias=x switch=x ctrl=x switch_math=x
+  [99/102] aqua_117 seed13 (loop)  282s  force=x bias=x switch=x ctrl=x switch_math=x
+  [100/102] aqua_207 seed13 (loop)  176s  force=ok bias=ok switch=x ctrl=x switch_math=ok
+  [101/102] aqua_59 seed13 (loop)  350s  force=x bias=x switch=x ctrl=x switch_math=x
+  [102/102] aqua_69 seed13 (loop)  255s  force=x bias=x switch=ok ctrl=x switch_math=x
+16:19 stage summary
+[summary] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+# Per-benchmark stop switch: aqua, T=0.6
+
+Learned from this benchmark's catch-vs-aligned pairs; tested on its natural loops (held out). Settings: `config.json`.
+
+## Data
+
+- catch questions skipped (held out): 33
+- test loops: no commit point: 2
+- questions: 254
+- held-out questions (loop naturally): 35
+- learning pairs: 170
+- replay test loops: 35
+- replay test loops with a commit point: 33
+
+## Learning: the stop signal on this benchmark's catch-vs-aligned pairs
+
+- pairs: 170
+- logit(</think>): finished stop +32.9, loop commit +5.0, gap +27.9 (gap > 0 in 100%)
+- MLP share of the gap: 90%
+- own stop MLPs (top-6): [27, 26, 23, 24, 22, 25]; MATH six: [27, 26, 25, 24, 22, 20]; share of gap in own six: 76%, in MATH six: 71%
+- gap recovered by patching at the commit point: own 82%, math 81%, control 0%
+
+## Option A: replay on the held-out natural loops
+
+One loop per held-out question, fed up to its commit point; answer generated fresh (T=0.6, answer cap 1200, thinking cap 256).
+
+| condition | loops | stops | correct [95% CI] | correct (of stopped) | answer hits the cap |
+|---|---|---|---|---|---|
+| base | 33 | 0% | 0% [0-0] | - | - |
+| force | 33 | 100% | 18% [6-33] | 18% | 48% |
+| bias | 33 | 100% | 12% [3-24] | 12% | 48% |
+| switch | 33 | 79% | 15% [3-27] | 19% | 50% |
+| switch_math | 33 | 85% | 18% [6-33] | 21% | 43% |
+| ctrl | 33 | 0% | 0% [0-0] | - | - |
+
+## Option B: live test on the held-out questions (fresh runs)
+
+- fresh runs: 140 (35 questions x seeds [10, 11, 12, 13]); loops 76; correct with no intervention 31%
+- rule fires on 102 runs: 76 loops, 26 that would have finished (13 of them correctly)
+
+Accuracy over ALL fresh runs. Runs the rule did not fire on keep their own outcome; so do triggered runs whose branch did not stop within 256 tokens (the intervention did not take effect: a loop stays a loop, a run that would finish keeps its answer). Only runs whose branches are done are counted.
+
+| condition | runs | correct [95% CI] | loops left | of triggered: loops rescued | would-finish runs hurt (right -> wrong) |
+|---|---|---|---|---|---|
+| none | 140 | 31% [24-39] | 76 | - | - |
+| force | 140 | 39% [31-47] | 0 | 13 | 3 |
+| bias | 140 | 39% [31-46] | 0 | 14 | 4 |
+| switch | 140 | 41% [33-49] | 22 | 14 | 1 |
+| switch_math | 140 | 41% [34-50] | 13 | 16 | 1 |
+| ctrl | 140 | 31% [24-39] | 76 | 0 | 0 |
+16:19 restarting vLLM and the generation queue

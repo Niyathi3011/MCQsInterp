@@ -1,0 +1,8 @@
+[signal] aqua T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/aqua_t0.6
+Loaded pretrained model Qwen/Qwen3-4B-Thinking-2507 into HookedTransformer
+  signal 10/27     40s
+  signal 20/27     62s
+  signal 27/27     84s
+  MATH reference donor: mean over 46 finished runs -> /workspace/MCQsInterp/looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/math_ref_donor.pt
+  own stop MLPs (top-6 gap contribution, 27 pairs): [35, 34, 33, 32, 28, 30]   MATH six: [28, 31, 32, 33, 34, 35]
+  gap recovered by patching: own 48%, math 52%, control 0%

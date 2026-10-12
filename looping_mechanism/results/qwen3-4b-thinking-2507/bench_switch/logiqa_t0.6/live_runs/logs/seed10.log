@@ -1,0 +1,4 @@
+live_items: 33 rows, 0 already done, 33 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=10 max_tokens=12288
+  25/33  correct 10  hit cap (loop) 10     648s
+  33/33  correct 13  hit cap (loop) 14     795s
+done live_items -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/logiqa_t0.6/live_runs/seed10.jsonl

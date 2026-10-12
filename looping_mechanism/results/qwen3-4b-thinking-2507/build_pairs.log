@@ -1,0 +1,8 @@
+group         pairs  no commit point   commit via gold / own value
+ctrl_cross       46                2   {'gold': 46}
+ctrl_same        36                2   {'gold': 36}
+nat_aqua          8                1   {'own_top': 8}
+nat_logiqa       27                1   {'own_top': 27}
+nat_math500      46               14   {'gold': 34, 'own_top': 12}
+
+163 pairs -> looping_mechanism/data/pairs_qwen3-4b-thinking-2507.jsonl

@@ -1,0 +1,50 @@
+[live] aqua T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  live: 47 triggered runs to continue
+  [1/47] aqua_122 seedNone (would finish)  243s  force=x switch=x switch_math=x
+  [2/47] aqua_120 seedNone (loop)   28s  force=ok switch=ok switch_math=ok
+  [3/47] aqua_152 seedNone (loop)  197s  force=x switch=x switch_math=x
+  [4/47] aqua_139 seedNone (loop)   21s  force=x switch=x switch_math=x
+  [5/47] aqua_164 seedNone (loop)   39s  force=ok switch=x switch_math=ok
+  [6/47] aqua_124 seedNone (loop)   52s  force=x switch=x switch_math=x
+  [7/47] aqua_172 seedNone (loop)  253s  force=x switch=x switch_math=x
+  [8/47] aqua_104 seedNone (loop)  174s  force=x switch=x switch_math=x
+  [9/47] aqua_112 seedNone (loop)   44s  force=x switch=x switch_math=x
+  [10/47] aqua_146 seedNone (loop)  164s  force=x switch=x switch_math=ok
+  [11/47] aqua_117 seedNone (loop)  252s  force=ok switch=x switch_math=x
+  [12/47] aqua_106 seedNone (loop)  164s  force=x switch=x switch_math=ok
+  [13/47] aqua_165 seedNone (loop)  253s  force=x switch=x switch_math=x
+  [14/47] aqua_159 seedNone (loop)  249s  force=x switch=x switch_math=x
+  [15/47] aqua_182 seedNone (loop)   43s  force=x switch=x switch_math=x
+  [16/47] aqua_125 seedNone (loop)  174s  force=x switch=x switch_math=x
+  [17/47] aqua_108 seedNone (loop)  254s  force=x switch=ok switch_math=ok
+  [18/47] aqua_187 seedNone (loop)   93s  force=x switch=x switch_math=x
+  [19/47] aqua_184 seedNone (loop)   33s  force=x switch=x switch_math=x
+  [20/47] aqua_188 seedNone (loop)  138s  force=ok switch=x switch_math=ok
+  [21/47] aqua_196 seedNone (loop)  159s  force=ok switch=ok switch_math=ok
+  [22/47] aqua_115 seedNone (loop)   39s  force=ok switch=x switch_math=x
+  [23/47] aqua_162 seedNone (loop)  165s  force=x switch=x switch_math=x
+  [24/47] aqua_145 seedNone (loop)   29s  force=ok switch=ok switch_math=ok
+  [25/47] aqua_126 seedNone (loop)   17s  force=ok switch=ok switch_math=ok
+  [26/47] aqua_198 seedNone (loop)   60s  force=ok switch=x switch_math=x
+  [27/47] aqua_20 seedNone (loop)   82s  force=x switch=x switch_math=x
+  [28/47] aqua_207 seedNone (loop)  157s  force=ok switch=ok switch_math=ok
+  [29/47] aqua_21 seedNone (loop)   69s  force=ok switch=ok switch_math=ok
+  [30/47] aqua_222 seedNone (loop)   23s  force=ok switch=ok switch_math=ok
+  [31/47] aqua_232 seedNone (loop)  244s  force=x switch=x switch_math=x
+  [32/47] aqua_237 seedNone (loop)  254s  force=x switch=x switch_math=x
+  [33/47] aqua_250 seedNone (loop)  183s  force=ok switch=ok switch_math=ok
+  [34/47] aqua_238 seedNone (loop)  241s  force=x switch=x switch_math=x
+  [35/47] aqua_32 seedNone (loop)  252s  force=x switch=x switch_math=x
+  [36/47] aqua_247 seedNone (loop)   59s  force=ok switch=x switch_math=x
+  [37/47] aqua_29 seedNone (loop)   48s  force=x switch=x switch_math=x
+  [38/47] aqua_31 seedNone (loop)   59s  force=ok switch=x switch_math=x
+  [39/47] aqua_41 seedNone (loop)  158s  force=x switch=ok switch_math=ok
+  [40/47] aqua_58 seedNone (loop)   33s  force=ok switch=ok switch_math=ok
+  [41/47] aqua_59 seedNone (loop)  173s  force=x switch=x switch_math=x
+  [42/47] aqua_61 seedNone (loop)   62s  force=ok switch=ok switch_math=ok
+  [43/47] aqua_69 seedNone (loop)  163s  force=x switch=x switch_math=x
+  [44/47] aqua_8 seedNone (loop)   98s  force=ok switch=ok switch_math=ok
+  [45/47] aqua_82 seedNone (loop)  251s  force=x switch=ok switch_math=ok
+  [46/47] aqua_85 seedNone (loop)   60s  force=ok switch=ok switch_math=ok
+  [47/47] aqua_89 seedNone (loop)   26s  force=ok switch=ok switch_math=ok

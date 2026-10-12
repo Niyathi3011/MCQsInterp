@@ -1,0 +1,46 @@
+# Per-benchmark stop switch: gsm8k, T=0.6
+
+Learned from this benchmark's catch-vs-aligned pairs; tested on its natural loops (held out). Settings: `config.json`.
+
+## Data
+
+- catch questions skipped (held out): 4
+- learning: no commit point: 25
+- questions: 500
+- held-out questions (loop naturally): 5
+- held-out questions tested: 5
+- learning pairs: 175
+- replay test loops: 5
+- replay test loops with a commit point: 5
+
+## Learning: the stop signal on this benchmark's catch-vs-aligned pairs
+
+- pairs: 175
+- logit(</think>): finished stop +33.3, loop commit +5.3, gap +28.1 (gap > 0 in 100%)
+- MLP share of the gap: 91%
+- own stop MLPs (top-6): [27, 26, 23, 22, 24, 25]; MATH six: [27, 26, 25, 24, 22, 20]; share of gap in own six: 77%, in MATH six: 72%
+- gap recovered by patching at the commit point: own 82%, math 80%, control 0%
+
+## Option A: replay on the held-out natural loops
+
+One loop per held-out question, fed up to its commit point; answer generated fresh (T=0.6, answer cap 1200, thinking cap 256).
+
+| condition | loops | stops | correct [95% CI] | correct (of stopped) | answer hits the cap |
+|---|---|---|---|---|---|
+| force | 5 | 100% | 60% [20-100] | 60% | 40% |
+| switch | 5 | 100% | 60% [20-100] | 60% | 40% |
+| switch_math | 5 | 100% | 40% [0-80] | 40% | 40% |
+
+## Option B: live test on the held-out questions (fresh runs)
+
+- fresh runs: 10 (5 questions x seeds [10, 11]); loops 1; correct with no intervention 60%
+- rule fires on 2 runs: 1 loops, 1 that would have finished (0 of them correctly)
+
+Accuracy over ALL fresh runs. Runs the rule did not fire on keep their own outcome; so do triggered runs whose branch did not stop within 256 tokens (the intervention did not take effect: a loop stays a loop, a run that would finish keeps its answer). Only runs whose branches are done are counted.
+
+| condition | runs | correct [95% CI] | loops left | of triggered: loops rescued | would-finish runs hurt (right -> wrong) |
+|---|---|---|---|---|---|
+| none | 10 | 60% [30-90] | 1 | - | - |
+| force | 10 | 60% [30-90] | 0 | 0 | 0 |
+| switch | 10 | 60% [30-90] | 0 | 0 | 0 |
+| switch_math | 10 | 60% [30-90] | 0 | 0 | 0 |

@@ -1,0 +1,9 @@
+{
+ "learning: no commit point": 2,
+ "questions": 500,
+ "held-out questions (loop naturally)": 1,
+ "held-out questions tested": 1,
+ "learning pairs": 0,
+ "replay test loops": 1,
+ "replay test loops with a commit point": 1
+}

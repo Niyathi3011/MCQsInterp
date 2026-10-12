@@ -1,0 +1,2 @@
+[trigger] aqua T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0
+  live runs 65: loops 46; trigger fires on 47 (46 loops, 1 would finish; kinds {'commit': 15, 'paragraph': 32})

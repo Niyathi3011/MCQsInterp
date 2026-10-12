@@ -1,0 +1,14 @@
+[live] gsm8k T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  live: 11 triggered runs to continue
+  [1/11] gsm8k_380 seedNone (loop)  237s  force=x switch=x switch_math=x
+  [2/11] gsm8k_578 seedNone (loop)   10s  force=ok switch=ok switch_math=ok
+  [3/11] gsm8k_953 seedNone (loop)   63s  force=x switch=x switch_math=x
+  [4/11] gsm8k_299 seedNone (loop)   30s  force=ok switch=ok switch_math=ok
+  [5/11] gsm8k_316 seedNone (loop)  119s  force=x switch=x switch_math=x
+  [6/11] gsm8k_62 seedNone (loop)  188s  force=x switch=x switch_math=x
+  [7/11] gsm8k_301 seedNone (loop)   57s  force=x switch=x switch_math=x
+  [8/11] gsm8k_85 seedNone (loop)   16s  force=ok switch=ok switch_math=ok
+  [9/11] gsm8k_1074 seedNone (loop)   20s  force=x switch=x switch_math=x
+  [10/11] gsm8k_186 seedNone (loop)   88s  force=x switch=x switch_math=x
+  [11/11] gsm8k_1176 seedNone (loop)   16s  force=ok switch=ok switch_math=ok

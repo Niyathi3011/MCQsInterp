@@ -1,0 +1,1208 @@
+{
+ "R1": {
+  "loop_rates": {
+   "t0.6|MATH-150 open": [
+    4.166666666666666,
+    600
+   ],
+   "t0.6|MATH-150 aligned": [
+    5.333333333333334,
+    600
+   ],
+   "t0.6|MATH-150 catch": [
+    74.66666666666667,
+    600
+   ],
+   "t0.6|GSM8K-200 aligned": [
+    2.125,
+    800
+   ],
+   "t0.6|GSM8K-200 catch": [
+    73.375,
+    800
+   ],
+   "t0.6|AQuA-227 open": [
+    2.5330396475770924,
+    908
+   ],
+   "t0.6|AQuA-227 removed": [
+    74.44933920704845,
+    908
+   ],
+   "t0.6|LogiQA-200 removed": [
+    15.0,
+    800
+   ],
+   "t0.6|GSM8K": [
+    0.35000000000000003,
+    2000
+   ],
+   "t0.6|MATH-500": [
+    5.2,
+    2000
+   ],
+   "t0.6|AQuA": [
+    7.874015748031496,
+    1016
+   ],
+   "t0.6|LogiQA": [
+    9.5,
+    2000
+   ],
+   "t0.6|AQuA-227 original": [
+    8.480176211453745,
+    908
+   ],
+   "t0.6|LogiQA-200 original": [
+    7.5,
+    800
+   ],
+   "t0.6|GSM8K-200 natural": [
+    0.75,
+    800
+   ],
+   "t0|MATH-150 open": [
+    null,
+    0
+   ],
+   "t0|MATH-150 aligned": [
+    10.0,
+    150
+   ],
+   "t0|MATH-150 catch": [
+    98.0,
+    150
+   ],
+   "t0|GSM8K-200 aligned": [
+    8.0,
+    200
+   ],
+   "t0|GSM8K-200 catch": [
+    100.0,
+    200
+   ],
+   "t0|AQuA-227 open": [
+    null,
+    0
+   ],
+   "t0|AQuA-227 removed": [
+    93.83259911894272,
+    227
+   ],
+   "t0|LogiQA-200 removed": [
+    42.0,
+    200
+   ],
+   "t0|GSM8K": [
+    4.2,
+    500
+   ],
+   "t0|MATH-500": [
+    10.0,
+    500
+   ],
+   "t0|AQuA": [
+    25.590551181102363,
+    254
+   ],
+   "t0|LogiQA": [
+    39.4,
+    500
+   ],
+   "t0|AQuA-227 original": [
+    25.11013215859031,
+    227
+   ],
+   "t0|LogiQA-200 original": [
+    36.5,
+    200
+   ],
+   "t0|GSM8K-200 natural": [
+    3.0,
+    200
+   ]
+  },
+  "bench": {
+   "aqua_t0": {
+    "replay": {
+     "force": [
+      46.666666666666664,
+      100.0,
+      45
+     ],
+     "switch": [
+      46.666666666666664,
+      91.11111111111111,
+      45
+     ],
+     "switch_math": [
+      44.44444444444444,
+      97.77777777777777,
+      45
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 65,
+      "correct": 28,
+      "ci": [
+       17,
+       38
+      ],
+      "loops_left": 46,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 65,
+      "correct": 58,
+      "ci": [
+       46,
+       71
+      ],
+      "loops_left": 0,
+      "rescued": "20",
+      "hurt": "0"
+     },
+     "switch": {
+      "runs": 65,
+      "correct": 52,
+      "ci": [
+       40,
+       65
+      ],
+      "loops_left": 12,
+      "rescued": "16",
+      "hurt": "0"
+     },
+     "switch_math": {
+      "runs": 65,
+      "correct": 58,
+      "ci": [
+       46,
+       71
+      ],
+      "loops_left": 8,
+      "rescued": "20",
+      "hurt": "0"
+     }
+    },
+    "own": [
+     27,
+     26,
+     23,
+     24,
+     22,
+     25
+    ],
+    "signal": {
+     "pairs": 153,
+     "gap": 28.393286611519606,
+     "rec_own": 82.97911951061265,
+     "rec_math": 80.79723498593883,
+     "rec_ctrl": 0.1816138831921837
+    }
+   },
+   "aqua_t0.6": {
+    "replay": {
+     "force": [
+      18.181818181818183,
+      100.0,
+      33
+     ],
+     "switch": [
+      15.151515151515152,
+      78.78787878787878,
+      33
+     ],
+     "switch_math": [
+      18.181818181818183,
+      84.84848484848484,
+      33
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 140,
+      "correct": 31,
+      "ci": [
+       24,
+       39
+      ],
+      "loops_left": 76,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 140,
+      "correct": 39,
+      "ci": [
+       31,
+       47
+      ],
+      "loops_left": 0,
+      "rescued": "13",
+      "hurt": "3"
+     },
+     "switch": {
+      "runs": 140,
+      "correct": 41,
+      "ci": [
+       33,
+       49
+      ],
+      "loops_left": 22,
+      "rescued": "14",
+      "hurt": "1"
+     },
+     "switch_math": {
+      "runs": 140,
+      "correct": 41,
+      "ci": [
+       34,
+       50
+      ],
+      "loops_left": 13,
+      "rescued": "16",
+      "hurt": "1"
+     }
+    },
+    "own": [
+     27,
+     26,
+     23,
+     24,
+     22,
+     25
+    ],
+    "signal": {
+     "pairs": 170,
+     "gap": 27.923321892233457,
+     "rec_own": 82.2000350066942,
+     "rec_math": 80.81136802340149,
+     "rec_ctrl": 0.03691460978883648
+    }
+   },
+   "gsm8k_t0": {
+    "replay": {
+     "force": [
+      38.88888888888889,
+      100.0,
+      18
+     ],
+     "switch": [
+      38.88888888888889,
+      100.0,
+      18
+     ],
+     "switch_math": [
+      33.33333333333333,
+      100.0,
+      18
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 21,
+      "correct": 38,
+      "ci": [
+       19,
+       57
+      ],
+      "loops_left": 11,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 21,
+      "correct": 57,
+      "ci": [
+       38,
+       76
+      ],
+      "loops_left": 0,
+      "rescued": "4",
+      "hurt": "0"
+     },
+     "switch": {
+      "runs": 21,
+      "correct": 57,
+      "ci": [
+       38,
+       76
+      ],
+      "loops_left": 1,
+      "rescued": "4",
+      "hurt": "0"
+     },
+     "switch_math": {
+      "runs": 21,
+      "correct": 57,
+      "ci": [
+       38,
+       76
+      ],
+      "loops_left": 2,
+      "rescued": "4",
+      "hurt": "0"
+     }
+    },
+    "own": [
+     27,
+     26,
+     23,
+     22,
+     24,
+     25
+    ],
+    "signal": {
+     "pairs": 145,
+     "gap": 28.600378838900863,
+     "rec_own": 81.89434329835011,
+     "rec_math": 78.91731324891572,
+     "rec_ctrl": 0.2700375844984322
+    }
+   },
+   "gsm8k_t0.6": {
+    "replay": {
+     "force": [
+      60.0,
+      100.0,
+      5
+     ],
+     "switch": [
+      60.0,
+      100.0,
+      5
+     ],
+     "switch_math": [
+      40.0,
+      100.0,
+      5
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 10,
+      "correct": 60,
+      "ci": [
+       30,
+       90
+      ],
+      "loops_left": 1,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 10,
+      "correct": 60,
+      "ci": [
+       30,
+       90
+      ],
+      "loops_left": 0,
+      "rescued": "0",
+      "hurt": "0"
+     },
+     "switch": {
+      "runs": 10,
+      "correct": 60,
+      "ci": [
+       30,
+       90
+      ],
+      "loops_left": 0,
+      "rescued": "0",
+      "hurt": "0"
+     },
+     "switch_math": {
+      "runs": 10,
+      "correct": 60,
+      "ci": [
+       30,
+       90
+      ],
+      "loops_left": 0,
+      "rescued": "0",
+      "hurt": "0"
+     }
+    },
+    "own": [
+     27,
+     26,
+     23,
+     22,
+     24,
+     25
+    ],
+    "signal": {
+     "pairs": 175,
+     "gap": 28.07625261579241,
+     "rec_own": 81.55328160039275,
+     "rec_math": 79.51290273278993,
+     "rec_ctrl": 0.0934740145808005
+    }
+   },
+   "logiqa_t0": {
+    "replay": {
+     "force": [
+      32.25806451612903,
+      100.0,
+      31
+     ],
+     "switch": [
+      38.70967741935484,
+      90.32258064516128,
+      31
+     ],
+     "switch_math": [
+      35.483870967741936,
+      93.54838709677419,
+      31
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 60,
+      "correct": 22,
+      "ci": [
+       12,
+       33
+      ],
+      "loops_left": 30,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 60,
+      "correct": 37,
+      "ci": [
+       25,
+       50
+      ],
+      "loops_left": 1,
+      "rescued": "9",
+      "hurt": "0"
+     },
+     "switch": {
+      "runs": 60,
+      "correct": 33,
+      "ci": [
+       22,
+       47
+      ],
+      "loops_left": 10,
+      "rescued": "7",
+      "hurt": "0"
+     },
+     "switch_math": {
+      "runs": 60,
+      "correct": 35,
+      "ci": [
+       23,
+       48
+      ],
+      "loops_left": 6,
+      "rescued": "8",
+      "hurt": "0"
+     }
+    },
+    "own": [
+     27,
+     26,
+     23,
+     22,
+     24,
+     25
+    ],
+    "signal": {
+     "pairs": 26,
+     "gap": 25.073317307692307,
+     "rec_own": 88.52429642352931,
+     "rec_math": 91.48753255292216,
+     "rec_ctrl": 0.46135345409031253
+    }
+   },
+   "logiqa_t0.6": {
+    "replay": {
+     "force": [
+      35.84905660377358,
+      100.0,
+      53
+     ],
+     "switch": [
+      24.528301886792452,
+      86.79245283018868,
+      53
+     ],
+     "switch_math": [
+      30.18867924528302,
+      98.11320754716981,
+      53
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 120,
+      "correct": 31,
+      "ci": [
+       22,
+       39
+      ],
+      "loops_left": 36,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 120,
+      "correct": 37,
+      "ci": [
+       28,
+       46
+      ],
+      "loops_left": 0,
+      "rescued": "8",
+      "hurt": "3"
+     },
+     "switch": {
+      "runs": 120,
+      "correct": 34,
+      "ci": [
+       26,
+       43
+      ],
+      "loops_left": 15,
+      "rescued": "4",
+      "hurt": "1"
+     },
+     "switch_math": {
+      "runs": 120,
+      "correct": 38,
+      "ci": [
+       29,
+       47
+      ],
+      "loops_left": 2,
+      "rescued": "9",
+      "hurt": "2"
+     }
+    },
+    "own": [
+     27,
+     26,
+     23,
+     22,
+     24,
+     25
+    ],
+    "signal": {
+     "pairs": 24,
+     "gap": 24.260782877604168,
+     "rec_own": 91.06179180208753,
+     "rec_math": 98.22184487973766,
+     "rec_ctrl": 0.6607772978940271
+    }
+   },
+   "math_t0": {
+    "replay": {
+     "force": [
+      25.53191489361702,
+      100.0,
+      47
+     ],
+     "switch": [
+      23.404255319148938,
+      95.74468085106383,
+      47
+     ],
+     "switch_math": [
+      23.404255319148938,
+      93.61702127659575,
+      47
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 50,
+      "correct": 42,
+      "ci": [
+       28,
+       56
+      ],
+      "loops_left": 29,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 50,
+      "correct": 44,
+      "ci": [
+       30,
+       58
+      ],
+      "loops_left": 1,
+      "rescued": "5",
+      "hurt": "4"
+     },
+     "switch": {
+      "runs": 50,
+      "correct": 46,
+      "ci": [
+       32,
+       60
+      ],
+      "loops_left": 5,
+      "rescued": "6",
+      "hurt": "4"
+     },
+     "switch_math": {
+      "runs": 50,
+      "correct": 48,
+      "ci": [
+       34,
+       62
+      ],
+      "loops_left": 4,
+      "rescued": "6",
+      "hurt": "3"
+     }
+    },
+    "own": [
+     27,
+     26,
+     23,
+     22,
+     24,
+     25
+    ],
+    "signal": {
+     "pairs": 97,
+     "gap": 28.103319305734537,
+     "rec_own": 80.59708830053827,
+     "rec_math": 78.03746512494514,
+     "rec_ctrl": 0.20240630660592696
+    }
+   },
+   "math_t0.6": {
+    "replay": {
+     "force": [
+      14.285714285714285,
+      100.0,
+      56
+     ],
+     "switch": [
+      21.428571428571427,
+      91.07142857142857,
+      56
+     ],
+     "switch_math": [
+      26.785714285714285,
+      94.64285714285714,
+      56
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 114,
+      "correct": 45,
+      "ci": [
+       36,
+       54
+      ],
+      "loops_left": 54,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 114,
+      "correct": 40,
+      "ci": [
+       32,
+       49
+      ],
+      "loops_left": 0,
+      "rescued": "2",
+      "hurt": "7"
+     },
+     "switch": {
+      "runs": 114,
+      "correct": 40,
+      "ci": [
+       32,
+       49
+      ],
+      "loops_left": 6,
+      "rescued": "1",
+      "hurt": "6"
+     },
+     "switch_math": {
+      "runs": 114,
+      "correct": 41,
+      "ci": [
+       32,
+       50
+      ],
+      "loops_left": 4,
+      "rescued": "4",
+      "hurt": "8"
+     }
+    },
+    "own": [
+     27,
+     26,
+     23,
+     22,
+     24,
+     25
+    ],
+    "signal": {
+     "pairs": 116,
+     "gap": 27.916312382139008,
+     "rec_own": 80.63297972254664,
+     "rec_math": 79.32975296106997,
+     "rec_ctrl": 0.09826117252059205
+    }
+   }
+  }
+ },
+ "Qwen3": {
+  "loop_rates": {
+   "t0.6|MATH-150 open": [
+    17.666666666666668,
+    600
+   ],
+   "t0.6|MATH-150 aligned": [
+    9.333333333333334,
+    600
+   ],
+   "t0.6|MATH-150 catch": [
+    29.5,
+    600
+   ],
+   "t0.6|GSM8K-200 aligned": [
+    0.0,
+    800
+   ],
+   "t0.6|GSM8K-200 catch": [
+    0.25,
+    800
+   ],
+   "t0.6|AQuA-227 open": [
+    2.2026431718061676,
+    908
+   ],
+   "t0.6|AQuA-227 removed": [
+    9.030837004405285,
+    908
+   ],
+   "t0.6|LogiQA-200 removed": [
+    10.125,
+    800
+   ],
+   "t0.6|GSM8K": [
+    0.05,
+    2000
+   ],
+   "t0.6|MATH-500": [
+    15.299999999999999,
+    2000
+   ],
+   "t0.6|AQuA": [
+    2.8543307086614176,
+    1016
+   ],
+   "t0.6|LogiQA": [
+    3.25,
+    2000
+   ],
+   "t0.6|AQuA-227 original": [
+    2.8634361233480177,
+    908
+   ],
+   "t0.6|LogiQA-200 original": [
+    2.625,
+    800
+   ],
+   "t0.6|GSM8K-200 natural": [
+    0.0,
+    800
+   ],
+   "t0|MATH-150 open": [
+    null,
+    0
+   ],
+   "t0|MATH-150 aligned": [
+    null,
+    0
+   ],
+   "t0|MATH-150 catch": [
+    null,
+    0
+   ],
+   "t0|GSM8K-200 aligned": [
+    null,
+    0
+   ],
+   "t0|GSM8K-200 catch": [
+    null,
+    0
+   ],
+   "t0|AQuA-227 open": [
+    null,
+    0
+   ],
+   "t0|AQuA-227 removed": [
+    null,
+    0
+   ],
+   "t0|LogiQA-200 removed": [
+    null,
+    0
+   ],
+   "t0|GSM8K": [
+    null,
+    0
+   ],
+   "t0|MATH-500": [
+    null,
+    0
+   ],
+   "t0|AQuA": [
+    null,
+    0
+   ],
+   "t0|LogiQA": [
+    null,
+    0
+   ],
+   "t0|AQuA-227 original": [
+    null,
+    0
+   ],
+   "t0|LogiQA-200 original": [
+    null,
+    0
+   ],
+   "t0|GSM8K-200 natural": [
+    null,
+    0
+   ]
+  },
+  "bench": {
+   "aqua_t0.6": {
+    "replay": {
+     "force": [
+      16.666666666666664,
+      100.0,
+      12
+     ],
+     "switch": [
+      0.0,
+      0.0,
+      12
+     ],
+     "switch_math": [
+      0.0,
+      0.0,
+      12
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 26,
+      "correct": 38,
+      "ci": [
+       19,
+       58
+      ],
+      "loops_left": 13,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 26,
+      "correct": 46,
+      "ci": [
+       27,
+       65
+      ],
+      "loops_left": 0,
+      "rescued": "5",
+      "hurt": "3"
+     },
+     "switch": {
+      "runs": 26,
+      "correct": 38,
+      "ci": [
+       19,
+       58
+      ],
+      "loops_left": 13,
+      "rescued": "0",
+      "hurt": "0"
+     },
+     "switch_math": {
+      "runs": 26,
+      "correct": 38,
+      "ci": [
+       19,
+       58
+      ],
+      "loops_left": 13,
+      "rescued": "0",
+      "hurt": "0"
+     }
+    },
+    "own": [
+     35,
+     34,
+     33,
+     32,
+     28,
+     30
+    ],
+    "signal": {
+     "pairs": 27,
+     "gap": 27.37769458912037,
+     "rec_own": 47.75788803770908,
+     "rec_math": 52.46470722755342,
+     "rec_ctrl": 0.2510842018426777
+    }
+   },
+   "gsm8k_t0.6": {
+    "replay": {
+     "force": [
+      0.0,
+      100.0,
+      1
+     ],
+     "switch": [
+      0.0,
+      0.0,
+      1
+     ],
+     "switch_math": [
+      0.0,
+      0.0,
+      1
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 2,
+      "correct": 50,
+      "ci": [
+       0,
+       100
+      ],
+      "loops_left": 0,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 2,
+      "correct": 50,
+      "ci": [
+       0,
+       100
+      ],
+      "loops_left": 0,
+      "rescued": "0",
+      "hurt": "0"
+     },
+     "switch": {
+      "runs": 2,
+      "correct": 50,
+      "ci": [
+       0,
+       100
+      ],
+      "loops_left": 0,
+      "rescued": "0",
+      "hurt": "0"
+     },
+     "switch_math": {
+      "runs": 2,
+      "correct": 50,
+      "ci": [
+       0,
+       100
+      ],
+      "loops_left": 0,
+      "rescued": "0",
+      "hurt": "0"
+     }
+    },
+    "own": [
+     28,
+     31,
+     32,
+     33,
+     34,
+     35
+    ],
+    "signal": {}
+   },
+   "logiqa_t0.6": {
+    "replay": {
+     "force": [
+      31.25,
+      100.0,
+      32
+     ],
+     "switch": [
+      0.0,
+      0.0,
+      32
+     ],
+     "switch_math": [
+      0.0,
+      0.0,
+      32
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 66,
+      "correct": 42,
+      "ci": [
+       30,
+       55
+      ],
+      "loops_left": 26,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 66,
+      "correct": 41,
+      "ci": [
+       29,
+       53
+      ],
+      "loops_left": 0,
+      "rescued": "3",
+      "hurt": "5"
+     },
+     "switch": {
+      "runs": 66,
+      "correct": 41,
+      "ci": [
+       29,
+       53
+      ],
+      "loops_left": 26,
+      "rescued": "0",
+      "hurt": "1"
+     },
+     "switch_math": {
+      "runs": 66,
+      "correct": 42,
+      "ci": [
+       30,
+       55
+      ],
+      "loops_left": 25,
+      "rescued": "0",
+      "hurt": "0"
+     }
+    },
+    "own": [
+     35,
+     34,
+     33,
+     28,
+     32,
+     27
+    ],
+    "signal": {
+     "pairs": 24,
+     "gap": 26.834696451822918,
+     "rec_own": 55.4420631337756,
+     "rec_math": 55.31019724555144,
+     "rec_ctrl": 0.6198911954351807
+    }
+   },
+   "math_t0.6": {
+    "replay": {
+     "force": [
+      37.735849056603776,
+      100.0,
+      106
+     ],
+     "switch": [
+      0.0,
+      0.0,
+      106
+     ],
+     "switch_math": [
+      0.0,
+      0.0,
+      106
+     ]
+    },
+    "live": {
+     "none": {
+      "runs": 214,
+      "correct": 34,
+      "ci": [
+       28,
+       40
+      ],
+      "loops_left": 142,
+      "rescued": "-",
+      "hurt": "-"
+     },
+     "force": {
+      "runs": 214,
+      "correct": 60,
+      "ci": [
+       54,
+       67
+      ],
+      "loops_left": 1,
+      "rescued": "67",
+      "hurt": "10"
+     },
+     "switch": {
+      "runs": 214,
+      "correct": 34,
+      "ci": [
+       28,
+       40
+      ],
+      "loops_left": 142,
+      "rescued": "0",
+      "hurt": "0"
+     },
+     "switch_math": {
+      "runs": 214,
+      "correct": 33,
+      "ci": [
+       27,
+       39
+      ],
+      "loops_left": 142,
+      "rescued": "0",
+      "hurt": "1"
+     }
+    },
+    "own": [
+     35,
+     34,
+     33,
+     28,
+     32,
+     31
+    ],
+    "signal": {
+     "pairs": 29,
+     "gap": 27.91615032327586,
+     "rec_own": 50.01638524833092,
+     "rec_math": 50.269095109132756,
+     "rec_ctrl": 0.0053735727557483615
+    }
+   }
+  }
+ }
+}

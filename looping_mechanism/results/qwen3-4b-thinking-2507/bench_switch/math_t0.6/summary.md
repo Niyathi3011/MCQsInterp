@@ -1,0 +1,47 @@
+# Per-benchmark stop switch: math, T=0.6
+
+Learned from this benchmark's catch-vs-aligned pairs; tested on its natural loops (held out). Settings: `config.json`.
+
+## Data
+
+- catch questions skipped (held out): 40
+- learning: no commit point: 1
+- test loops: no commit point: 1
+- questions: 500
+- held-out questions (loop naturally): 107
+- held-out questions tested: 107
+- learning pairs: 29
+- replay test loops: 107
+- replay test loops with a commit point: 106
+
+## Learning: the stop signal on this benchmark's catch-vs-aligned pairs
+
+- pairs: 29
+- logit(</think>): finished stop +26.4, loop commit -1.5, gap +27.9 (gap > 0 in 100%)
+- MLP share of the gap: 59%
+- own stop MLPs (top-6): [35, 34, 33, 28, 32, 31]; MATH six: [28, 31, 32, 33, 34, 35]; share of gap in own six: 47%, in MATH six: 47%
+- gap recovered by patching at the commit point: own 50%, math 50%, control 0%
+
+## Option A: replay on the held-out natural loops
+
+One loop per held-out question, fed up to its commit point; answer generated fresh (T=0.6, answer cap 1200, thinking cap 256).
+
+| condition | loops | stops | correct [95% CI] | correct (of stopped) | answer hits the cap |
+|---|---|---|---|---|---|
+| force | 106 | 100% | 38% [29-46] | 38% | 57% |
+| switch | 106 | 0% | 0% [0-0] | - | - |
+| switch_math | 106 | 0% | 0% [0-0] | - | - |
+
+## Option B: live test on the held-out questions (fresh runs)
+
+- fresh runs: 214 (107 questions x seeds [10, 11]); loops 142; correct with no intervention 34%
+- rule fires on 208 runs: 141 loops, 67 that would have finished (67 of them correctly)
+
+Accuracy over ALL fresh runs. Runs the rule did not fire on keep their own outcome; so do triggered runs whose branch did not stop within 256 tokens (the intervention did not take effect: a loop stays a loop, a run that would finish keeps its answer). Only runs whose branches are done are counted.
+
+| condition | runs | correct [95% CI] | loops left | of triggered: loops rescued | would-finish runs hurt (right -> wrong) |
+|---|---|---|---|---|---|
+| none | 214 | 34% [28-40] | 142 | - | - |
+| force | 214 | 60% [54-67] | 1 | 67 | 10 |
+| switch | 214 | 34% [28-40] | 142 | 0 | 0 |
+| switch_math | 214 | 33% [27-39] | 142 | 0 | 1 |

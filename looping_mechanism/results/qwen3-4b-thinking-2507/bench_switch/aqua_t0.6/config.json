@@ -1,0 +1,30 @@
+{
+ "model": "Qwen/Qwen3-4B-Thinking-2507",
+ "bench": "aqua",
+ "temperature": 0.6,
+ "trigger_tokens": 6000,
+ "think_cap": 256,
+ "post_cap": 1200,
+ "max_heldout": 0,
+ "math_six": [
+  28,
+  31,
+  32,
+  33,
+  34,
+  35
+ ],
+ "control": [
+  18
+ ],
+ "live_seeds": [
+  "10",
+  "11"
+ ],
+ "ran_pairs": "2026-10-07 05:14 UTC",
+ "ran_trigger": "2026-10-07 07:29 UTC",
+ "ran_signal": "2026-10-07 07:30 UTC",
+ "ran_replay": "2026-10-07 07:37 UTC",
+ "ran_live": "2026-10-07 08:13 UTC",
+ "ran_summary": "2026-10-07 09:31 UTC"
+}

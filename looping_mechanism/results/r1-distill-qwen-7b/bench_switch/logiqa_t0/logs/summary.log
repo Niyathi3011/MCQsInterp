@@ -1,0 +1,51 @@
+[summary] logiqa T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0
+# Per-benchmark stop switch: logiqa, T=0
+
+Learned from this benchmark's catch-vs-aligned pairs; tested on its natural loops (held out). Settings: `config.json`.
+
+## Data
+
+- catch questions skipped (held out): 73
+- learning: no commit point: 5
+- test loops: no commit point: 29
+- questions: 500
+- held-out questions (loop naturally): 197
+- held-out questions tested: 60
+- learning pairs: 26
+- replay test loops: 60
+- replay test loops with a commit point: 31
+
+## Learning: the stop signal on this benchmark's catch-vs-aligned pairs
+
+- pairs: 26
+- logit(</think>): finished stop +31.2, loop commit +6.1, gap +25.1 (gap > 0 in 100%)
+- MLP share of the gap: 89%
+- own stop MLPs (top-6): [27, 26, 23, 22, 24, 25]; MATH six: [27, 26, 25, 24, 22, 20]; share of gap in own six: 75%, in MATH six: 69%
+- gap recovered by patching at the commit point: own 89%, math 91%, control 0%
+
+## Option A: replay on the held-out natural loops
+
+One loop per held-out question, fed up to its commit point; answer generated fresh (T=0, answer cap 1200, thinking cap 256).
+
+| condition | loops | stops | correct [95% CI] | correct (of stopped) | answer hits the cap |
+|---|---|---|---|---|---|
+| base | 31 | 3% | 0% [0-0] | 0% | 0% |
+| force | 31 | 100% | 32% [16-48] | 32% | 26% |
+| bias | 31 | 100% | 29% [13-45] | 29% | 29% |
+| switch | 31 | 90% | 39% [23-55] | 43% | 21% |
+| switch_math | 31 | 94% | 35% [19-52] | 38% | 10% |
+| ctrl | 31 | 3% | 0% [0-0] | 0% | 0% |
+
+## Option B: live test on the held-out questions (fresh runs)
+
+- fresh runs: 60 (60 questions x seeds [None]); loops 30; correct with no intervention 22%
+- rule fires on 29 runs: 29 loops, 0 that would have finished (0 of them correctly)
+
+Accuracy over ALL fresh runs. Runs the rule did not fire on keep their own outcome; so do triggered runs whose branch did not stop within 256 tokens (the intervention did not take effect: a loop stays a loop, a run that would finish keeps its answer). Only runs whose branches are done are counted.
+
+| condition | runs | correct [95% CI] | loops left | of triggered: loops rescued | would-finish runs hurt (right -> wrong) |
+|---|---|---|---|---|---|
+| none | 60 | 22% [12-33] | 30 | - | - |
+| force | 60 | 37% [25-50] | 1 | 9 | 0 |
+| switch | 60 | 33% [22-47] | 10 | 7 | 0 |
+| switch_math | 60 | 35% [23-48] | 6 | 8 | 0 |

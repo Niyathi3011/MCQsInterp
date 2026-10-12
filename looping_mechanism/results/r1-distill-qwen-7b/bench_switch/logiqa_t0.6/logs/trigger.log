@@ -1,0 +1,2 @@
+[trigger] logiqa T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6
+  live runs 120: loops 36; trigger fires on 63 (36 loops, 27 would finish; kinds {'commit': 23, 'paragraph': 40})

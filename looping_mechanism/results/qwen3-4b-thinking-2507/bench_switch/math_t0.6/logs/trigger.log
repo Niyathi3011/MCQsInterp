@@ -1,0 +1,2 @@
+[trigger] math T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/math_t0.6
+  live runs 214: loops 142; trigger fires on 208 (141 loops, 67 would finish; kinds {'commit': 106, 'paragraph': 102})

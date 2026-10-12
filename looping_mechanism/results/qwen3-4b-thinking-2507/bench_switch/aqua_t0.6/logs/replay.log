@@ -1,0 +1,15 @@
+[replay] aqua T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/aqua_t0.6
+Loaded pretrained model Qwen/Qwen3-4B-Thinking-2507 into HookedTransformer
+  replay: 12 held-out loops to run; conditions: base force bias switch ctrl switch_math
+  [1/12] aqua_106_s0            147s  force=stop/x switch=-/x switch_math=-/x
+  [2/12] aqua_108_s1             80s  force=stop/ok switch=-/x switch_math=-/x
+  [3/12] aqua_122_s1            177s  force=stop/x switch=-/x switch_math=-/x
+  [4/12] aqua_125_s2            123s  force=stop/ok switch=-/x switch_math=-/x
+  [5/12] aqua_165_s0            140s  force=stop/x switch=-/x switch_math=-/x
+  [6/12] aqua_172_s0            272s  force=stop/x switch=-/x switch_math=-/x
+  [7/12] aqua_176_s1            138s  force=stop/x switch=-/x switch_math=-/x
+  [8/12] aqua_187_s0            250s  force=stop/x switch=-/x switch_math=-/x
+  [9/12] aqua_199_s0            138s  force=stop/x switch=-/x switch_math=-/x
+  [10/12] aqua_32_s0             217s  force=stop/x switch=-/x switch_math=-/x
+  [11/12] aqua_69_s0             153s  force=stop/x switch=-/x switch_math=-/x
+  [12/12] aqua_82_s0             177s  force=stop/x switch=-/x switch_math=-/x

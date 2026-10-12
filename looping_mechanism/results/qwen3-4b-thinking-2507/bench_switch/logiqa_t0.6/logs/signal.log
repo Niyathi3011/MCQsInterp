@@ -1,0 +1,7 @@
+[signal] logiqa T=0.6 -> looping_mechanism/results/qwen3-4b-thinking-2507/bench_switch/logiqa_t0.6
+Loaded pretrained model Qwen/Qwen3-4B-Thinking-2507 into HookedTransformer
+  signal 10/24     66s
+  signal 20/24    127s
+  signal 24/24    151s
+  own stop MLPs (top-6 gap contribution, 24 pairs): [35, 34, 33, 28, 32, 27]   MATH six: [28, 31, 32, 33, 34, 35]
+  gap recovered by patching: own 55%, math 55%, control 1%

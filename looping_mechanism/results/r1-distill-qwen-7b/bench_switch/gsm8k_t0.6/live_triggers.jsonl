@@ -1,0 +1,10 @@
+{"id": "gsm8k_365", "seed": 10, "truncated": false, "correct": true, "completion_tokens": 976, "trigger_off": null, "trigger_kind": null}
+{"id": "gsm8k_291", "seed": 10, "truncated": false, "correct": true, "completion_tokens": 1464, "trigger_off": null, "trigger_kind": null}
+{"id": "gsm8k_394", "seed": 10, "truncated": false, "correct": true, "completion_tokens": 3061, "trigger_off": null, "trigger_kind": null}
+{"id": "gsm8k_1012", "seed": 10, "truncated": false, "correct": false, "completion_tokens": 7603, "trigger_off": 17745, "trigger_kind": "paragraph"}
+{"id": "gsm8k_380", "seed": 10, "truncated": true, "correct": false, "completion_tokens": 12288, "trigger_off": 14048, "trigger_kind": "paragraph"}
+{"id": "gsm8k_291", "seed": 11, "truncated": false, "correct": true, "completion_tokens": 689, "trigger_off": null, "trigger_kind": null}
+{"id": "gsm8k_394", "seed": 11, "truncated": false, "correct": true, "completion_tokens": 827, "trigger_off": null, "trigger_kind": null}
+{"id": "gsm8k_365", "seed": 11, "truncated": false, "correct": true, "completion_tokens": 1269, "trigger_off": null, "trigger_kind": null}
+{"id": "gsm8k_380", "seed": 11, "truncated": false, "correct": false, "completion_tokens": 4225, "trigger_off": null, "trigger_kind": null}
+{"id": "gsm8k_1012", "seed": 11, "truncated": false, "correct": false, "completion_tokens": 7052, "trigger_off": null, "trigger_kind": null}

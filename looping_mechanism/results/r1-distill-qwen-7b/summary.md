@@ -1,0 +1,62 @@
+# The </think> stop signal: controlled vs natural loops
+
+DeepSeek-R1-Distill-Qwen-7B. Each pair: one run that FINISHED and one that LOOPED.
+finish@stop = token before </think> in the finished run; loop@commit = token
+before the doubt phrase after the looping run commits to its answer. Controlled
+and natural pairs are sampled (T=0.6, boxed prompt) unless marked greedy.
+`strict` keeps pairs whose finished run had </think> as its top-1 token.
+
+## 1. Is </think> suppressed at the looping run's commit point?
+
+| group | pairs | logit(</think>) finish | loop | **gap** | pairs gap>0 | </think> top-1: finish / loop | Wilcoxon p |
+|---|---|---|---|---|---|---|---|
+| controlled, greedy (original pairs) | 73 | +32.05 | +5.94 | **+26.11** | 100% | 100% / 0% | 1.1e-13 |
+| controlled, greedy (original pairs) (strict) | 73 | +32.05 | +5.94 | **+26.11** | 100% | 100% / 0% | 1.1e-13 |
+| controlled: catch loop vs aligned finish | 128 | +32.68 | +4.95 | **+27.74** | 100% | 100% / 0% | 9.5e-23 |
+| controlled: catch loop vs aligned finish (strict) | 128 | +32.68 | +4.95 | **+27.74** | 100% | 100% / 0% | 9.5e-23 |
+| controlled: catch loop vs catch finish | 71 | +31.20 | +4.94 | **+26.26** | 100% | 100% / 0% | 2.4e-13 |
+| controlled: catch loop vs catch finish (strict) | 71 | +31.20 | +4.94 | **+26.26** | 100% | 100% / 0% | 2.4e-13 |
+| natural AQuA | 28 | +32.48 | +5.52 | **+26.96** | 100% | 100% / 0% | 3.8e-06 |
+| natural AQuA (strict) | 28 | +32.48 | +5.52 | **+26.96** | 100% | 100% / 0% | 3.8e-06 |
+| natural LogiQA | 95 | +30.01 | +6.38 | **+23.62** | 100% | 100% / 0% | 2.6e-17 |
+| natural LogiQA (strict) | 95 | +30.01 | +6.38 | **+23.62** | 100% | 100% / 0% | 2.6e-17 |
+| natural MATH-500 | 31 | +32.89 | +5.08 | **+27.81** | 100% | 100% / 0% | 1.2e-06 |
+| natural MATH-500 (strict) | 31 | +32.89 | +5.08 | **+27.81** | 100% | 100% / 0% | 1.2e-06 |
+
+## 2. Which components carry the gap?
+
+MLP share = MLP part of the gap (vs attention). Stop-signal MLPs from the greedy experiment: [27, 26, 25, 24, 22, 20]. rho = Spearman correlation of the 28 per-MLP gap contributions with the greedy controlled pairs.
+
+| group | MLP share | top-6 MLPs by gap | share of gap in MLPs [27, 26, 25, 24, 22, 20] | rho vs greedy |
+|---|---|---|---|---|
+| controlled, greedy (original pairs) | 91% | [27, 26, 23, 22, 24, 25] | 71% | +1.00 |
+| controlled, greedy (original pairs) (strict) | 91% | [27, 26, 23, 22, 24, 25] | 71% | +1.00 |
+| controlled: catch loop vs aligned finish | 91% | [27, 26, 23, 22, 24, 25] | 72% | +1.00 |
+| controlled: catch loop vs aligned finish (strict) | 91% | [27, 26, 23, 22, 24, 25] | 72% | +1.00 |
+| controlled: catch loop vs catch finish | 92% | [27, 26, 23, 22, 24, 25] | 73% | +0.99 |
+| controlled: catch loop vs catch finish (strict) | 92% | [27, 26, 23, 22, 24, 25] | 73% | +0.99 |
+| natural AQuA | 91% | [27, 26, 23, 22, 24, 25] | 71% | +0.98 |
+| natural AQuA (strict) | 91% | [27, 26, 23, 22, 24, 25] | 71% | +0.98 |
+| natural LogiQA | 90% | [27, 26, 23, 22, 24, 25] | 70% | +0.98 |
+| natural LogiQA (strict) | 90% | [27, 26, 23, 22, 24, 25] | 70% | +0.98 |
+| natural MATH-500 | 90% | [27, 26, 23, 24, 22, 25] | 72% | +0.98 |
+| natural MATH-500 (strict) | 90% | [27, 26, 23, 24, 22, 25] | 72% | +0.98 |
+
+## 3. Does restoring the late MLPs restore the stop logit?
+
+% of the finish-loop gap recovered by replacing MLPs [27, 26, 25, 24, 22, 20] at loop@commit.
+
+| group | own finish values | greedy-experiment donor | sampled-controlled donor | control: MLP [15] |
+|---|---|---|---|---|
+| controlled, greedy (original pairs) | 79% | 21% | 85% | 0% |
+| controlled, greedy (original pairs) (strict) | 79% | 21% | 85% | 0% |
+| controlled: catch loop vs aligned finish | 78% | 20% | 79% | 0% |
+| controlled: catch loop vs aligned finish (strict) | 78% | 20% | 79% | 0% |
+| controlled: catch loop vs catch finish | 76% | 22% | 84% | 0% |
+| controlled: catch loop vs catch finish (strict) | 76% | 22% | 84% | 0% |
+| natural AQuA | 78% | 19% | 82% | -1% |
+| natural AQuA (strict) | 78% | 19% | 82% | -1% |
+| natural LogiQA | 78% | 20% | 92% | 1% |
+| natural LogiQA (strict) | 78% | 20% | 92% | 1% |
+| natural MATH-500 | 80% | 19% | 79% | 1% |
+| natural MATH-500 (strict) | 80% | 19% | 79% | 1% |

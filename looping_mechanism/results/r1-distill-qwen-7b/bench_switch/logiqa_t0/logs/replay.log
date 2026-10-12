@@ -1,0 +1,34 @@
+[replay] logiqa T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  replay: 31 held-out loops to run; conditions: base force bias switch ctrl switch_math
+  [1/31] logiqa_100_sgreedy     246s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [2/31] logiqa_113_sgreedy     124s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [3/31] logiqa_148_sgreedy     161s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [4/31] logiqa_156_sgreedy      24s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [5/31] logiqa_159_sgreedy      50s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [6/31] logiqa_220_sgreedy     127s  base=-/x force=stop/x bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [7/31] logiqa_260_sgreedy     170s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/x
+  [8/31] logiqa_288_sgreedy     172s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [9/31] logiqa_29_sgreedy      202s  base=-/x force=stop/ok bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [10/31] logiqa_309_sgreedy      40s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [11/31] logiqa_31_sgreedy       30s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [12/31] logiqa_313_sgreedy      44s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [13/31] logiqa_350_sgreedy     193s  base=-/x force=stop/ok bias=stop/ok switch=-/x ctrl=-/x switch_math=stop/ok
+  [14/31] logiqa_366_sgreedy       4s  base=stop/x force=stop/x bias=stop/x switch=stop/x ctrl=stop/x switch_math=stop/x
+  [15/31] logiqa_411_sgreedy      36s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [16/31] logiqa_434_sgreedy      30s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [17/31] logiqa_435_sgreedy     202s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [18/31] logiqa_458_sgreedy      33s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [19/31] logiqa_468_sgreedy     225s  base=-/x force=stop/x bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [20/31] logiqa_50_sgreedy       30s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [21/31] logiqa_51_sgreedy       39s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [22/31] logiqa_511_sgreedy     176s  base=-/x force=stop/x bias=stop/x switch=-/x ctrl=-/x switch_math=-/x
+  [23/31] logiqa_520_sgreedy     248s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [24/31] logiqa_532_sgreedy      92s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [25/31] logiqa_553_sgreedy      47s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [26/31] logiqa_568_sgreedy      33s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [27/31] logiqa_573_sgreedy      23s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [28/31] logiqa_580_sgreedy     117s  base=-/x force=stop/x bias=stop/x switch=stop/ok ctrl=-/x switch_math=stop/x
+  [29/31] logiqa_616_sgreedy      35s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok
+  [30/31] logiqa_91_sgreedy       31s  base=-/x force=stop/x bias=stop/x switch=stop/x ctrl=-/x switch_math=stop/x
+  [31/31] logiqa_93_sgreedy       56s  base=-/x force=stop/ok bias=stop/ok switch=stop/ok ctrl=-/x switch_math=stop/ok

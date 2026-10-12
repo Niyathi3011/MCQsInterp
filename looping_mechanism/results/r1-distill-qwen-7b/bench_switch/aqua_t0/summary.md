@@ -1,0 +1,50 @@
+# Per-benchmark stop switch: aqua, T=0
+
+Learned from this benchmark's catch-vs-aligned pairs; tested on its natural loops (held out). Settings: `config.json`.
+
+## Data
+
+- catch questions skipped (held out): 57
+- learning: no commit point: 5
+- test loops: no commit point: 20
+- questions: 254
+- held-out questions (loop naturally): 65
+- held-out questions tested: 65
+- learning pairs: 153
+- replay test loops: 65
+- replay test loops with a commit point: 45
+
+## Learning: the stop signal on this benchmark's catch-vs-aligned pairs
+
+- pairs: 153
+- logit(</think>): finished stop +33.1, loop commit +4.7, gap +28.4 (gap > 0 in 100%)
+- MLP share of the gap: 90%
+- own stop MLPs (top-6): [27, 26, 23, 24, 22, 25]; MATH six: [27, 26, 25, 24, 22, 20]; share of gap in own six: 77%, in MATH six: 71%
+- gap recovered by patching at the commit point: own 83%, math 81%, control 0%
+
+## Option A: replay on the held-out natural loops
+
+One loop per held-out question, fed up to its commit point; answer generated fresh (T=0, answer cap 1200, thinking cap 256).
+
+| condition | loops | stops | correct [95% CI] | correct (of stopped) | answer hits the cap |
+|---|---|---|---|---|---|
+| base | 45 | 4% | 4% [0-11] | 100% | 0% |
+| force | 45 | 100% | 47% [31-62] | 47% | 44% |
+| bias | 45 | 100% | 47% [31-62] | 47% | 44% |
+| switch | 45 | 91% | 47% [31-60] | 51% | 46% |
+| switch_math | 45 | 98% | 44% [31-60] | 45% | 52% |
+| ctrl | 45 | 4% | 4% [0-11] | 100% | 0% |
+
+## Option B: live test on the held-out questions (fresh runs)
+
+- fresh runs: 65 (65 questions x seeds [None]); loops 46; correct with no intervention 28%
+- rule fires on 47 runs: 46 loops, 1 that would have finished (0 of them correctly)
+
+Accuracy over ALL fresh runs. Runs the rule did not fire on keep their own outcome; so do triggered runs whose branch did not stop within 256 tokens (the intervention did not take effect: a loop stays a loop, a run that would finish keeps its answer). Only runs whose branches are done are counted.
+
+| condition | runs | correct [95% CI] | loops left | of triggered: loops rescued | would-finish runs hurt (right -> wrong) |
+|---|---|---|---|---|---|
+| none | 65 | 28% [17-38] | 46 | - | - |
+| force | 65 | 58% [46-71] | 0 | 20 | 0 |
+| switch | 65 | 52% [40-65] | 12 | 16 | 0 |
+| switch_math | 65 | 58% [46-71] | 8 | 20 | 0 |

@@ -1,0 +1,4 @@
+live_items: 35 rows, 0 already done, 35 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=13 max_tokens=12288
+  25/35  correct 9  hit cap (loop) 11     658s
+  35/35  correct 10  hit cap (loop) 20     874s
+done live_items -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6/live_runs/seed13.jsonl

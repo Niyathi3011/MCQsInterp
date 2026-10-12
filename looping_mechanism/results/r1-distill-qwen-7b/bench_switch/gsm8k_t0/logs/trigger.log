@@ -1,0 +1,2 @@
+[trigger] gsm8k T=0 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/gsm8k_t0
+  live runs 21: loops 11; trigger fires on 11 (11 loops, 0 would finish; kinds {'commit': 5, 'paragraph': 6})

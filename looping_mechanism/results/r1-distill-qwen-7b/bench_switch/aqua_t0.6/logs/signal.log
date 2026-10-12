@@ -1,0 +1,22 @@
+[signal] aqua T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/aqua_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  signal 10/170     32s
+  signal 20/170     62s
+  signal 30/170     81s
+  signal 40/170     99s
+  signal 50/170    121s
+  signal 60/170    150s
+  signal 70/170    181s
+  signal 80/170    197s
+  signal 90/170    221s
+  signal 100/170    240s
+  signal 110/170    264s
+  signal 120/170    281s
+  signal 130/170    309s
+  signal 140/170    335s
+  signal 150/170    362s
+  signal 160/170    387s
+  signal 170/170    407s
+  own stop MLPs (top-6 gap contribution, 170 pairs): [27, 26, 23, 24, 22, 25]   MATH six: [27, 26, 25, 24, 22, 20]
+  MATH reference donor: mean over 128 finished runs -> /workspace/MCQsInterp/looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_ref_donor.pt
+  gap recovered by patching: own 82%, math 81%, control 0%

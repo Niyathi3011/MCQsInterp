@@ -1,0 +1,66 @@
+[live] logiqa T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  live: 63 triggered runs to continue
+  [1/63] logiqa_409 seed10 (would finish)   25s  force=x switch=x switch_math=x
+  [2/63] logiqa_346 seed10 (would finish, right)   85s  force=ok switch=ok switch_math=ok
+  [3/63] logiqa_247 seed10 (would finish, right)   90s  force=ok switch=ok switch_math=ok
+  [4/63] logiqa_23 seed10 (would finish)  252s  force=x switch=x switch_math=x
+  [5/63] logiqa_4 seed10 (would finish)   50s  force=x switch=x switch_math=x
+  [6/63] logiqa_348 seed10 (would finish)  250s  force=x switch=x switch_math=x
+  [7/63] logiqa_400 seed10 (would finish, right)   81s  force=ok switch=x switch_math=x
+  [8/63] logiqa_148 seed10 (would finish)   49s  force=x switch=x switch_math=x
+  [9/63] logiqa_248 seed10 (would finish, right)  249s  force=x switch=x switch_math=ok
+  [10/63] logiqa_208 seed10 (would finish)  156s  force=x switch=x switch_math=x
+  [11/63] logiqa_298 seed10 (would finish)  161s  force=x switch=x switch_math=x
+  [12/63] logiqa_1 seed10 (loop)  237s  force=x switch=x switch_math=x
+  [13/63] logiqa_166 seed10 (loop)  248s  force=x switch=x switch_math=ok
+  [14/63] logiqa_37 seed10 (loop)  134s  force=ok switch=x switch_math=ok
+  [15/63] logiqa_102 seed10 (loop)  248s  force=ok switch=x switch_math=x
+  [16/63] logiqa_396 seed10 (loop)  249s  force=x switch=x switch_math=x
+  [17/63] logiqa_249 seed10 (loop)  237s  force=ok switch=x switch_math=ok
+  [18/63] logiqa_443 seed10 (would finish)  167s  force=ok switch=x switch_math=x
+  [19/63] logiqa_426 seed10 (would finish, right)  131s  force=x switch=ok switch_math=x
+  [20/63] logiqa_297 seed10 (loop)   35s  force=x switch=x switch_math=x
+  [21/63] logiqa_451 seed10 (would finish)  247s  force=x switch=x switch_math=x
+  [22/63] logiqa_520 seed10 (would finish)   49s  force=ok switch=ok switch_math=ok
+  [23/63] logiqa_500 seed10 (would finish)  247s  force=x switch=x switch_math=x
+  [24/63] logiqa_495 seed10 (loop)  247s  force=x switch=x switch_math=x
+  [25/63] logiqa_497 seed10 (loop)  235s  force=x switch=x switch_math=x
+  [26/63] logiqa_498 seed10 (loop)  248s  force=x switch=x switch_math=x
+  [27/63] logiqa_548 seed10 (would finish)  249s  force=x switch=x switch_math=x
+  [28/63] logiqa_546 seed10 (would finish)  248s  force=x switch=x switch_math=x
+  [29/63] logiqa_593 seed10 (would finish)  125s  force=x switch=x switch_math=x
+  [30/63] logiqa_649 seed10 (would finish)  248s  force=x switch=x switch_math=x
+  [31/63] logiqa_646 seed10 (loop)  173s  force=x switch=x switch_math=x
+  [32/63] logiqa_91 seed10 (loop)   40s  force=x switch=x switch_math=x
+  [33/63] logiqa_145 seed11 (would finish)  211s  force=x switch=x switch_math=x
+  [34/63] logiqa_400 seed11 (would finish)   84s  force=x switch=x switch_math=x
+  [35/63] logiqa_37 seed11 (would finish, right)  158s  force=ok switch=ok switch_math=ok
+  [36/63] logiqa_249 seed11 (would finish)  237s  force=x switch=x switch_math=x
+  [37/63] logiqa_0 seed11 (would finish, right)  185s  force=x switch=x switch_math=ok
+  [38/63] logiqa_409 seed11 (would finish, right)   26s  force=ok switch=ok switch_math=ok
+  [39/63] logiqa_348 seed11 (would finish)   62s  force=x switch=x switch_math=x
+  [40/63] logiqa_102 seed11 (loop)  247s  force=x switch=x switch_math=x
+  [41/63] logiqa_166 seed11 (loop)  167s  force=x switch=x switch_math=x
+  [42/63] logiqa_148 seed11 (loop)  173s  force=x switch=ok switch_math=x
+  [43/63] logiqa_346 seed11 (loop)   57s  force=x switch=x switch_math=x
+  [44/63] logiqa_208 seed11 (loop)  247s  force=x switch=x switch_math=x
+  [45/63] logiqa_1 seed11 (loop)  170s  force=ok switch=x switch_math=ok
+  [46/63] logiqa_396 seed11 (loop)  246s  force=x switch=x switch_math=x
+  [47/63] logiqa_4 seed11 (loop)   38s  force=x switch=x switch_math=x
+  [48/63] logiqa_35 seed11 (loop)  223s  force=x switch=ok switch_math=ok
+  [49/63] logiqa_443 seed11 (loop)  248s  force=x switch=x switch_math=ok
+  [50/63] logiqa_451 seed11 (loop)  169s  force=ok switch=x switch_math=x
+  [51/63] logiqa_495 seed11 (loop)   29s  force=x switch=x switch_math=x
+  [52/63] logiqa_497 seed11 (loop)  246s  force=x switch=ok switch_math=x
+  [53/63] logiqa_498 seed11 (loop)  244s  force=x switch=x switch_math=x
+  [54/63] logiqa_500 seed11 (loop)  244s  force=x switch=x switch_math=x
+  [55/63] logiqa_534 seed11 (loop)   34s  force=x switch=x switch_math=x
+  [56/63] logiqa_546 seed11 (loop)  250s  force=x switch=x switch_math=x
+  [57/63] logiqa_548 seed11 (loop)  135s  force=ok switch=x switch_math=ok
+  [58/63] logiqa_593 seed11 (loop)   63s  force=ok switch=x switch_math=ok
+  [59/63] logiqa_642 seed11 (loop)  242s  force=x switch=x switch_math=ok
+  [60/63] logiqa_93 seed11 (loop)  250s  force=x switch=x switch_math=x
+  [61/63] logiqa_91 seed11 (loop)   39s  force=x switch=x switch_math=x
+  [62/63] logiqa_646 seed11 (loop)  243s  force=ok switch=ok switch_math=x
+  [63/63] logiqa_649 seed11 (loop)  253s  force=x switch=x switch_math=x

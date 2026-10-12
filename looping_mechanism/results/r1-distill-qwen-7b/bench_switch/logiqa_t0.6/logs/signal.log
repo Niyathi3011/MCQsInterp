@@ -1,0 +1,7 @@
+[signal] logiqa T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/logiqa_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  signal 10/24     36s
+  signal 20/24     83s
+  signal 24/24    103s
+  own stop MLPs (top-6 gap contribution, 24 pairs): [27, 26, 23, 22, 24, 25]   MATH six: [27, 26, 25, 24, 22, 20]
+  gap recovered by patching: own 91%, math 98%, control 1%

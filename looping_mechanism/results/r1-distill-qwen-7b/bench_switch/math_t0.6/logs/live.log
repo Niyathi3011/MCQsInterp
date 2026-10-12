@@ -1,0 +1,75 @@
+[live] math T=0.6 -> looping_mechanism/results/r1-distill-qwen-7b/bench_switch/math_t0.6
+Loaded pretrained model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B into HookedTransformer
+  live: 72 triggered runs to continue
+  [1/72] math500_101 seed10 (would finish, right)   13s  force=ok switch=ok switch_math=ok
+  [2/72] math500_129 seed10 (would finish, right)   13s  force=ok switch=ok switch_math=ok
+  [3/72] math500_242 seed10 (would finish, right)  238s  force=ok switch=ok switch_math=x
+  [4/72] math500_154 seed10 (would finish)  240s  force=x switch=x switch_math=x
+  [5/72] math500_217 seed10 (loop)  233s  force=x switch=x switch_math=x
+  [6/72] math500_11 seed10 (loop)  239s  force=x switch=x switch_math=x
+  [7/72] math500_18 seed10 (loop)  140s  force=x switch=x switch_math=x
+  [8/72] math500_126 seed10 (loop)  237s  force=x switch=x switch_math=x
+  [9/72] math500_236 seed10 (loop)  246s  force=x switch=x switch_math=x
+  [10/72] math500_166 seed10 (loop)  236s  force=x switch=x switch_math=x
+  [11/72] math500_264 seed10 (loop)  247s  force=x switch=x switch_math=x
+  [12/72] math500_110 seed10 (loop)  237s  force=x switch=x switch_math=x
+  [13/72] math500_26 seed10 (loop)  245s  force=x switch=x switch_math=x
+  [14/72] math500_100 seed10 (loop)  235s  force=x switch=x switch_math=x
+  [15/72] math500_168 seed10 (would finish, right)  238s  force=x switch=x switch_math=x
+  [16/72] math500_332 seed10 (would finish, right)  171s  force=x switch=ok switch_math=x
+  [17/72] math500_136 seed10 (loop)  243s  force=ok switch=x switch_math=x
+  [18/72] math500_308 seed10 (loop)  242s  force=x switch=x switch_math=x
+  [19/72] math500_204 seed10 (loop)  234s  force=x switch=x switch_math=x
+  [20/72] math500_425 seed10 (would finish, right)   32s  force=ok switch=ok switch_math=ok
+  [21/72] math500_490 seed10 (would finish, right)  208s  force=ok switch=ok switch_math=x
+  [22/72] math500_352 seed10 (loop)  241s  force=x switch=x switch_math=x
+  [23/72] math500_481 seed10 (would finish, right)  243s  force=x switch=x switch_math=x
+  [24/72] math500_381 seed10 (loop)  168s  force=x switch=x switch_math=x
+  [25/72] math500_392 seed10 (loop)  248s  force=x switch=x switch_math=x
+  [26/72] math500_400 seed10 (loop)  244s  force=x switch=x switch_math=x
+  [27/72] math500_41 seed10 (loop)  245s  force=x switch=x switch_math=ok
+  [28/72] math500_422 seed10 (loop)  247s  force=x switch=x switch_math=x
+  [29/72] math500_445 seed10 (loop)  240s  force=x switch=x switch_math=x
+  [30/72] math500_43 seed10 (loop)  242s  force=x switch=x switch_math=x
+  [31/72] math500_444 seed10 (loop)  234s  force=x switch=x switch_math=x
+  [32/72] math500_460 seed10 (loop)  243s  force=x switch=x switch_math=x
+  [33/72] math500_486 seed10 (loop)  209s  force=ok switch=x switch_math=ok
+  [34/72] math500_9 seed10 (loop)  233s  force=x switch=x switch_math=x
+  [35/72] math500_96 seed10 (loop)  161s  force=x switch=x switch_math=x
+  [36/72] math500_94 seed10 (loop)  245s  force=x switch=x switch_math=x
+  [37/72] math500_317 seed11 (would finish, right)  238s  force=x switch=ok switch_math=x
+  [38/72] math500_154 seed11 (would finish)  238s  force=x switch=x switch_math=x
+  [39/72] math500_166 seed11 (would finish, right)  244s  force=x switch=x switch_math=x
+  [40/72] math500_323 seed11 (would finish, right)  243s  force=x switch=x switch_math=x
+  [41/72] math500_324 seed11 (loop)  245s  force=x switch=x switch_math=x
+  [42/72] math500_11 seed11 (loop)  243s  force=x switch=x switch_math=x
+  [43/72] math500_26 seed11 (loop)  126s  force=x switch=x switch_math=x
+  [44/72] math500_126 seed11 (loop)  215s  force=x switch=x switch_math=ok
+  [45/72] math500_308 seed11 (loop)  235s  force=x switch=x switch_math=x
+  [46/72] math500_264 seed11 (loop)  235s  force=x switch=x switch_math=x
+  [47/72] math500_168 seed11 (loop)  102s  force=x switch=x switch_math=x
+  [48/72] math500_204 seed11 (loop)  244s  force=x switch=x switch_math=x
+  [49/72] math500_110 seed11 (loop)  231s  force=x switch=x switch_math=x
+  [50/72] math500_18 seed11 (loop)  247s  force=x switch=x switch_math=x
+  [51/72] math500_100 seed11 (loop)  243s  force=x switch=x switch_math=x
+  [52/72] math500_236 seed11 (loop)  231s  force=x switch=x switch_math=x
+  [53/72] math500_240 seed11 (loop)  238s  force=x switch=x switch_math=x
+  [54/72] math500_71 seed11 (would finish, right)   59s  force=ok switch=ok switch_math=ok
+  [55/72] math500_340 seed11 (would finish, right)  127s  force=ok switch=ok switch_math=ok
+  [56/72] math500_351 seed11 (would finish, right)  243s  force=ok switch=x switch_math=x
+  [57/72] math500_352 seed11 (loop)  246s  force=x switch=x switch_math=x
+  [58/72] math500_381 seed11 (loop)  244s  force=x switch=x switch_math=x
+  [59/72] math500_392 seed11 (loop)  244s  force=x switch=x switch_math=x
+  [60/72] math500_398 seed11 (loop)  219s  force=x switch=ok switch_math=x
+  [61/72] math500_400 seed11 (loop)  242s  force=x switch=x switch_math=x
+  [62/72] math500_422 seed11 (loop)  244s  force=x switch=x switch_math=x
+  [63/72] math500_43 seed11 (loop)  246s  force=x switch=x switch_math=x
+  [64/72] math500_473 seed11 (loop)  246s  force=x switch=x switch_math=x
+  [65/72] math500_460 seed11 (loop)  245s  force=x switch=x switch_math=x
+  [66/72] math500_444 seed11 (loop)  161s  force=x switch=x switch_math=x
+  [67/72] math500_445 seed11 (loop)  215s  force=x switch=x switch_math=ok
+  [68/72] math500_486 seed11 (would finish)  135s  force=x switch=x switch_math=x
+  [69/72] math500_481 seed11 (loop)  234s  force=x switch=x switch_math=x
+  [70/72] math500_490 seed11 (would finish, right)  194s  force=x switch=x switch_math=ok
+  [71/72] math500_497 seed11 (loop)  243s  force=x switch=x switch_math=x
+  [72/72] math500_9 seed11 (loop)  238s  force=x switch=x switch_math=x
