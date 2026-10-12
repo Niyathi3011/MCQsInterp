@@ -1,0 +1,22 @@
+math500: 500 rows, 0 already done, 500 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/500  correct 23  hit cap (loop) 0      82s
+  50/500  correct 47  hit cap (loop) 0     130s
+  75/500  correct 71  hit cap (loop) 0     184s
+  100/500  correct 96  hit cap (loop) 0     260s
+  125/500  correct 119  hit cap (loop) 0     353s
+  150/500  correct 143  hit cap (loop) 0     448s
+  175/500  correct 166  hit cap (loop) 1     527s
+  200/500  correct 189  hit cap (loop) 3     606s
+  225/500  correct 213  hit cap (loop) 4     683s
+  250/500  correct 236  hit cap (loop) 6     754s
+  275/500  correct 259  hit cap (loop) 6     844s
+  300/500  correct 281  hit cap (loop) 8     915s
+  325/500  correct 303  hit cap (loop) 10     992s
+  350/500  correct 326  hit cap (loop) 11    1061s
+  375/500  correct 351  hit cap (loop) 11    1130s
+  400/500  correct 375  hit cap (loop) 12    1217s
+  425/500  correct 399  hit cap (loop) 13    1301s
+  450/500  correct 423  hit cap (loop) 14    1369s
+  475/500  correct 445  hit cap (loop) 15    1459s
+  500/500  correct 461  hit cap (loop) 20    1681s
+done math500 -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/math500.jsonl

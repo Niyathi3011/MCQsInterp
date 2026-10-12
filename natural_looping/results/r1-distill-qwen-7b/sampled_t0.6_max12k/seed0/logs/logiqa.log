@@ -1,0 +1,22 @@
+logiqa: 500 rows, 0 already done, 500 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+  25/500  correct 17  hit cap (loop) 0      87s
+  50/500  correct 31  hit cap (loop) 0     268s
+  75/500  correct 40  hit cap (loop) 0     338s
+  100/500  correct 56  hit cap (loop) 4     412s
+  125/500  correct 71  hit cap (loop) 4     495s
+  150/500  correct 80  hit cap (loop) 7     653s
+  175/500  correct 93  hit cap (loop) 12     731s
+  200/500  correct 106  hit cap (loop) 14     811s
+  225/500  correct 120  hit cap (loop) 14     902s
+  250/500  correct 131  hit cap (loop) 16     981s
+  275/500  correct 137  hit cap (loop) 17    1077s
+  300/500  correct 154  hit cap (loop) 20    1149s
+  325/500  correct 162  hit cap (loop) 22    1231s
+  350/500  correct 177  hit cap (loop) 22    1320s
+  375/500  correct 190  hit cap (loop) 25    1407s
+  400/500  correct 198  hit cap (loop) 31    1566s
+  425/500  correct 211  hit cap (loop) 32    1691s
+  450/500  correct 225  hit cap (loop) 37    1780s
+  475/500  correct 238  hit cap (loop) 39    1864s
+  500/500  correct 246  hit cap (loop) 47    2160s
+done logiqa -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/logiqa.jsonl

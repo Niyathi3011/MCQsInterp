@@ -1,0 +1,22 @@
+gsm8k: 500 rows, 0 already done, 500 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+  25/500  correct 25  hit cap (loop) 0      34s
+  50/500  correct 48  hit cap (loop) 0      56s
+  75/500  correct 72  hit cap (loop) 0      78s
+  100/500  correct 96  hit cap (loop) 0     107s
+  125/500  correct 120  hit cap (loop) 0     140s
+  150/500  correct 143  hit cap (loop) 0     169s
+  175/500  correct 165  hit cap (loop) 0     199s
+  200/500  correct 190  hit cap (loop) 0     235s
+  225/500  correct 215  hit cap (loop) 0     278s
+  250/500  correct 236  hit cap (loop) 2     311s
+  275/500  correct 260  hit cap (loop) 3     345s
+  300/500  correct 283  hit cap (loop) 4     380s
+  325/500  correct 305  hit cap (loop) 6     412s
+  350/500  correct 328  hit cap (loop) 7     446s
+  375/500  correct 352  hit cap (loop) 8     483s
+  400/500  correct 374  hit cap (loop) 8     519s
+  425/500  correct 397  hit cap (loop) 10     550s
+  450/500  correct 420  hit cap (loop) 11     593s
+  475/500  correct 443  hit cap (loop) 11     631s
+  500/500  correct 457  hit cap (loop) 21     869s
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k.jsonl

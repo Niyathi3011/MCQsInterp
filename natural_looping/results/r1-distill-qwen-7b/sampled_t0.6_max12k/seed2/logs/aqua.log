@@ -1,0 +1,13 @@
+aqua: 254 rows, 0 already done, 254 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/254  correct 25  hit cap (loop) 0      63s
+  50/254  correct 48  hit cap (loop) 0     116s
+  75/254  correct 73  hit cap (loop) 0     199s
+  100/254  correct 96  hit cap (loop) 0     278s
+  125/254  correct 115  hit cap (loop) 4     362s
+  150/254  correct 137  hit cap (loop) 6     450s
+  175/254  correct 157  hit cap (loop) 7     577s
+  200/254  correct 179  hit cap (loop) 9     678s
+  225/254  correct 201  hit cap (loop) 11     768s
+  250/254  correct 215  hit cap (loop) 17     912s
+  254/254  correct 215  hit cap (loop) 20    1045s
+done aqua -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/aqua.jsonl

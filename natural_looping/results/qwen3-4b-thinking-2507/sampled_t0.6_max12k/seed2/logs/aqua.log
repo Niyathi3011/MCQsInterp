@@ -1,0 +1,13 @@
+aqua: 254 rows, 0 already done, 254 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/254  correct 25  hit cap (loop) 0      51s
+  50/254  correct 48  hit cap (loop) 0     118s
+  75/254  correct 73  hit cap (loop) 0     217s
+  100/254  correct 96  hit cap (loop) 0     343s
+  125/254  correct 119  hit cap (loop) 0     462s
+  150/254  correct 139  hit cap (loop) 2     583s
+  175/254  correct 161  hit cap (loop) 2     694s
+  200/254  correct 184  hit cap (loop) 3     865s
+  225/254  correct 207  hit cap (loop) 3     948s
+  250/254  correct 227  hit cap (loop) 6    1141s
+  254/254  correct 229  hit cap (loop) 6    1192s
+done aqua -> natural_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/seed2/aqua.jsonl

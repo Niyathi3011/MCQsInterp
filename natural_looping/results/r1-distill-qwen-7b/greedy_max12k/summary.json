@@ -1,0 +1,62 @@
+{
+ "gsm8k": {
+  "n": 500,
+  "expected_n": 500,
+  "format": "open-ended",
+  "accuracy": 0.914,
+  "loop_rate": 0.042,
+  "loop_ci95": 0.017582412667208103,
+  "wrong_answer_rate": 0.044,
+  "tokens_correct": 1200.2428884026258,
+  "tokens_incorrect": 7025.162790697675,
+  "tokens_wrong_answer": 2001.5454545454545,
+  "tokens_loop": 12288.0,
+  "loop_tail_dup": 0.7666666666666666,
+  "finished_tail_dup": 0.0
+ },
+ "aqua": {
+  "n": 254,
+  "expected_n": 254,
+  "format": "MCQ (5 options)",
+  "accuracy": 0.7165354330708661,
+  "loop_rate": 0.2559055118110236,
+  "loop_ci95": 0.05366524011067559,
+  "wrong_answer_rate": 0.027559055118110236,
+  "tokens_correct": 2102.032967032967,
+  "tokens_incorrect": 11456.25,
+  "tokens_wrong_answer": 3732.8571428571427,
+  "tokens_loop": 12288.0,
+  "loop_tail_dup": 0.8166666666666667,
+  "finished_tail_dup": 0.01666666666666672
+ },
+ "logiqa": {
+  "n": 500,
+  "expected_n": 500,
+  "format": "MCQ (4 options)",
+  "accuracy": 0.356,
+  "loop_rate": 0.394,
+  "loop_ci95": 0.04283073154640252,
+  "wrong_answer_rate": 0.25,
+  "tokens_correct": 1891.6573033707866,
+  "tokens_incorrect": 8262.83850931677,
+  "tokens_wrong_answer": 1919.184,
+  "tokens_loop": 12288.0,
+  "loop_tail_dup": 0.8,
+  "finished_tail_dup": 0.0
+ },
+ "math500": {
+  "n": 500,
+  "expected_n": 500,
+  "format": "open-ended",
+  "accuracy": 0.874,
+  "loop_rate": 0.1,
+  "loop_ci95": 0.02629615941539753,
+  "wrong_answer_rate": 0.026,
+  "tokens_correct": 2716.528604118993,
+  "tokens_incorrect": 10765.380952380952,
+  "tokens_wrong_answer": 4909.153846153846,
+  "tokens_loop": 12288.0,
+  "loop_tail_dup": 0.75,
+  "finished_tail_dup": 0.0
+ }
+}

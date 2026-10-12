@@ -1,0 +1,24 @@
+math500: 500 rows, 0 already done, 500 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  25/500  correct 25  hit cap (loop) 0      62s
+  50/500  correct 50  hit cap (loop) 0     313s
+  75/500  correct 71  hit cap (loop) 4     486s
+  100/500  correct 94  hit cap (loop) 6     782s
+  125/500  correct 113  hit cap (loop) 12    1078s
+  150/500  correct 133  hit cap (loop) 17    1320s
+  175/500  correct 153  hit cap (loop) 22    1649s
+  200/500  correct 176  hit cap (loop) 24    1864s
+  225/500  correct 197  hit cap (loop) 27    2169s
+  250/500  correct 215  hit cap (loop) 34    2461s
+  275/500  correct 236  hit cap (loop) 38    2677s
+  300/500  correct 256  hit cap (loop) 43    2977s
+  325/500  correct 279  hit cap (loop) 44    3333s
+  350/500  correct 299  hit cap (loop) 49    3484s
+  375/500  correct 322  hit cap (loop) 51    3796s
+  400/500  correct 342  hit cap (loop) 55    3951s
+  425/500  correct 362  hit cap (loop) 60    4285s
+  450/500  correct 385  hit cap (loop) 62    4450s
+  475/500  correct 405  hit cap (loop) 67    4809s
+  500/500  correct 422  hit cap (loop) 75    5126s
+done math500 -> natural_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/seed0/math500.jsonl

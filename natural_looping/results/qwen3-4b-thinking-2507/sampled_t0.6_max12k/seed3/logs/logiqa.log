@@ -1,0 +1,22 @@
+logiqa: 500 rows, 0 already done, 500 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+  25/500  correct 23  hit cap (loop) 0     220s
+  50/500  correct 36  hit cap (loop) 4     531s
+  75/500  correct 54  hit cap (loop) 5     758s
+  100/500  correct 72  hit cap (loop) 6     964s
+  125/500  correct 92  hit cap (loop) 6    1172s
+  150/500  correct 109  hit cap (loop) 7    1389s
+  175/500  correct 126  hit cap (loop) 7    1632s
+  200/500  correct 148  hit cap (loop) 8    1916s
+  225/500  correct 170  hit cap (loop) 9    2139s
+  250/500  correct 187  hit cap (loop) 9    2328s
+  275/500  correct 202  hit cap (loop) 9    2536s
+  300/500  correct 220  hit cap (loop) 9    2769s
+  325/500  correct 240  hit cap (loop) 10    2971s
+  350/500  correct 255  hit cap (loop) 10    3248s
+  375/500  correct 272  hit cap (loop) 10    3442s
+  400/500  correct 292  hit cap (loop) 11    3754s
+  425/500  correct 310  hit cap (loop) 15    3997s
+  450/500  correct 327  hit cap (loop) 15    4271s
+  475/500  correct 345  hit cap (loop) 16    4454s
+  500/500  correct 358  hit cap (loop) 18    4738s
+done logiqa -> natural_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/seed3/logiqa.jsonl

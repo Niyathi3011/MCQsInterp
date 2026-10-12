@@ -1,0 +1,47 @@
+{
+ "aqua": {
+  "n": 254,
+  "expected_n": 254,
+  "format": "MCQ (5 options)",
+  "accuracy": 0.8700787401574803,
+  "loop_rate": 0.08661417322834646,
+  "loop_ci95": 0.03459081776084959,
+  "wrong_answer_rate": 0.04330708661417323,
+  "tokens_correct": 2613.425339366516,
+  "tokens_incorrect": 9862.09090909091,
+  "tokens_wrong_answer": 5010.272727272727,
+  "tokens_loop": 12288.0,
+  "loop_tail_dup": 0.08333333333333337,
+  "finished_tail_dup": 0.0
+ },
+ "logiqa": {
+  "n": 500,
+  "expected_n": 500,
+  "format": "MCQ (4 options)",
+  "accuracy": 0.49,
+  "loop_rate": 0.082,
+  "loop_ci95": 0.024049128117251985,
+  "wrong_answer_rate": 0.428,
+  "tokens_correct": 2961.473469387755,
+  "tokens_incorrect": 4838.717647058824,
+  "tokens_wrong_answer": 3411.5186915887853,
+  "tokens_loop": 12288.0,
+  "loop_tail_dup": 0.35,
+  "finished_tail_dup": 0.0
+ },
+ "math500": {
+  "n": 500,
+  "expected_n": 500,
+  "format": "open-ended",
+  "accuracy": 0.914,
+  "loop_rate": 0.06,
+  "loop_ci95": 0.020816639498247545,
+  "wrong_answer_rate": 0.026,
+  "tokens_correct": 3017.4463894967175,
+  "tokens_incorrect": 10469.302325581395,
+  "tokens_wrong_answer": 6272.307692307692,
+  "tokens_loop": 12288.0,
+  "loop_tail_dup": 0.01666666666666672,
+  "finished_tail_dup": 0.0
+ }
+}

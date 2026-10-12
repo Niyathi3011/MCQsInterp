@@ -1,0 +1,24 @@
+gsm8k: 500 rows, 0 already done, 500 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+  25/500  correct 25  hit cap (loop) 0      22s
+  50/500  correct 50  hit cap (loop) 0      47s
+  75/500  correct 75  hit cap (loop) 0      71s
+  100/500  correct 97  hit cap (loop) 0     103s
+  125/500  correct 120  hit cap (loop) 0     144s
+  150/500  correct 145  hit cap (loop) 0     172s
+  175/500  correct 167  hit cap (loop) 0     192s
+  200/500  correct 192  hit cap (loop) 0     219s
+  225/500  correct 215  hit cap (loop) 0     254s
+  250/500  correct 240  hit cap (loop) 0     279s
+  275/500  correct 264  hit cap (loop) 0     309s
+  300/500  correct 288  hit cap (loop) 0     338s
+  325/500  correct 311  hit cap (loop) 0     377s
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  350/500  correct 335  hit cap (loop) 0     406s
+  375/500  correct 359  hit cap (loop) 0     438s
+  400/500  correct 382  hit cap (loop) 0     464s
+  425/500  correct 405  hit cap (loop) 0     494s
+  450/500  correct 429  hit cap (loop) 0     521s
+  475/500  correct 454  hit cap (loop) 0     543s
+  500/500  correct 476  hit cap (loop) 0     663s
+done gsm8k -> natural_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/seed1/gsm8k.jsonl
