@@ -1,0 +1,14 @@
+open: 227 rows, 0 already done, 227 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  25/227  correct 23  hit cap (loop) 0      46s
+  50/227  correct 44  hit cap (loop) 0      90s
+  75/227  correct 59  hit cap (loop) 0     142s
+  100/227  correct 77  hit cap (loop) 0     193s
+  125/227  correct 96  hit cap (loop) 0     274s
+  150/227  correct 116  hit cap (loop) 0     338s
+  175/227  correct 129  hit cap (loop) 1     480s
+  200/227  correct 152  hit cap (loop) 1     555s
+  225/227  correct 162  hit cap (loop) 4     700s
+  227/227  correct 164  hit cap (loop) 4     776s
+done open -> controlled_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/aqua_forms/seed1/open.jsonl

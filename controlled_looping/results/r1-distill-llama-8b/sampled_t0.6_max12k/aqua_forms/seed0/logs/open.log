@@ -1,0 +1,14 @@
+open: 227 rows, 0 already done, 227 to run  | deepseek-ai/DeepSeek-R1-Distill-Llama-8B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  25/227  correct 21  hit cap (loop) 0      64s
+  50/227  correct 40  hit cap (loop) 0     192s
+  75/227  correct 58  hit cap (loop) 0     345s
+  100/227  correct 72  hit cap (loop) 0     484s
+  125/227  correct 89  hit cap (loop) 2     572s
+  150/227  correct 108  hit cap (loop) 2     658s
+  175/227  correct 122  hit cap (loop) 4     964s
+  200/227  correct 137  hit cap (loop) 7    1124s
+  225/227  correct 156  hit cap (loop) 8    1342s
+  227/227  correct 157  hit cap (loop) 8    1401s
+done open -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/aqua_forms/seed0/open.jsonl

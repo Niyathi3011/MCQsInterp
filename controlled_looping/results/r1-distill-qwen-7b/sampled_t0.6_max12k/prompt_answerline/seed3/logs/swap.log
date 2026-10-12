@@ -1,0 +1,8 @@
+swap: 150 rows, 0 already done, 150 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+  25/150  correct 22  hit cap (loop) 0      54s
+  50/150  correct 43  hit cap (loop) 0      95s
+  75/150  correct 64  hit cap (loop) 0     145s
+  100/150  correct 89  hit cap (loop) 0     195s
+  125/150  correct 111  hit cap (loop) 0     262s
+  150/150  correct 132  hit cap (loop) 4     509s
+done swap -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/prompt_answerline/seed3/swap.jsonl

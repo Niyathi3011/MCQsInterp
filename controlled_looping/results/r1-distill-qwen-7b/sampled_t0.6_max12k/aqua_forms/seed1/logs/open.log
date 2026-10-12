@@ -1,0 +1,14 @@
+open: 227 rows, 0 already done, 227 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  25/227  correct 20  hit cap (loop) 0      55s
+  50/227  correct 43  hit cap (loop) 0     106s
+  75/227  correct 58  hit cap (loop) 0     163s
+  100/227  correct 76  hit cap (loop) 0     213s
+  125/227  correct 95  hit cap (loop) 0     259s
+  150/227  correct 112  hit cap (loop) 0     322s
+  175/227  correct 128  hit cap (loop) 2     404s
+  200/227  correct 147  hit cap (loop) 3     456s
+  225/227  correct 159  hit cap (loop) 6     609s
+  227/227  correct 159  hit cap (loop) 8     623s
+done open -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/aqua_forms/seed1/open.jsonl

@@ -1,0 +1,8 @@
+math_catch: 150 rows, 0 already done, 150 to run  | deepseek-ai/DeepSeek-R1-Distill-Llama-8B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+  25/150  correct 0  hit cap (loop) 11    1058s
+  50/150  correct 0  hit cap (loop) 27    2063s
+  75/150  correct 0  hit cap (loop) 46    3203s
+  100/150  correct 0  hit cap (loop) 68    4424s
+  125/150  correct 0  hit cap (loop) 84    5414s
+  150/150  correct 0  hit cap (loop) 105    6511s
+done math_catch -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/math_catch.jsonl

@@ -1,0 +1,10 @@
+gsm8k_aligned: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Llama-8B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+  25/200  correct 25  hit cap (loop) 0      36s
+  50/200  correct 50  hit cap (loop) 0      66s
+  75/200  correct 75  hit cap (loop) 0     104s
+  100/200  correct 99  hit cap (loop) 0     148s
+  125/200  correct 124  hit cap (loop) 0     182s
+  150/200  correct 149  hit cap (loop) 0     220s
+  175/200  correct 174  hit cap (loop) 0     267s
+  200/200  correct 194  hit cap (loop) 5     551s
+done gsm8k_aligned -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/gsm8k_aligned.jsonl

@@ -1,0 +1,8 @@
+aligned: 150 rows, 0 already done, 150 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+  25/150  correct 14  hit cap (loop) 0      51s
+  50/150  correct 35  hit cap (loop) 0      99s
+  75/150  correct 54  hit cap (loop) 0     156s
+  100/150  correct 76  hit cap (loop) 0     208s
+  125/150  correct 97  hit cap (loop) 0     271s
+  150/150  correct 113  hit cap (loop) 7     519s
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/prompt_answerline/seed3/aligned.jsonl

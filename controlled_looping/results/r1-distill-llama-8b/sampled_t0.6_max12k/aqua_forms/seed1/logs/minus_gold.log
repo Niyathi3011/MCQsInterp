@@ -1,0 +1,12 @@
+minus_gold: 227 rows, 0 already done, 227 to run  | deepseek-ai/DeepSeek-R1-Distill-Llama-8B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+  25/227  correct 0  hit cap (loop) 14    1133s
+  50/227  correct 0  hit cap (loop) 29    2179s
+  75/227  correct 0  hit cap (loop) 43    3105s
+  100/227  correct 0  hit cap (loop) 60    4072s
+  125/227  correct 0  hit cap (loop) 78    5129s
+  150/227  correct 0  hit cap (loop) 90    6087s
+  175/227  correct 0  hit cap (loop) 104    7044s
+  200/227  correct 0  hit cap (loop) 121    8045s
+  225/227  correct 0  hit cap (loop) 141    9020s
+  227/227  correct 0  hit cap (loop) 143    9145s
+done minus_gold -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/aqua_forms/seed1/minus_gold.jsonl

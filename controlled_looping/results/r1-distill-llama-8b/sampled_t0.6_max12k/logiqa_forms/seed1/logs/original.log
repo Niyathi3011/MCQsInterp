@@ -1,0 +1,10 @@
+logiqa_original_200: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Llama-8B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+  25/200  correct 17  hit cap (loop) 0     177s
+  50/200  correct 32  hit cap (loop) 4     484s
+  75/200  correct 42  hit cap (loop) 6     798s
+  100/200  correct 57  hit cap (loop) 6     977s
+  125/200  correct 71  hit cap (loop) 9    1317s
+  150/200  correct 83  hit cap (loop) 11    1509s
+  175/200  correct 95  hit cap (loop) 15    1848s
+  200/200  correct 107  hit cap (loop) 19    2257s
+done logiqa_original_200 -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/logiqa_forms/seed1/original.jsonl

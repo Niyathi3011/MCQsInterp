@@ -1,0 +1,2 @@
+aligned: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/aligned.jsonl

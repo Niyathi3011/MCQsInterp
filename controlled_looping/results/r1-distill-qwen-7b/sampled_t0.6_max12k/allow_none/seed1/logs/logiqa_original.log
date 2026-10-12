@@ -1,0 +1,10 @@
+logiqa_original: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+  25/200  correct 15  hit cap (loop) 0      53s
+  50/200  correct 32  hit cap (loop) 0      99s
+  75/200  correct 47  hit cap (loop) 0     165s
+  100/200  correct 61  hit cap (loop) 0     275s
+  125/200  correct 71  hit cap (loop) 0     374s
+  150/200  correct 86  hit cap (loop) 3     469s
+  175/200  correct 99  hit cap (loop) 3     541s
+  200/200  correct 107  hit cap (loop) 10     770s
+done logiqa_original -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/allow_none/seed1/logiqa_original.jsonl

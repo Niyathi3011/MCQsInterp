@@ -1,0 +1,10 @@
+logiqa_minus_gold: 200 rows, 0 already done, 200 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 0     298s
+  50/200  correct 0  hit cap (loop) 0     612s
+  75/200  correct 0  hit cap (loop) 2     916s
+  100/200  correct 0  hit cap (loop) 2    1124s
+  125/200  correct 0  hit cap (loop) 4    1460s
+  150/200  correct 0  hit cap (loop) 7    1738s
+  175/200  correct 0  hit cap (loop) 10    2104s
+  200/200  correct 0  hit cap (loop) 13    2401s
+done logiqa_minus_gold -> controlled_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/allow_none/seed0/logiqa_minus_gold.jsonl

@@ -1,0 +1,10 @@
+catch: 200 rows, 0 already done, 200 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 0     230s
+  50/200  correct 0  hit cap (loop) 0     420s
+  75/200  correct 0  hit cap (loop) 0     685s
+  100/200  correct 0  hit cap (loop) 0     864s
+  125/200  correct 0  hit cap (loop) 0    1074s
+  150/200  correct 0  hit cap (loop) 0    1299s
+  175/200  correct 0  hit cap (loop) 0    1485s
+  200/200  correct 0  hit cap (loop) 0    1651s
+done catch -> controlled_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/gsm8k_ctrl/seed2/catch.jsonl

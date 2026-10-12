@@ -1,0 +1,581 @@
+gsm8k: 500 rows, 0 already done, 500 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+  25/500  correct 25  hit cap (loop) 0      41s
+  50/500  correct 49  hit cap (loop) 0      71s
+  75/500  correct 74  hit cap (loop) 0     103s
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  100/500  correct 97  hit cap (loop) 0     138s
+  125/500  correct 122  hit cap (loop) 0     183s
+  150/500  correct 145  hit cap (loop) 0     219s
+  175/500  correct 166  hit cap (loop) 0     248s
+  200/500  correct 187  hit cap (loop) 0     276s
+  225/500  correct 211  hit cap (loop) 0     307s
+  250/500  correct 235  hit cap (loop) 0     340s
+  275/500  correct 257  hit cap (loop) 0     369s
+  300/500  correct 282  hit cap (loop) 0     397s
+  325/500  correct 305  hit cap (loop) 1     424s
+  350/500  correct 328  hit cap (loop) 1     450s
+  375/500  correct 351  hit cap (loop) 2     493s
+  400/500  correct 375  hit cap (loop) 2     522s
+  425/500  correct 397  hit cap (loop) 2     554s
+  450/500  correct 418  hit cap (loop) 2     589s
+  475/500  correct 440  hit cap (loop) 2     623s
+  500/500  correct 460  hit cap (loop) 3     739s
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/gsm8k.jsonl
+gsm8k: 500 rows, 0 already done, 500 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+  25/500  correct 25  hit cap (loop) 0      34s
+  50/500  correct 49  hit cap (loop) 0      64s
+  75/500  correct 72  hit cap (loop) 0     103s
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  100/500  correct 94  hit cap (loop) 0     148s
+  125/500  correct 117  hit cap (loop) 0     533s
+  150/500  correct 141  hit cap (loop) 0     603s
+  175/500  correct 164  hit cap (loop) 0     670s
+  200/500  correct 187  hit cap (loop) 0     719s
+  225/500  correct 211  hit cap (loop) 0     778s
+  250/500  correct 235  hit cap (loop) 0     824s
+  275/500  correct 260  hit cap (loop) 0     872s
+  300/500  correct 282  hit cap (loop) 0     916s
+  325/500  correct 305  hit cap (loop) 0     971s
+  350/500  correct 327  hit cap (loop) 1    1021s
+  375/500  correct 350  hit cap (loop) 1    1062s
+  400/500  correct 372  hit cap (loop) 1    1191s
+  425/500  correct 395  hit cap (loop) 1    1489s
+  450/500  correct 420  hit cap (loop) 1    1543s
+  475/500  correct 443  hit cap (loop) 1    1611s
+  500/500  correct 464  hit cap (loop) 1    1779s
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed1/gsm8k.jsonl
+gsm8k: 500 rows, 0 already done, 500 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/500  correct 25  hit cap (loop) 0      58s
+  50/500  correct 49  hit cap (loop) 0      90s
+  75/500  correct 71  hit cap (loop) 0     152s
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  100/500  correct 92  hit cap (loop) 0     518s
+  125/500  correct 114  hit cap (loop) 0     576s
+  150/500  correct 138  hit cap (loop) 0     635s
+  175/500  correct 159  hit cap (loop) 0     686s
+  200/500  correct 183  hit cap (loop) 0     744s
+  225/500  correct 207  hit cap (loop) 0     799s
+  250/500  correct 232  hit cap (loop) 0     837s
+  275/500  correct 256  hit cap (loop) 0     881s
+  300/500  correct 279  hit cap (loop) 0     932s
+  325/500  correct 303  hit cap (loop) 0     979s
+  350/500  correct 327  hit cap (loop) 0    1043s
+  375/500  correct 350  hit cap (loop) 2    1136s
+  400/500  correct 372  hit cap (loop) 2    1487s
+  425/500  correct 396  hit cap (loop) 2    1544s
+  450/500  correct 419  hit cap (loop) 2    1642s
+  475/500  correct 442  hit cap (loop) 2    1710s
+  500/500  correct 463  hit cap (loop) 2    1827s
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/gsm8k.jsonl
+gsm8k: 500 rows, 0 already done, 500 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed1/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/gsm8k.jsonl
+gsm8k: 500 rows, 2 already done, 498 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+  25/498  correct 25  hit cap (loop) 0      41s
+  50/498  correct 48  hit cap (loop) 0      73s
+  75/498  correct 72  hit cap (loop) 0     103s
+Timeout is disabled as parsing_timeout is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+Timeout is disabled as timeout_seconds is None or <= 0, you must provide                         the logic for timeout interuption yourself to prevent code getting stuck.
+  100/498  correct 96  hit cap (loop) 0     131s
+  125/498  correct 117  hit cap (loop) 0     165s
+  150/498  correct 141  hit cap (loop) 0     200s
+  175/498  correct 165  hit cap (loop) 0     234s
+  200/498  correct 187  hit cap (loop) 0     262s
+  225/498  correct 210  hit cap (loop) 0     295s
+  250/498  correct 233  hit cap (loop) 0     327s
+  275/498  correct 257  hit cap (loop) 0     348s
+  300/498  correct 280  hit cap (loop) 0     375s
+  325/498  correct 304  hit cap (loop) 0     399s
+  350/498  correct 328  hit cap (loop) 0     435s
+  375/498  correct 351  hit cap (loop) 0     470s
+  400/498  correct 373  hit cap (loop) 0     502s
+  425/498  correct 396  hit cap (loop) 0     528s
+  450/498  correct 420  hit cap (loop) 0     564s
+  475/498  correct 443  hit cap (loop) 0     594s
+  498/498  correct 462  hit cap (loop) 1     762s
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed3/gsm8k.jsonl
+aligned: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+  25/200  correct 25  hit cap (loop) 0      29s
+  50/200  correct 50  hit cap (loop) 0      55s
+  75/200  correct 75  hit cap (loop) 0      82s
+  100/200  correct 100  hit cap (loop) 0     107s
+  125/200  correct 125  hit cap (loop) 0     131s
+  150/200  correct 150  hit cap (loop) 0     158s
+  175/200  correct 175  hit cap (loop) 0     181s
+  200/200  correct 197  hit cap (loop) 3     399s
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/aligned.jsonl
+catch: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 16     570s
+  50/200  correct 0  hit cap (loop) 34     948s
+  75/200  correct 0  hit cap (loop) 55    1360s
+  100/200  correct 0  hit cap (loop) 69    1719s
+  125/200  correct 0  hit cap (loop) 88    2173s
+  150/200  correct 0  hit cap (loop) 102    2582s
+  175/200  correct 0  hit cap (loop) 121    3037s
+  200/200  correct 0  hit cap (loop) 142    3407s
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/catch.jsonl
+minus_gold: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 0      70s
+  50/200  correct 0  hit cap (loop) 0     157s
+  75/200  correct 0  hit cap (loop) 0     290s
+  100/200  correct 0  hit cap (loop) 6     415s
+  125/200  correct 0  hit cap (loop) 9     497s
+  150/200  correct 0  hit cap (loop) 14     729s
+  175/200  correct 0  hit cap (loop) 20     817s
+  200/200  correct 0  hit cap (loop) 28    1091s
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed0/minus_gold.jsonl
+aligned: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+  25/200  correct 25  hit cap (loop) 0      33s
+  50/200  correct 50  hit cap (loop) 0      53s
+  75/200  correct 75  hit cap (loop) 0      74s
+  100/200  correct 100  hit cap (loop) 0     100s
+  125/200  correct 125  hit cap (loop) 0     121s
+  150/200  correct 150  hit cap (loop) 0     152s
+  175/200  correct 175  hit cap (loop) 0     180s
+  200/200  correct 196  hit cap (loop) 4     430s
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/aligned.jsonl
+catch: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 15     558s
+  50/200  correct 0  hit cap (loop) 34     960s
+  75/200  correct 0  hit cap (loop) 53    1338s
+  100/200  correct 0  hit cap (loop) 70    1750s
+  125/200  correct 0  hit cap (loop) 89    2138s
+  150/200  correct 0  hit cap (loop) 109    2525s
+  175/200  correct 0  hit cap (loop) 125    2958s
+  200/200  correct 0  hit cap (loop) 144    3392s
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/catch.jsonl
+minus_gold: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 0      93s
+  50/200  correct 0  hit cap (loop) 0     187s
+  75/200  correct 0  hit cap (loop) 2     353s
+  100/200  correct 0  hit cap (loop) 6     449s
+  125/200  correct 0  hit cap (loop) 10     567s
+  150/200  correct 0  hit cap (loop) 16     780s
+  175/200  correct 0  hit cap (loop) 21     895s
+  200/200  correct 0  hit cap (loop) 35    1205s
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed1/minus_gold.jsonl
+aligned: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/200  correct 25  hit cap (loop) 0      30s
+  50/200  correct 50  hit cap (loop) 0      50s
+  75/200  correct 75  hit cap (loop) 0      74s
+  100/200  correct 100  hit cap (loop) 0     100s
+  125/200  correct 125  hit cap (loop) 0     124s
+  150/200  correct 150  hit cap (loop) 0     153s
+  175/200  correct 175  hit cap (loop) 0     180s
+  200/200  correct 196  hit cap (loop) 4     402s
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/aligned.jsonl
+catch: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 16     570s
+  50/200  correct 0  hit cap (loop) 33     979s
+  75/200  correct 0  hit cap (loop) 55    1383s
+  100/200  correct 0  hit cap (loop) 76    1822s
+  125/200  correct 0  hit cap (loop) 94    2256s
+  150/200  correct 0  hit cap (loop) 112    2758s
+  175/200  correct 0  hit cap (loop) 132    3146s
+  200/200  correct 0  hit cap (loop) 154    3531s
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/catch.jsonl
+minus_gold: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 0      84s
+  50/200  correct 0  hit cap (loop) 0     156s
+  75/200  correct 0  hit cap (loop) 0     246s
+  100/200  correct 0  hit cap (loop) 3     370s
+  125/200  correct 0  hit cap (loop) 6     470s
+  150/200  correct 0  hit cap (loop) 8     634s
+  175/200  correct 0  hit cap (loop) 16     776s
+  200/200  correct 0  hit cap (loop) 26    1066s
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed2/minus_gold.jsonl
+aligned: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+  25/200  correct 25  hit cap (loop) 0      32s
+  50/200  correct 50  hit cap (loop) 0      61s
+  75/200  correct 75  hit cap (loop) 0      88s
+  100/200  correct 100  hit cap (loop) 0     110s
+  125/200  correct 125  hit cap (loop) 0     137s
+  150/200  correct 150  hit cap (loop) 0     174s
+  175/200  correct 175  hit cap (loop) 0     203s
+  200/200  correct 194  hit cap (loop) 6     434s
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/aligned.jsonl
+catch: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 18     584s
+  50/200  correct 0  hit cap (loop) 32     929s
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed1/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed3/gsm8k.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed0/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed1/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed2/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/aligned.jsonl
+catch: 200 rows, 65 already done, 135 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+  25/135  correct 0  hit cap (loop) 16     538s
+  50/135  correct 0  hit cap (loop) 36     930s
+  75/135  correct 0  hit cap (loop) 57    1433s
+  100/135  correct 0  hit cap (loop) 77    1872s
+  125/135  correct 0  hit cap (loop) 94    2259s
+  135/135  correct 0  hit cap (loop) 104    2327s
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/catch.jsonl
+minus_gold: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+  25/200  correct 0  hit cap (loop) 0      69s
+  50/200  correct 0  hit cap (loop) 0     154s
+  75/200  correct 0  hit cap (loop) 5     363s
+  100/200  correct 0  hit cap (loop) 8     428s
+  125/200  correct 0  hit cap (loop) 11     533s
+  150/200  correct 0  hit cap (loop) 13     722s
+  175/200  correct 0  hit cap (loop) 19     812s
+  200/200  correct 0  hit cap (loop) 31    1108s
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed3/minus_gold.jsonl
+aligned: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+  25/200  correct 25  hit cap (loop) 0      30s
+  50/200  correct 50  hit cap (loop) 0      49s
+  75/200  correct 75  hit cap (loop) 0      71s
+  100/200  correct 100  hit cap (loop) 0      97s
+  125/200  correct 125  hit cap (loop) 0     127s
+  150/200  correct 150  hit cap (loop) 0     162s
+  175/200  correct 175  hit cap (loop) 0     201s
+  200/200  correct 184  hit cap (loop) 16     534s
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/aligned.jsonl
+catch: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+  25/200  correct 0  hit cap (loop) 25     606s
+  50/200  correct 0  hit cap (loop) 50    1188s
+  75/200  correct 0  hit cap (loop) 75    1609s
+  100/200  correct 0  hit cap (loop) 100    2171s
+  125/200  correct 0  hit cap (loop) 125    2605s
+  150/200  correct 0  hit cap (loop) 150    3145s
+  175/200  correct 0  hit cap (loop) 175    3561s
+  200/200  correct 0  hit cap (loop) 200    4035s
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/catch.jsonl
+minus_gold: 200 rows, 0 already done, 200 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+  25/200  correct 0  hit cap (loop) 0      96s
+  50/200  correct 0  hit cap (loop) 10     391s
+  75/200  correct 0  hit cap (loop) 23     678s
+  100/200  correct 0  hit cap (loop) 31     801s
+  125/200  correct 0  hit cap (loop) 43    1132s
+  150/200  correct 0  hit cap (loop) 51    1249s
+  175/200  correct 0  hit cap (loop) 68    1557s
+  200/200  correct 0  hit cap (loop) 84    1868s
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/logiqa_forms/minus_gold.jsonl
+minus_gold: 227 rows, 0 already done, 227 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+  25/227  correct 0  hit cap (loop) 24     610s
+  50/227  correct 0  hit cap (loop) 45    1039s
+  75/227  correct 0  hit cap (loop) 69    1572s
+  100/227  correct 0  hit cap (loop) 92    2015s
+  125/227  correct 0  hit cap (loop) 117    2535s
+  150/227  correct 0  hit cap (loop) 141    2974s
+  175/227  correct 0  hit cap (loop) 164    3465s
+  200/227  correct 0  hit cap (loop) 187    3864s
+  225/227  correct 0  hit cap (loop) 211    4300s
+  227/227  correct 0  hit cap (loop) 213    4321s
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/aqua_forms/minus_gold.jsonl
+aligned: 150 rows, 0 already done, 150 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+  25/150  correct 25  hit cap (loop) 0      65s
+  50/150  correct 50  hit cap (loop) 0     122s
+  75/150  correct 75  hit cap (loop) 0     200s
+  100/150  correct 100  hit cap (loop) 0     288s
+  125/150  correct 121  hit cap (loop) 4     402s
+  150/150  correct 135  hit cap (loop) 15     648s
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/aligned.jsonl
+catch: 150 rows, 0 already done, 150 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+  25/150  correct 0  hit cap (loop) 22     600s
+  50/150  correct 0  hit cap (loop) 47    1148s
+  75/150  correct 0  hit cap (loop) 72    1589s
+  100/150  correct 0  hit cap (loop) 97    2126s
+  125/150  correct 0  hit cap (loop) 122    2610s
+  150/150  correct 0  hit cap (loop) 147    2969s
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/catch.jsonl
+ALL DONE
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed1/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed3/gsm8k.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed0/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed1/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed2/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed3/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/logiqa_forms/minus_gold.jsonl
+minus_gold: 227 rows, 227 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/aqua_forms/minus_gold.jsonl
+aligned: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/aligned.jsonl
+catch: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/catch.jsonl
+ALL DONE
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed1/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed3/gsm8k.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed0/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed1/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed2/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed3/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/logiqa_forms/minus_gold.jsonl
+minus_gold: 227 rows, 227 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/aqua_forms/minus_gold.jsonl
+aligned: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/aligned.jsonl
+catch: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/catch.jsonl
+ALL DONE
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed1/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed3/gsm8k.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed0/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed1/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed2/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed3/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/logiqa_forms/minus_gold.jsonl
+minus_gold: 227 rows, 227 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/aqua_forms/minus_gold.jsonl
+aligned: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/aligned.jsonl
+catch: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/catch.jsonl
+ALL DONE
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed1/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed3/gsm8k.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed0/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed1/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed2/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed3/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/logiqa_forms/minus_gold.jsonl
+minus_gold: 227 rows, 227 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/aqua_forms/minus_gold.jsonl
+aligned: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/aligned.jsonl
+catch: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/catch.jsonl
+ALL DONE
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed1/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed3/gsm8k.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed0/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed1/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed2/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed3/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/logiqa_forms/minus_gold.jsonl
+minus_gold: 227 rows, 227 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/aqua_forms/minus_gold.jsonl
+aligned: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/aligned.jsonl
+catch: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/catch.jsonl
+ALL DONE
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed0/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed1/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed2/gsm8k.jsonl
+gsm8k: 500 rows, 500 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done gsm8k -> natural_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/seed3/gsm8k.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed0/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed1/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed2/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed2/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/gsm8k_ctrl/seed3/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed3/minus_gold.jsonl
+aligned: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/aligned.jsonl
+catch: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/gsm8k_ctrl/catch.jsonl
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/logiqa_forms/minus_gold.jsonl
+minus_gold: 227 rows, 227 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/aqua_forms/minus_gold.jsonl
+aligned: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done aligned -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/aligned.jsonl
+catch: 150 rows, 150 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.0 top_p=1.0 seed=None max_tokens=12288
+done catch -> controlled_looping/results/r1-distill-qwen-7b/greedy_max12k/prompt_boxed/catch.jsonl
+ALL DONE

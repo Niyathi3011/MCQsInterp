@@ -1,0 +1,8 @@
+swap: 150 rows, 0 already done, 150 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/150  correct 25  hit cap (loop) 0      65s
+  50/150  correct 50  hit cap (loop) 0     308s
+  75/150  correct 70  hit cap (loop) 5     513s
+  100/150  correct 93  hit cap (loop) 7     820s
+  125/150  correct 116  hit cap (loop) 9     888s
+  150/150  correct 135  hit cap (loop) 15    1153s
+done swap -> controlled_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/prompt_boxed/seed2/swap.jsonl

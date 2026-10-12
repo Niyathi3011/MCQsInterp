@@ -1,0 +1,2 @@
+minus_gold: 200 rows, 200 already done, 0 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=3 max_tokens=12288
+done minus_gold -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/logiqa_forms/seed3/minus_gold.jsonl

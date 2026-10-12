@@ -1,0 +1,8 @@
+aligned: 150 rows, 0 already done, 150 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=2 max_tokens=12288
+  25/150  correct 25  hit cap (loop) 0      83s
+  50/150  correct 50  hit cap (loop) 0     315s
+  75/150  correct 72  hit cap (loop) 3     475s
+  100/150  correct 95  hit cap (loop) 5     737s
+  125/150  correct 119  hit cap (loop) 6     833s
+  150/150  correct 138  hit cap (loop) 12    1094s
+done aligned -> controlled_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/prompt_boxed/seed2/aligned.jsonl

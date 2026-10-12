@@ -1,0 +1,43 @@
+09 04:32 seed 0: trig1
+done aligned -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/prompt_boxed/seed0/aligned.jsonl
+done catch -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/prompt_boxed/seed0/catch.jsonl
+done aqua_original_227 -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/aqua_forms/seed0/original.jsonl
+done minus_gold -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/aqua_forms/seed0/minus_gold.jsonl
+09 09:59 seed 0: none1
+done math_catch -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/math_catch.jsonl
+done aqua_minus_gold -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/aqua_minus_gold.jsonl
+done math_aligned -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/math_aligned.jsonl
+done aqua_original -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/aqua_original.jsonl
+09 15:02 seed 0: trig2
+done aligned -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/aligned.jsonl
+done catch -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/gsm8k_ctrl/seed0/catch.jsonl
+done logiqa_original_200 -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/logiqa_forms/seed0/original.jsonl
+done minus_gold -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/logiqa_forms/seed0/minus_gold.jsonl
+09 18:47 seed 0: none2
+done gsm8k_catch -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/gsm8k_catch.jsonl
+done logiqa_minus_gold -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/logiqa_minus_gold.jsonl
+done gsm8k_aligned -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/gsm8k_aligned.jsonl
+done logiqa_original -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed0/logiqa_original.jsonl
+09 22:07 seed 0: open
+done open -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/aqua_forms/seed0/open.jsonl
+09 22:30 seed 1: trig1
+done aligned -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/prompt_boxed/seed1/aligned.jsonl
+done catch -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/prompt_boxed/seed1/catch.jsonl
+done aqua_original_227 -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/aqua_forms/seed1/original.jsonl
+done minus_gold -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/aqua_forms/seed1/minus_gold.jsonl
+10 03:53 seed 1: none1
+done math_catch -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed1/math_catch.jsonl
+done aqua_minus_gold -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed1/aqua_minus_gold.jsonl
+done math_aligned -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed1/math_aligned.jsonl
+done aqua_original -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed1/aqua_original.jsonl
+10 08:51 seed 1: trig2
+done aligned -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/aligned.jsonl
+done catch -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/gsm8k_ctrl/seed1/catch.jsonl
+done logiqa_original_200 -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/logiqa_forms/seed1/original.jsonl
+done minus_gold -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/logiqa_forms/seed1/minus_gold.jsonl
+10 12:33 seed 1: none2
+done gsm8k_catch -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed1/gsm8k_catch.jsonl
+done logiqa_minus_gold -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed1/logiqa_minus_gold.jsonl
+done gsm8k_aligned -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed1/gsm8k_aligned.jsonl
+done logiqa_original -> controlled_looping/results/r1-distill-llama-8b/sampled_t0.6_max12k/allow_none/seed1/logiqa_original.jsonl
+10 15:53 LLAMA-8B DONE

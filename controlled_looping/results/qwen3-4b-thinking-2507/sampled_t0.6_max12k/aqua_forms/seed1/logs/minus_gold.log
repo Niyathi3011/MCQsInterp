@@ -1,0 +1,12 @@
+minus_gold: 227 rows, 0 already done, 227 to run  | Qwen/Qwen3-4B-Thinking-2507  T=0.6 top_p=0.95 seed=1 max_tokens=12288
+  25/227  correct 0  hit cap (loop) 0     379s
+  50/227  correct 0  hit cap (loop) 1     756s
+  75/227  correct 0  hit cap (loop) 4    1180s
+  100/227  correct 0  hit cap (loop) 6    1562s
+  125/227  correct 0  hit cap (loop) 9    1905s
+  150/227  correct 0  hit cap (loop) 10    2255s
+  175/227  correct 0  hit cap (loop) 13    2645s
+  200/227  correct 0  hit cap (loop) 16    2998s
+  225/227  correct 0  hit cap (loop) 18    3337s
+  227/227  correct 0  hit cap (loop) 19    3340s
+done minus_gold -> controlled_looping/results/qwen3-4b-thinking-2507/sampled_t0.6_max12k/aqua_forms/seed1/minus_gold.jsonl

@@ -1,0 +1,8 @@
+catch: 150 rows, 0 already done, 150 to run  | deepseek-ai/DeepSeek-R1-Distill-Qwen-7B  T=0.6 top_p=0.95 seed=0 max_tokens=12288
+  25/150  correct 0  hit cap (loop) 5     360s
+  50/150  correct 0  hit cap (loop) 17     639s
+  75/150  correct 0  hit cap (loop) 31     949s
+  100/150  correct 0  hit cap (loop) 41    1290s
+  125/150  correct 0  hit cap (loop) 55    1578s
+  150/150  correct 0  hit cap (loop) 72    2023s
+done catch -> controlled_looping/results/r1-distill-qwen-7b/sampled_t0.6_max12k/prompt_answerline/seed0/catch.jsonl
